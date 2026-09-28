@@ -26,7 +26,7 @@ import {
 import projectImage from "@/assets/arqeco-project.jpg";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
       { title: "Meu projeto — ARQECO" },
