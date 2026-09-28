@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ArrowRight, Check, Menu, Minus, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
+import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
 import projectImage from "@/assets/arqeco-project.jpg";
 import { Button } from "@/components/ui/button";
@@ -48,7 +49,7 @@ const faq: [string, string][] = [
 ];
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
-  return <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-forest-soft">{children}</p>;
+  return <p className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.22em] text-forest-soft"><span className="h-px w-8 bg-forest-soft" />{children}</p>;
 }
 
 function usePlans() {
@@ -76,10 +77,10 @@ function Home() {
   return (
     <div className="bg-background text-foreground">
       {/* 1. Menu */}
-      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
-          <Link to="/" className="font-display text-2xl font-semibold tracking-wide text-primary">ARQECO</Link>
-          <nav className="hidden gap-7 text-sm lg:flex">{nav.map(([l, h]) => <a key={l} href={h} className="text-muted-foreground hover:text-foreground">{l}</a>)}</nav>
+      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5">
+          <Link to="/" className="font-display text-2xl font-bold text-primary">ARQECO</Link>
+          <nav className="hidden gap-7 text-xs font-medium lg:flex">{nav.map(([l, h]) => <a key={l} href={h} className="text-muted-foreground transition-colors hover:text-primary">{l}</a>)}</nav>
           <div className="hidden items-center gap-3 lg:flex">
             <Link to="/auth" className="text-sm font-medium">Entrar</Link>
             <Button asChild variant="editorial"><a href="#planos">Começar meu projeto</a></Button>
@@ -90,42 +91,46 @@ function Home() {
       </header>
 
       {/* 2. Hero */}
-      <section className="mx-auto grid max-w-7xl gap-10 px-5 py-14 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:py-20">
-        <div className="gentle-rise">
-          <Eyebrow>Projeto de interiores online</Eyebrow>
-          <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.05] md:text-6xl">Seu espaço pode fazer mais por você.</h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">Projetos de interiores que unem <strong className="text-foreground">design, funcionalidade, sustentabilidade e tecnologia</strong> para transformar espaços de acordo com a sua forma de viver.</p>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">Com profissionais da rede ArqEco, visualização 3D, curadoria de materiais e uma jornada simples, do briefing à execução.</p>
-          <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#planos">Começar meu projeto <ArrowRight /></a></Button><Button asChild variant="paper" size="lg"><a href="#planos">Ver planos</a></Button></div>
-          <p className="mt-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Projeto online · 3D · Curadoria de materiais · Rede profissional · Design Eco-Holístico</p>
+      <section className="mx-auto max-w-7xl px-5 pb-16 pt-8 lg:pb-24 lg:pt-12">
+        <div className="relative grid items-end lg:grid-cols-[0.78fr_1.22fr]">
+          <div className="relative z-10 order-2 -mt-20 mx-4 bg-card p-7 shadow-editorial gentle-rise lg:order-1 lg:mx-0 lg:mb-14 lg:mr-[-5rem] lg:mt-0 lg:p-12">
+            <Eyebrow>Arquitetura sustentável</Eyebrow>
+            <h1 className="mt-5 font-display text-5xl font-bold leading-[1.03] md:text-6xl">Espaços que <span className="font-medium text-primary">respiram vida.</span></h1>
+            <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">Há 12 anos, unimos <strong className="text-foreground">rigor técnico e sensibilidade humana</strong> para criar interiores que promovem bem-estar e escolhas mais sustentáveis.</p>
+            <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#planos">Começar meu projeto <ArrowRight /></a></Button><Button asChild variant="paper" size="lg"><a href="#sobre">Conheça a ARQECO</a></Button></div>
+          </div>
+          <div className="relative order-1 overflow-hidden rounded-t-[6rem] lg:order-2 lg:rounded-t-[10rem]">
+            <img src={institutionalHero} alt="Arquiteta selecionando materiais naturais em um interior sustentável" width={1600} height={1200} className="aspect-[4/5] w-full object-cover lg:aspect-[5/4]" />
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-primary/60 to-transparent" />
+          </div>
         </div>
-        <div className="relative">
-          <img src={heroImage} alt="Sala contemporânea com madeira, linho e plantas tropicais" width={1600} height={1104} className="aspect-[4/3] w-full rounded-lg object-cover shadow-editorial" />
-          <div className="absolute -bottom-5 left-5 flex flex-wrap gap-2">{["Design", "Bem-estar", "Sustentabilidade", "Tecnologia"].map((t) => <span key={t} className="rounded-full bg-card px-3 py-1.5 text-[11px] font-semibold shadow-editorial">{t}</span>)}</div>
+        <div className="mt-10 grid border-y border-border py-6 sm:grid-cols-3">
+          {[["12 anos", "de trajetória"], ["TOP Startups 2025", "Prêmio Sebrae"], ["Bem-estar + sustentabilidade", "em cada decisão"]].map(([v, l]) => <div key={v} className="border-border px-5 py-3 first:pl-0 sm:border-l sm:first:border-l-0"><p className="font-display text-xl font-bold text-primary">{v}</p><p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">{l}</p></div>)}
         </div>
       </section>
 
       {/* 3. O que é */}
       <section id="sobre-plataforma" className="border-y border-border bg-card">
-        <div className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-[0.72fr_1.28fr]">
+          <div>
           <Eyebrow>O que é a ArqEco?</Eyebrow>
-          <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold">Uma nova forma de transformar espaços.</h2>
-          <p className="mt-5 max-w-2xl text-muted-foreground">A ArqEco conecta <strong className="text-foreground">clientes, profissionais, tecnologia e curadoria de materiais</strong> para tornar a transformação dos espaços mais simples, acessível e consciente.</p>
-          <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
+          <h2 className="mt-4 max-w-2xl font-display text-4xl font-bold">Estrutura profissional. Olhar humano.</h2>
+          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">A ArqEco conecta <strong className="text-foreground">clientes, profissionais, tecnologia e curadoria de materiais</strong> para tornar a transformação dos espaços mais simples, acessível e consciente.</p>
+          <p className="mt-8 text-sm text-muted-foreground">Para quem busca uma experiência mais profunda, o <strong className="text-foreground">Design Eco-Holístico</strong> amplia o olhar sobre a relação entre pessoa e espaço.</p>
+          </div>
+          <div className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
             {[["Projeto", "Desenvolvido por profissionais da rede ArqEco."], ["Tecnologia", "Projeto online, visualização 3D e ferramentas digitais."], ["Sustentabilidade", "Critérios para escolhas mais conscientes."], ["Curadoria", "Produtos selecionados de diferentes fornecedores."], ["Inteligência", "Zoe apoia arquitetos e designers no desenvolvimento dos projetos."]].map(([t, d]) => (
-              <div key={t} className="bg-card p-6"><p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">{t}</p><p className="mt-3 text-sm text-muted-foreground">{d}</p></div>
+              <div key={t} className="bg-background p-6 last:sm:col-span-2"><p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">{t}</p><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{d}</p></div>
             ))}
           </div>
-          <p className="mt-8 text-sm text-muted-foreground">E, para quem busca uma experiência mais profunda: <strong className="text-foreground">Design Eco-Holístico</strong>, nossa metodologia proprietária que amplia o olhar sobre a relação entre pessoa e espaço.</p>
         </div>
       </section>
 
       {/* 4. Posicionamento */}
       <section className="bg-primary text-primary-foreground">
-        <div className="mx-auto max-w-5xl px-5 py-20 text-center">
-          <h2 className="font-display text-4xl font-semibold md:text-5xl">Não é apenas sobre como o espaço fica.</h2>
-          <p className="mt-3 font-display text-2xl italic opacity-90">É sobre como você vive nele.</p>
-          <div className="mx-auto mt-10 grid max-w-3xl gap-3 text-sm opacity-85 sm:grid-cols-2"><p>Design para a estética.</p><p>Funcionalidade para a rotina.</p><p>Sustentabilidade para escolhas mais conscientes.</p><p>Tecnologia para tornar o processo mais simples.</p></div>
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-[1fr_0.85fr] lg:items-end">
+          <div><Eyebrow>Pilares ARQECO</Eyebrow><h2 className="mt-5 font-display text-4xl font-bold md:text-5xl">Não é apenas sobre como o espaço fica.</h2><p className="mt-3 font-display text-2xl font-medium text-accent">É sobre como você vive nele.</p></div>
+          <div className="space-y-6 border-l border-primary-foreground/25 pl-6 text-sm opacity-90"><p><strong>01 · Humanização</strong><br />Design atento à rotina, ao conforto e à identidade de cada pessoa.</p><p><strong>02 · Sustentabilidade</strong><br />Materiais e escolhas orientados para reduzir impactos e ampliar o bem-estar.</p><p><strong>03 · Tecnologia</strong><br />Um processo digital claro, do briefing à execução.</p></div>
         </div>
       </section>
 
@@ -139,7 +144,7 @@ function Home() {
           <div className="mt-10">
             <p className="text-sm font-semibold">Agora escolha o tamanho do seu projeto.</p>
             <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Quantidade de ambientes">
-              {roomLabels.map((l, i) => <button key={l} type="button" role="radio" aria-checked={rooms === i} onClick={() => setRooms(i)} className={`rounded-full border px-4 py-2 text-sm transition-colors ${rooms === i ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary"}`}>{l}</button>)}
+              {roomLabels.map((l, i) => <Button key={l} type="button" role="radio" aria-pressed={rooms === i} onClick={() => setRooms(i)} variant={rooms === i ? "editorial" : "paper"} size="sm">{l}</Button>)}
             </div>
           </div>
         )}
@@ -262,13 +267,12 @@ function Home() {
       </section>
 
       {/* 17. Portfólio (inspirações) */}
-      <section className="mx-auto max-w-7xl px-5 py-20">
-        <Eyebrow>Inspirações</Eyebrow>
-        <h2 className="mt-4 font-display text-4xl font-semibold">Espaços que respiram.</h2>
+      <section className="mx-auto max-w-7xl px-5 py-24">
+        <div className="flex items-end justify-between gap-6"><div><Eyebrow>Inspirações</Eyebrow><h2 className="mt-4 font-display text-4xl font-bold">Espaços que respiram.</h2></div><p className="hidden max-w-xs text-right text-sm text-muted-foreground md:block">Matéria, luz e natureza organizadas em torno de quem vive o espaço.</p></div>
         <p className="mt-3 text-sm text-muted-foreground">Imagens ilustrativas. O portfólio de projetos realizados será publicado em breve.</p>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid items-start gap-6 md:grid-cols-[1.15fr_0.85fr_1fr]">
           {[[heroImage, "Sala · Residencial", "Viver Lifestyle"], [bedroomImage, "Quarto · Residencial", "Viver Bem"], [projectImage, "Estar · Residencial", "Design Eco-Holístico"]].map(([src, t, p]) => (
-            <figure key={t}><img src={src} alt={t} loading="lazy" className="aspect-[4/5] w-full rounded-lg object-cover" /><figcaption className="mt-3"><p className="text-sm font-semibold">{t}</p><p className="text-xs text-muted-foreground">{p}</p></figcaption></figure>
+             <figure key={t} className="even:md:mt-16"><img src={src} alt={t} loading="lazy" className="aspect-[4/5] w-full object-cover" /><figcaption className="mt-3 border-t border-border pt-3"><p className="text-sm font-semibold">{t}</p><p className="text-xs text-muted-foreground">{p}</p></figcaption></figure>
           ))}
         </div>
       </section>
@@ -315,13 +319,13 @@ function Home() {
       </section>
 
       {/* 25. Sobre */}
-      <section id="sobre" className="mx-auto max-w-7xl px-5 py-20">
-        <Eyebrow>Sobre a ArqEco</Eyebrow>
-        <h2 className="mt-4 font-display text-4xl font-semibold">Há 12 anos, projetando espaços que cuidam das pessoas e do planeta.</h2>
-        <p className="mt-4 max-w-3xl text-muted-foreground">A ArqEco é uma empresa fundada há 12 anos e nasceu da trajetória da Arquitetura Ecológica. Em 2025, ficou entre as <strong className="text-foreground">TOP startups do Prêmio Sebrae</strong>. Desde o início, prezamos por projetos que promovam bem-estar e sustentabilidade, conectando profissionais, materiais, tecnologia e conhecimento para transformar espaços de forma mais consciente.</p>
+      <section id="sobre" className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-[0.75fr_1.25fr]">
+        <div><Eyebrow>Sobre a ArqEco</Eyebrow><p className="mt-8 font-display text-7xl font-bold text-primary">12</p><p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">anos de trajetória</p></div>
+        <div><h2 className="font-display text-4xl font-bold">Projetando espaços que cuidam das pessoas e do planeta.</h2>
+        <p className="mt-5 max-w-3xl leading-relaxed text-muted-foreground">A ArqEco nasceu da trajetória da Arquitetura Ecológica. Em 2025, ficou entre as <strong className="text-foreground">TOP startups do Prêmio Sebrae</strong>. Desde o início, prezamos por projetos que promovam bem-estar e sustentabilidade, conectando profissionais, materiais, tecnologia e conhecimento para transformar espaços de forma mais consciente.</p>
         <div className="mt-10 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3 lg:grid-cols-6">
           {[["Arquitetura Ecológica", "Nossa origem."], ["Design Eco-Holístico", "Nossa metodologia."], ["ArqEco", "Nossa plataforma."], ["Zoe", "Nossa inteligência."], ["Curadoria", "Nossas escolhas."], ["Rede ArqEco", "As pessoas que tornam os projetos possíveis."]].map(([t, d]) => <div key={t} className="bg-card p-5"><p className="font-display text-lg font-semibold">{t}</p><p className="mt-1 text-xs text-muted-foreground">{d}</p></div>)}
-        </div>
+        </div></div>
       </section>
 
       {/* 26. FAQ */}
