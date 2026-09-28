@@ -14,7 +14,7 @@
 - Keep ARQECO centered on the project journey; people, Zoe, curation, certification, suppliers, and affiliates connect through projects.
 - Use Lovable Cloud with row-level access for persistent platform data because ARQECO requires real accounts, workflows, and relationships.
 - Keep roles in `user_roles`, separate from profiles, to prevent account holders from escalating their own access.
-- Keep the visual system institutional eco-humanist: Urbanist headings, Epilogue body, deep green as protagonist, black authority accents, beige paper surfaces, human photography, and asymmetric editorial composition.
+- Keep the visual system sophisticated eco-futurist: Playfair Display headings, Montserrat body, black and beige dominant surfaces, logo green for actions, human photography, fine architectural lines, and asymmetric editorial composition.
 - Affiliate sales arrive via signed webhook `/api/public/conversions` (HMAC per supplier secret); commission = sale × product commission_rate, stored on the conversion row — keeps payouts auditable.
 - Partner approval and product review run through admin-checked SECURITY DEFINER SQL functions — atomic creation of supplier/catalog rows without exposing admin keys.
 - Plans/prices live in `service_plans`/`service_plan_options`; never hardcode prices in UI.
