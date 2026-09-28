@@ -13,9 +13,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "ARQECO — Projeto de interiores online, sustentável e com curadoria" },
-      { name: "description", content: "Projetos de interiores que unem design, funcionalidade, sustentabilidade e tecnologia. Profissionais da rede ArqEco, 3D, curadoria de materiais e Zoe." },
+      { name: "description", content: "Há 12 anos, a ARQECO cria projetos de interiores com design, bem-estar e sustentabilidade, conectando clientes, profissionais e curadoria." },
       { property: "og:title", content: "ARQECO — Seu espaço pode fazer mais por você" },
-      { property: "og:description", content: "Projeto online, 3D, curadoria de materiais, Zoe IA e Design Eco-Holístico." },
+      { property: "og:description", content: "Projetos de interiores online que promovem bem-estar e sustentabilidade, com profissionais, 3D e curadoria de materiais." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -255,7 +255,7 @@ function Home() {
             <Eyebrow>Conheça Zoe</Eyebrow>
             <h2 className="mt-4 font-display text-4xl font-semibold">Uma copiloto para arquitetos e designers.</h2>
             <p className="mt-4 text-muted-foreground">Zoe é a inteligência artificial da ArqEco, disponível exclusivamente no painel de arquitetos e designers da nossa rede. Ela apoia escolhas mais conscientes e não substitui um profissional habilitado.</p>
-            <Button asChild variant="editorial" className="mt-8"><Link to="/auth">Quero ser ArqEco Pro <ArrowRight /></Link></Button>
+            <p className="mt-8 text-sm font-semibold text-primary">Acesso pelo painel profissional ArqEco Pro.</p>
           </div>
           <div className="flex flex-wrap gap-2">{["Interpretar briefings", "Organizar diretrizes", "Pesquisar materiais", "Comparar produtos", "Sugerir alternativas", "Apoiar especificações", "Organizar listas", "Analisar critérios de sustentabilidade"].map((t) => <span key={t} className="rounded-md border border-border bg-background px-4 py-3 text-sm">{t}</span>)}</div>
         </div>
