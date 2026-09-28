@@ -9,9 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
 
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PainelRoute = PainelRouteImport.update({
   id: '/painel',
   path: '/painel',
@@ -24,33 +35,55 @@ const ApiZoeRoute = ApiZoeRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AuthenticatedRouteRoute
+  '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/api/zoe': typeof ApiZoeRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof AuthenticatedRouteRoute
+  '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/api/zoe': typeof ApiZoeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_authenticated': typeof AuthenticatedRouteRoute
+  '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/api/zoe': typeof ApiZoeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/painel' | '/api/zoe'
+  fullPaths: '/' | '/auth' | '/painel' | '/api/zoe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/painel' | '/api/zoe'
-  id: '__root__' | '/painel' | '/api/zoe'
+  to: '/' | '/auth' | '/painel' | '/api/zoe'
+  id: '__root__' | '/_authenticated' | '/auth' | '/painel' | '/api/zoe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRoute
+  AuthRoute: typeof AuthRoute
   PainelRoute: typeof PainelRoute
   ApiZoeRoute: typeof ApiZoeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/painel': {
       id: '/painel'
       path: '/painel'
@@ -69,6 +102,8 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  AuthenticatedRouteRoute: AuthenticatedRouteRoute,
+  AuthRoute: AuthRoute,
   PainelRoute: PainelRoute,
   ApiZoeRoute: ApiZoeRoute,
 }
