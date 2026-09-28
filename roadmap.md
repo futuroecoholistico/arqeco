@@ -2,11 +2,12 @@
 
 - [x] Painel central, estética editorial, fontes, ecossistema, desktop/celular.
 - [x] Zoe real no painel com a persona do plugin.
-- [ ] Home de vendas completa (28 seções do documento), painel do cliente movido para /painel.
-- [ ] Planos e tamanhos (ambientes/preços) vindos do banco, editáveis pelo admin.
-- [ ] Login/cadastro com escolha de perfil (cliente, fornecedor, afiliado) + aprovação.
-- [ ] Tela do fornecedor: enviar produtos, acompanhar avaliação, chave de integração de vendas.
-- [ ] Tela do afiliado: links por projeto, cliques, vendas e comissão (% por produto).
-- [ ] Integração automática de vendas (lojas avisam a ARQECO) com cálculo de comissão.
-- [ ] Tela admin: aprovar parceiros, avaliar produtos, ajustar planos.
-- [ ] Bloqueado (usuário): preços reais dos planos, depoimentos e números reais.
+- [x] Home de vendas completa; painel do cliente em /painel.
+- [x] Planos e tamanhos vindos do banco, preços e selo editáveis no admin.
+- [x] Login/cadastro (e-mail + Google) com cadastro de fornecedor/afiliado e aprovação.
+- [x] Tela do fornecedor: enviar produtos, avaliação, chave de integração, vendas.
+- [x] Tela do afiliado: links por projeto, cliques, vendas e comissão (% por produto).
+- [x] Integração automática de vendas com cálculo de comissão (testada).
+- [x] Tela admin: aprovar parceiros, avaliar produtos, planos, vendas.
+- [ ] Bloqueado (usuário): preços reais, depoimentos e números reais; definir primeiro admin.
+- [ ] Zoe só para usuários logados; ler materiais de referência.
