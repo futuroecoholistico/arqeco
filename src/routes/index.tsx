@@ -255,7 +255,7 @@ function Home() {
             <Eyebrow>Conheça Zoe</Eyebrow>
             <h2 className="mt-4 font-display text-4xl font-semibold">Uma copiloto para arquitetos e designers.</h2>
             <p className="mt-4 text-muted-foreground">Zoe é a inteligência artificial da ArqEco, disponível exclusivamente no painel de arquitetos e designers da nossa rede. Ela apoia escolhas mais conscientes e não substitui um profissional habilitado.</p>
-            <Button asChild variant="editorial" className="mt-8"><Link to="/auth">Quero ser ArqEco Pro <ArrowRight /></Link></Button>
+            <p className="mt-8 text-sm font-semibold text-primary">Acesso pelo painel profissional ArqEco Pro.</p>
           </div>
           <div className="flex flex-wrap gap-2">{["Interpretar briefings", "Organizar diretrizes", "Pesquisar materiais", "Comparar produtos", "Sugerir alternativas", "Apoiar especificações", "Organizar listas", "Analisar critérios de sustentabilidade"].map((t) => <span key={t} className="rounded-md border border-border bg-background px-4 py-3 text-sm">{t}</span>)}</div>
         </div>
