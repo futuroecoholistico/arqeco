@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { ArrowRight, Check, Menu, Minus, Quote, X } from "lucide-react";
+import { ArrowRight, Check, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
 import projectImage from "@/assets/arqeco-project.jpg";
+import projectBeforeImage from "@/assets/arqeco-project-before.jpg";
 import compactLogoAsset from "@/assets/arqeco-logo-reduzido.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -91,6 +92,36 @@ function usePlans() {
 function Price({ cents, installments }: { cents: number | null; installments?: number | undefined }) {
   if (cents == null) return <p className="font-display text-2xl font-semibold">Preço em breve</p>;
   return <div><p className="font-display text-3xl font-semibold">{brl(cents)}</p>{installments ? <p className="text-xs text-muted-foreground">ou {installments}x de {brl(Math.ceil(cents / installments))}</p> : null}</div>;
+}
+
+function BeforeAfter() {
+  const [position, setPosition] = useState(50);
+
+  return (
+    <figure className="group relative aspect-[4/3] w-full touch-none select-none overflow-hidden bg-muted">
+      <img src={projectBeforeImage} alt="Ambiente vazio antes do projeto de interiores" loading="lazy" width={1408} height={800} className="absolute inset-0 size-full object-cover" />
+      <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }} aria-hidden="true">
+        <img src={projectImage} alt="" width={1408} height={800} className="absolute inset-0 size-full object-cover" />
+      </div>
+      <span className="absolute left-4 top-4 bg-foreground/85 px-3 py-1.5 text-[10px] font-semibold uppercase text-background">Depois</span>
+      <span className="absolute right-4 top-4 bg-card/90 px-3 py-1.5 text-[10px] font-semibold uppercase text-foreground">Antes</span>
+      <div className="pointer-events-none absolute inset-y-0 w-px bg-background shadow-editorial" style={{ left: `${position}%` }}>
+        <span className="absolute left-1/2 top-1/2 grid size-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-background/60 bg-primary text-primary-foreground shadow-editorial">
+          <MoveHorizontal className="size-5" />
+        </span>
+      </div>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value={position}
+        onChange={(event) => setPosition(Number(event.target.value))}
+        aria-label="Comparar ambiente antes e depois"
+        className="absolute inset-0 size-full cursor-ew-resize opacity-0"
+      />
+      <figcaption className="sr-only">Arraste o controle para comparar o ambiente antes e depois do projeto.</figcaption>
+    </figure>
+  );
 }
 
 function Home() {
@@ -241,7 +272,7 @@ function Home() {
 
       {/* 12. 3D */}
       <section className="mx-auto grid max-w-7xl gap-10 px-5 pb-20 lg:grid-cols-2 lg:items-center">
-        <img src={projectImage} alt="Visualização de projeto de interiores" loading="lazy" width={1408} height={800} className="aspect-[4/3] w-full object-cover" />
+        <BeforeAfter />
         <div>
           <Eyebrow>Projeto 3D</Eyebrow>
           <h2 className="mt-4 font-display text-4xl font-semibold">Antes de transformar, visualize.</h2>
