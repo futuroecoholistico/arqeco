@@ -18,3 +18,4 @@
 - Affiliate sales arrive via signed webhook `/api/public/conversions` (HMAC per supplier secret); commission = sale × product commission_rate, stored on the conversion row — keeps payouts auditable.
 - Partner approval and product review run through admin-checked SECURITY DEFINER SQL functions — atomic creation of supplier/catalog rows without exposing admin keys.
 - Plans/prices live in `service_plans`/`service_plan_options`; never hardcode prices in UI.
+- Zoe is available only to authenticated architects/designers with the `professional` role; enforce this on the server because client visibility is not access control.
