@@ -12,4 +12,5 @@
 - [ ] Bloqueado (usuário): preços reais, depoimentos e números reais; definir primeiro admin. A home usa depoimentos e resultados ilustrativos, claramente identificados, até a chegada dos dados reais.
 - [x] Zoe exclusiva para arquitetos/designers: removida do painel do cliente e protegida por perfil profissional.
 - [x] Home redesenhada com presença institucional eco-humanista, paleta verde/preto/bege e composição editorial assimétrica.
+- [x] Direção Sophisticated Eco-Futurism aplicada: Playfair Display + Montserrat, preto/bege dominantes e ações no verde do logo.
 - [ ] Zoe: ler materiais de referência.
