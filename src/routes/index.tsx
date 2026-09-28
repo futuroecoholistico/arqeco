@@ -350,7 +350,7 @@ function Home() {
       {/* 28. Footer */}
       <footer className="bg-sidebar text-sidebar-foreground">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 sm:grid-cols-2 lg:grid-cols-5">
-           <div><img src={compactLogoAsset.url} alt="ARQECO" width={339} height={159} loading="lazy" className="h-14 w-auto object-contain" /><p className="mt-3 text-xs opacity-70">Arquitetura ecológica, projetos e escolhas conscientes.</p></div>
+           <div><img src={compactLogoAsset.url} alt="ARQECO" width={339} height={159} className="h-14 w-auto object-contain" /><p className="mt-3 text-xs opacity-70">Arquitetura ecológica, projetos e escolhas conscientes.</p></div>
           <FooterCol title="Para clientes" links={[["Começar projeto", "/#planos"], ["Ver planos", "/#planos"], ["Meus projetos", "/painel"]]} />
           <FooterCol title="Para profissionais" links={[["ArqEco Pro", "/auth"], ["Curadoria", "/#curadoria"]]} />
           <FooterCol title="Para empresas" links={[["Seja fornecedor", "/auth?perfil=fornecedor"], ["Seja afiliado", "/auth?perfil=afiliado"]]} />
