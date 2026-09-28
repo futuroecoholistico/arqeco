@@ -9,7 +9,7 @@
 - [x] Tela do afiliado: links por projeto, cliques, vendas e comissão (% por produto).
 - [x] Integração automática de vendas com cálculo de comissão (testada).
 - [x] Tela admin: aprovar parceiros, avaliar produtos, planos, vendas.
-- [ ] Bloqueado (usuário): preços reais, depoimentos e números reais; definir primeiro admin.
+- [ ] Bloqueado (usuário): preços reais, depoimentos e números reais; definir primeiro admin. A home usa depoimentos e resultados ilustrativos, claramente identificados, até a chegada dos dados reais.
 - [x] Zoe exclusiva para arquitetos/designers: removida do painel do cliente e protegida por perfil profissional.
 - [x] Home redesenhada com presença institucional eco-humanista, paleta verde/preto/bege e composição editorial assimétrica.
 - [ ] Zoe: ler materiais de referência.
