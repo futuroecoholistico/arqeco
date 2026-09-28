@@ -13,4 +13,5 @@
 - [x] Zoe exclusiva para arquitetos/designers: removida do painel do cliente e protegida por perfil profissional.
 - [x] Home redesenhada com presença institucional eco-humanista, paleta verde/preto/bege e composição editorial assimétrica.
 - [x] Direção Sophisticated Eco-Futurism aplicada: Playfair Display + Montserrat, preto/bege dominantes e ações no verde do logo.
+- [x] Comparador interativo de antes e depois na visualização do projeto 3D.
 - [ ] Zoe: ler materiais de referência.
