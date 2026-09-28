@@ -6,7 +6,6 @@ import heroImage from "@/assets/home-hero.jpg";
 import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
 import projectImage from "@/assets/arqeco-project.jpg";
-import fullLogoAsset from "@/assets/arqeco-logo-completo.png.asset.json";
 import compactLogoAsset from "@/assets/arqeco-logo-reduzido.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -110,7 +109,7 @@ function Home() {
           </Link>
           <nav className="hidden gap-7 text-xs font-medium lg:flex">{nav.map(([l, h]) => <a key={l} href={h} className="opacity-65 transition-opacity hover:opacity-100">{l}</a>)}</nav>
           <div className="hidden items-center gap-3 lg:flex">
-            <Link to="/auth" className="text-sm font-medium">Entrar</Link>
+             <Link to="/auth" className="text-sm font-medium opacity-75 hover:opacity-100">Entrar</Link>
             <Button asChild variant="editorial"><a href="#planos">Começar meu projeto</a></Button>
           </div>
           <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button>
@@ -174,8 +173,8 @@ function Home() {
         {roomLabels.length > 0 && (
           <div className="mt-10">
             <p className="text-sm font-semibold">Agora escolha o tamanho do seu projeto.</p>
-            <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Quantidade de ambientes">
-              {roomLabels.map((l, i) => <Button key={l} type="button" role="radio" aria-pressed={rooms === i} onClick={() => setRooms(i)} variant={rooms === i ? "editorial" : "paper"} size="sm">{l}</Button>)}
+            <div className="mt-3 flex flex-wrap gap-2" aria-label="Quantidade de ambientes">
+              {roomLabels.map((l, i) => <Button key={l} type="button" aria-pressed={rooms === i} onClick={() => setRooms(i)} variant={rooms === i ? "editorial" : "paper"} size="sm">{l}</Button>)}
             </div>
           </div>
         )}
