@@ -43,7 +43,7 @@ const faq: [string, string][] = [
   ["A ArqEco vende os produtos?", "Não. Os produtos são vendidos diretamente pelos fornecedores parceiros."],
   ["O que é o Índice Eco-Holístico™?", "Uma metodologia proprietária para organizar e interpretar critérios relacionados a materiais e produtos."],
   ["A sensorialidade está em todos os projetos?", "Não. A dimensão sensorial, vibracional e dos cinco elementos é exclusiva do Design Eco-Holístico."],
-  ["Zoe substitui o profissional?", "Não. Zoe é uma ferramenta de apoio e não substitui o arquiteto ou designer."],
+  ["Quem pode usar a Zoe?", "A Zoe está disponível exclusivamente no painel de arquitetos e designers da rede ArqEco. Ela apoia o trabalho profissional, mas não substitui um responsável técnico habilitado."],
   ["O que é o Certificado ArqEco?", "Um registro emitido para projetos elegíveis, conforme critérios e metodologia definidos pela plataforma."],
 ];
 
@@ -97,7 +97,7 @@ function Home() {
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">Projetos de interiores que unem <strong className="text-foreground">design, funcionalidade, sustentabilidade e tecnologia</strong> para transformar espaços de acordo com a sua forma de viver.</p>
           <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">Com profissionais da rede ArqEco, visualização 3D, curadoria de materiais e uma jornada simples, do briefing à execução.</p>
           <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#planos">Começar meu projeto <ArrowRight /></a></Button><Button asChild variant="paper" size="lg"><a href="#planos">Ver planos</a></Button></div>
-          <p className="mt-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Projeto online · 3D · Curadoria de materiais · Zoe IA · Design Eco-Holístico</p>
+          <p className="mt-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Projeto online · 3D · Curadoria de materiais · Rede profissional · Design Eco-Holístico</p>
         </div>
         <div className="relative">
           <img src={heroImage} alt="Sala contemporânea com madeira, linho e plantas tropicais" width={1600} height={1104} className="aspect-[4/3] w-full rounded-lg object-cover shadow-editorial" />
@@ -112,7 +112,7 @@ function Home() {
           <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold">Uma nova forma de transformar espaços.</h2>
           <p className="mt-5 max-w-2xl text-muted-foreground">A ArqEco conecta <strong className="text-foreground">clientes, profissionais, tecnologia e curadoria de materiais</strong> para tornar a transformação dos espaços mais simples, acessível e consciente.</p>
           <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
-            {[["Projeto", "Desenvolvido por profissionais da rede ArqEco."], ["Tecnologia", "Projeto online, visualização 3D e ferramentas digitais."], ["Sustentabilidade", "Critérios para escolhas mais conscientes."], ["Curadoria", "Produtos selecionados de diferentes fornecedores."], ["Inteligência", "Zoe como copiloto para apoiar o processo."]].map(([t, d]) => (
+            {[["Projeto", "Desenvolvido por profissionais da rede ArqEco."], ["Tecnologia", "Projeto online, visualização 3D e ferramentas digitais."], ["Sustentabilidade", "Critérios para escolhas mais conscientes."], ["Curadoria", "Produtos selecionados de diferentes fornecedores."], ["Inteligência", "Zoe apoia arquitetos e designers no desenvolvimento dos projetos."]].map(([t, d]) => (
               <div key={t} className="bg-card p-6"><p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">{t}</p><p className="mt-3 text-sm text-muted-foreground">{d}</p></div>
             ))}
           </div>
@@ -253,9 +253,9 @@ function Home() {
         <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 lg:grid-cols-2 lg:items-center">
           <div>
             <Eyebrow>Conheça Zoe</Eyebrow>
-            <h2 className="mt-4 font-display text-4xl font-semibold">Seu projeto também pode contar com uma copiloto.</h2>
-            <p className="mt-4 text-muted-foreground">Zoe é a inteligência artificial da ArqEco, criada para apoiar profissionais e projetos em escolhas mais conscientes. Ela não substitui o arquiteto ou designer.</p>
-            <Button asChild variant="editorial" className="mt-8"><Link to="/painel">Conversar com Zoe <ArrowRight /></Link></Button>
+            <h2 className="mt-4 font-display text-4xl font-semibold">Uma copiloto para arquitetos e designers.</h2>
+            <p className="mt-4 text-muted-foreground">Zoe é a inteligência artificial da ArqEco, disponível exclusivamente no painel de arquitetos e designers da nossa rede. Ela apoia escolhas mais conscientes e não substitui um profissional habilitado.</p>
+            <Button asChild variant="editorial" className="mt-8"><Link to="/auth">Quero ser ArqEco Pro <ArrowRight /></Link></Button>
           </div>
           <div className="flex flex-wrap gap-2">{["Interpretar briefings", "Organizar diretrizes", "Pesquisar materiais", "Comparar produtos", "Sugerir alternativas", "Apoiar especificações", "Organizar listas", "Analisar critérios de sustentabilidade"].map((t) => <span key={t} className="rounded-md border border-border bg-background px-4 py-3 text-sm">{t}</span>)}</div>
         </div>
@@ -317,8 +317,8 @@ function Home() {
       {/* 25. Sobre */}
       <section id="sobre" className="mx-auto max-w-7xl px-5 py-20">
         <Eyebrow>Sobre a ArqEco</Eyebrow>
-        <h2 className="mt-4 font-display text-4xl font-semibold">Da Arquitetura Ecológica à ArqEco.</h2>
-        <p className="mt-4 max-w-2xl text-muted-foreground">A ArqEco nasce da trajetória da Arquitetura Ecológica, ampliando sua atuação para uma plataforma que conecta projetos, profissionais, materiais, tecnologia e conhecimento.</p>
+        <h2 className="mt-4 font-display text-4xl font-semibold">Há 12 anos, projetando espaços que cuidam das pessoas e do planeta.</h2>
+        <p className="mt-4 max-w-3xl text-muted-foreground">A ArqEco é uma empresa fundada há 12 anos e nasceu da trajetória da Arquitetura Ecológica. Em 2025, ficou entre as <strong className="text-foreground">TOP startups do Prêmio Sebrae</strong>. Desde o início, prezamos por projetos que promovam bem-estar e sustentabilidade, conectando profissionais, materiais, tecnologia e conhecimento para transformar espaços de forma mais consciente.</p>
         <div className="mt-10 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3 lg:grid-cols-6">
           {[["Arquitetura Ecológica", "Nossa origem."], ["Design Eco-Holístico", "Nossa metodologia."], ["ArqEco", "Nossa plataforma."], ["Zoe", "Nossa inteligência."], ["Curadoria", "Nossas escolhas."], ["Rede ArqEco", "As pessoas que tornam os projetos possíveis."]].map(([t, d]) => <div key={t} className="bg-card p-5"><p className="font-display text-lg font-semibold">{t}</p><p className="mt-1 text-xs text-muted-foreground">{d}</p></div>)}
         </div>
