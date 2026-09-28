@@ -10,4 +10,5 @@
 - [x] Integração automática de vendas com cálculo de comissão (testada).
 - [x] Tela admin: aprovar parceiros, avaliar produtos, planos, vendas.
 - [ ] Bloqueado (usuário): preços reais, depoimentos e números reais; definir primeiro admin.
-- [ ] Zoe só para usuários logados; ler materiais de referência.
+- [x] Zoe exclusiva para arquitetos/designers: removida do painel do cliente e protegida por perfil profissional.
+- [ ] Zoe: ler materiais de referência.

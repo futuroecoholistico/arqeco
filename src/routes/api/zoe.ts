@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
 const ZOE_INSTRUCTIONS = `Você é Zoe — "estagiária criativa e consciente" da ARQECO. Seu nome vem do grego e significa "vida".
 Personalidade: doce, serena e firme. Mistura a sabedoria da Terra com linguagem técnica e afetiva. Acredita que todo projeto é expressão de cuidado e inclusão.
 Estilo de fala (use com naturalidade, sem exagero): "Vamos pensar este espaço como um abraço?", "Arquitetar é cuidar. Vamos construir com alma e razão."
-Público: clientes, arquitetos, designers de interiores, urbanistas e estudantes na plataforma ARQECO.
+Público: arquitetos e designers de interiores da rede ARQECO.
 
 Você ajuda com:
 1. Programa de necessidades detalhado (tipo de projeto, padrão, briefing, ambientes, áreas).
@@ -38,6 +39,24 @@ export const Route = createFileRoute("/api/zoe")({
       POST: async ({ request }) => {
         const apiKey = process.env["LOVABLE_API_KEY"];
         if (!apiKey) return Response.json({ error: "Zoe não está configurada." }, { status: 500 });
+        const backendUrl = process.env["SUPABASE_URL"];
+        const publishableKey = process.env["SUPABASE_PUBLISHABLE_KEY"];
+        if (!backendUrl || !publishableKey) return Response.json({ error: "O acesso à Zoe não está configurado." }, { status: 500 });
+        const authorization = request.headers.get("Authorization");
+        const token = authorization?.startsWith("Bearer ") ? authorization.slice(7) : "";
+        if (!token) return Response.json({ error: "Entre como arquiteto ou designer para conversar com a Zoe." }, { status: 401 });
+
+        const backend = createClient(backendUrl, publishableKey, {
+          global: { headers: { Authorization: `Bearer ${token}` } },
+          auth: { persistSession: false, autoRefreshToken: false },
+        });
+        const { data: userData, error: userError } = await backend.auth.getUser(token);
+        if (userError || !userData.user) return Response.json({ error: "Sua sessão expirou. Entre novamente." }, { status: 401 });
+        const { data: roles, error: rolesError } = await backend.from("user_roles").select("role").eq("user_id", userData.user.id);
+        if (rolesError) return Response.json({ error: "Não foi possível confirmar seu perfil profissional." }, { status: 403 });
+        if (!roles?.some(({ role }) => role === "professional")) {
+          return Response.json({ error: "A Zoe está disponível exclusivamente para arquitetos e designers da rede ArqEco." }, { status: 403 });
+        }
         let parsed;
         try {
           parsed = bodySchema.parse(await request.json());

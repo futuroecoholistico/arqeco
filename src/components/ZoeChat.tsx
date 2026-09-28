@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -43,9 +44,12 @@ export function ZoeChat({ userName, context }: { userName: string; context: stri
     abortRef.current = controller;
     let answer = "";
     try {
+      const { data } = await supabase.auth.getSession();
+      const accessToken = data.session?.access_token;
+      if (!accessToken) throw new Error("Entre como arquiteto ou designer para conversar com a Zoe.");
       const res = await fetch("/api/zoe", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
         body: JSON.stringify({ messages: history, context }),
         signal: controller.signal,
       });

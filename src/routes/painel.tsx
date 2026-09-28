@@ -1,4 +1,3 @@
-import { ZoeChat } from "@/components/ZoeChat";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
@@ -6,7 +5,6 @@ import {
   Award,
   Bell,
   BookOpen,
-  Bot,
   BriefcaseBusiness,
   Check,
   ChevronRight,
@@ -43,7 +41,6 @@ export const Route = createFileRoute("/painel")({
 const navigation = [
   { label: "Visão geral", icon: FolderKanban },
   { label: "Meus projetos", icon: BriefcaseBusiness },
-  { label: "Zoe", icon: Bot, badge: "IA" },
   { label: "Curadoria", icon: Sparkles },
   { label: "Certificação", icon: Award },
   { label: "Fornecedores", icon: Store },
@@ -60,7 +57,7 @@ const materials = [
 function ArqEcoDashboard() {
   const [active, setActive] = useState("Visão geral");
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [panel, setPanel] = useState<"zoe" | "task" | null>(null);
+  const [panel, setPanel] = useState<"task" | null>(null);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -75,7 +72,7 @@ function ArqEcoDashboard() {
 
         <nav className="space-y-1 px-4 py-7" aria-label="Navegação principal">
           {navigation.map((item) => (
-            <button key={item.label} type="button" onClick={() => { setActive(item.label); setMobileMenu(false); if (item.label === "Zoe") setPanel("zoe"); }} className={`flex h-11 w-full items-center gap-3 rounded-md px-3 text-left text-sm transition-colors ${active === item.label ? "bg-sidebar-accent text-sidebar-accent-foreground" : "text-sidebar-foreground/68 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"}`}>
+            <button key={item.label} type="button" onClick={() => { setActive(item.label); setMobileMenu(false); }} className={`flex h-11 w-full items-center gap-3 rounded-md px-3 text-left text-sm transition-colors ${active === item.label ? "bg-sidebar-accent text-sidebar-accent-foreground" : "text-sidebar-foreground/68 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"}`}>
               <item.icon className="size-4" />
               <span className="flex-1">{item.label}</span>
               {item.badge && <span className="text-[9px] font-bold uppercase text-sidebar-primary">{item.badge}</span>}
@@ -181,12 +178,6 @@ function ArqEcoDashboard() {
             </section>
 
             <aside className="space-y-5">
-              <button type="button" onClick={() => setPanel("zoe")} className="w-full rounded-lg bg-primary p-6 text-left text-primary-foreground transition-transform hover:-translate-y-0.5">
-                <div className="flex items-start justify-between"><Bot className="size-6" /><span className="text-[9px] font-bold uppercase tracking-[0.18em] text-primary-foreground/60">Copiloto ARQECO</span></div>
-                <h3 className="mt-7 font-display text-2xl font-semibold">Converse com a Zoe</h3>
-                <p className="mt-2 text-sm leading-relaxed text-primary-foreground/70">Entenda materiais, compare escolhas e prepare perguntas para sua profissional.</p>
-                <div className="mt-5 flex items-center gap-2 text-xs font-bold uppercase">Iniciar conversa <ArrowRight className="size-3.5" /></div>
-              </button>
               <div className="rounded-lg border border-border bg-card p-5">
                 <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Equipe conectada</p>
                 <div className="mt-4 flex items-center gap-3"><div className="grid size-11 place-items-center rounded-full bg-secondary font-display font-semibold">AC</div><div><p className="text-sm font-semibold">Ana Costa</p><p className="text-xs text-muted-foreground">Arquiteta responsável</p></div><Button variant="ghost" size="icon" className="ml-auto" aria-label="Enviar mensagem"><MessageSquare /></Button></div>
@@ -197,15 +188,15 @@ function ArqEcoDashboard() {
 
           <section className="mt-10 border-t border-border pt-8">
             <div className="grid gap-5 md:grid-cols-3">
-              {[{ icon: Sparkles, title: "Zoe", text: "Apoio para escolhas conscientes" }, { icon: Award, title: "Certificação", text: "Critérios e evidências do projeto" }, { icon: ShoppingBag, title: "Fornecedores", text: "Marcas e links afiliados selecionados" }].map((item) => (
-                <button type="button" key={item.title} onClick={() => item.title === "Zoe" ? setPanel("zoe") : setActive(item.title)} className="flex items-center gap-4 border-l border-border py-2 pl-5 text-left hover:border-primary"><item.icon className="size-5 text-primary"/><div><p className="font-display text-lg font-semibold">{item.title}</p><p className="text-xs text-muted-foreground">{item.text}</p></div><ChevronRight className="ml-auto size-4 text-muted-foreground"/></button>
+              {[{ icon: Sparkles, title: "Curadoria", text: "Materiais selecionados para o projeto" }, { icon: Award, title: "Certificação", text: "Critérios e evidências do projeto" }, { icon: ShoppingBag, title: "Fornecedores", text: "Marcas e links afiliados selecionados" }].map((item) => (
+                <button type="button" key={item.title} onClick={() => setActive(item.title)} className="flex items-center gap-4 border-l border-border py-2 pl-5 text-left hover:border-primary"><item.icon className="size-5 text-primary"/><div><p className="font-display text-lg font-semibold">{item.title}</p><p className="text-xs text-muted-foreground">{item.text}</p></div><ChevronRight className="ml-auto size-4 text-muted-foreground"/></button>
               ))}
             </div>
           </section>
         </div>
       </main>
 
-      {panel && <div className="fixed inset-0 z-50 flex justify-end bg-foreground/35" role="presentation" onClick={() => setPanel(null)}><section role="dialog" aria-modal="true" aria-label={panel === "zoe" ? "Conversa com Zoe" : "Revisar curadoria"} onClick={(event) => event.stopPropagation()} className="flex h-full w-full max-w-md flex-col bg-card p-6 shadow-editorial gentle-rise"><div className="flex items-center justify-between border-b border-border pb-5"><div><p className="text-[9px] font-bold uppercase tracking-[0.18em] text-forest-soft">{panel === "zoe" ? "Copiloto ARQECO" : "Próxima ação"}</p><h2 className="font-display text-2xl font-semibold">{panel === "zoe" ? "Zoe" : "Revisar materiais"}</h2></div><Button variant="ghost" size="icon" onClick={() => setPanel(null)} aria-label="Fechar"><X /></Button></div>{panel === "zoe" ? <ZoeChat userName="Marina" context="Cliente: Marina Silveira. Projeto: Apartamento Aurora (46% concluído, etapa de desenvolvimento). Profissional: Ana Costa. Entrega prevista: 18 nov. Materiais em curadoria com Índice Eco-Holístico." /> : <div className="py-6"><p className="text-sm leading-relaxed text-muted-foreground">A Curadoria selecionou três materiais compatíveis com o briefing e as diretrizes do projeto.</p><div className="mt-6 space-y-3">{materials.map(material => <label key={material.name} className="flex cursor-pointer items-center gap-3 rounded-md border border-border p-4"><input type="checkbox" defaultChecked className="accent-primary"/><span className="flex-1 text-sm font-semibold">{material.name}</span><span className="font-display text-lg text-primary">{material.score}</span></label>)}</div><Button variant="editorial" className="mt-6 w-full" onClick={() => setPanel(null)}>Enviar revisão para Ana <ArrowRight /></Button><p className="mt-3 text-center text-[10px] text-muted-foreground">A compra é concluída diretamente no fornecedor.</p></div>}</section></div>}
+      {panel && <div className="fixed inset-0 z-50 flex justify-end bg-foreground/35" role="presentation" onClick={() => setPanel(null)}><section role="dialog" aria-modal="true" aria-label="Revisar curadoria" onClick={(event) => event.stopPropagation()} className="flex h-full w-full max-w-md flex-col bg-card p-6 shadow-editorial gentle-rise"><div className="flex items-center justify-between border-b border-border pb-5"><div><p className="text-[9px] font-bold uppercase tracking-[0.18em] text-forest-soft">Próxima ação</p><h2 className="font-display text-2xl font-semibold">Revisar materiais</h2></div><Button variant="ghost" size="icon" onClick={() => setPanel(null)} aria-label="Fechar"><X /></Button></div><div className="py-6"><p className="text-sm leading-relaxed text-muted-foreground">A Curadoria selecionou três materiais compatíveis com o briefing e as diretrizes do projeto.</p><div className="mt-6 space-y-3">{materials.map(material => <label key={material.name} className="flex cursor-pointer items-center gap-3 rounded-md border border-border p-4"><input type="checkbox" defaultChecked className="accent-primary"/><span className="flex-1 text-sm font-semibold">{material.name}</span><span className="font-display text-lg text-primary">{material.score}</span></label>)}</div><Button variant="editorial" className="mt-6 w-full" onClick={() => setPanel(null)}>Enviar revisão para Ana <ArrowRight /></Button><p className="mt-3 text-center text-[10px] text-muted-foreground">A compra é concluída diretamente no fornecedor.</p></div></section></div>}
     </div>
   );
 }
