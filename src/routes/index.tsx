@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { ArrowRight, Check, Menu, Minus, X } from "lucide-react";
+import { ArrowRight, Check, Menu, Minus, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
@@ -48,6 +48,30 @@ const faq: [string, string][] = [
   ["A sensorialidade está em todos os projetos?", "Não. A dimensão sensorial, vibracional e dos cinco elementos é exclusiva do Design Eco-Holístico."],
   ["Quem pode usar a Zoe?", "A Zoe está disponível exclusivamente no painel de arquitetos e designers da rede ArqEco. Ela apoia o trabalho profissional, mas não substitui um responsável técnico habilitado."],
   ["O que é o Certificado ArqEco?", "Um registro emitido para projetos elegíveis, conforme critérios e metodologia definidos pela plataforma."],
+];
+
+const testimonials = [
+  {
+    quote: "O projeto trouxe clareza para decisões que antes pareciam difíceis. Conseguimos enxergar o conjunto antes de começar a comprar.",
+    context: "Cliente residencial",
+    project: "Sala de estar",
+  },
+  {
+    quote: "A curadoria organizou nossas escolhas e aproximou estética, rotina e materiais mais conscientes em uma mesma direção.",
+    context: "Cliente residencial",
+    project: "Apartamento compacto",
+  },
+  {
+    quote: "O processo online foi objetivo sem perder a escuta. Cada etapa ajudou a transformar necessidades reais em soluções para o espaço.",
+    context: "Cliente profissional",
+    project: "Espaço de atendimento",
+  },
+];
+
+const illustrativeResults = [
+  ["01", "Mais clareza", "para visualizar o ambiente e decidir antes da execução."],
+  ["02", "Escolhas organizadas", "com materiais, produtos e referências reunidos no projeto."],
+  ["03", "Menos improviso", "com um caminho estruturado do briefing à lista de materiais."],
 ];
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -278,6 +302,54 @@ function Home() {
           {[[heroImage, "Sala · Residencial", "Viver Lifestyle"], [bedroomImage, "Quarto · Residencial", "Viver Bem"], [projectImage, "Estar · Residencial", "Design Eco-Holístico"]].map(([src, t, p]) => (
              <figure key={t} className="even:md:mt-16"><img src={src} alt={t} loading="lazy" className="aspect-[4/5] w-full object-cover" /><figcaption className="mt-3 border-t border-border pt-3"><p className="text-sm font-semibold">{t}</p><p className="text-xs text-muted-foreground">{p}</p></figcaption></figure>
           ))}
+        </div>
+      </section>
+
+      {/* 18-19. Depoimentos e resultados */}
+      <section id="resultados" className="border-y border-border bg-card">
+        <div className="mx-auto max-w-7xl px-5 py-24">
+          <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+            <div>
+              <Eyebrow>Experiências e resultados</Eyebrow>
+              <h2 className="mt-4 max-w-3xl font-display text-4xl font-bold md:text-5xl">Quando o projeto faz sentido, a transformação vai além da estética.</h2>
+            </div>
+            <p className="border-l border-border pl-5 text-sm leading-relaxed text-muted-foreground">Os relatos e resultados abaixo são exemplos ilustrativos de como esta seção será apresentada. Serão substituídos por experiências reais e autorizadas.</p>
+          </div>
+
+          <div className="mt-12 grid gap-px overflow-hidden border border-border bg-border lg:grid-cols-3">
+            {testimonials.map((testimonial, index) => (
+              <figure key={testimonial.project} className="flex min-h-72 flex-col bg-background p-7">
+                <div className="flex items-center justify-between">
+                  <Quote className="size-7 text-primary" aria-hidden="true" />
+                  <span className="text-[9px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Depoimento ilustrativo</span>
+                </div>
+                <blockquote className="mt-8 flex-1 font-display text-2xl font-medium leading-snug">“{testimonial.quote}”</blockquote>
+                <figcaption className="mt-8 border-t border-border pt-4">
+                  <p className="text-sm font-semibold">{testimonial.context}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{testimonial.project} · Exemplo 0{index + 1}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <div className="mt-16 grid gap-8 lg:grid-cols-[0.65fr_1.35fr]">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-forest-soft">Resultados ilustrativos</p>
+              <h3 className="mt-4 font-display text-3xl font-bold">O que uma jornada bem orientada pode gerar.</h3>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">Não são métricas de desempenho da ARQECO. São exemplos qualitativos dos benefícios que serão documentados com clientes reais.</p>
+            </div>
+            <div className="grid gap-px overflow-hidden bg-primary md:grid-cols-3">
+              {illustrativeResults.map(([number, title, description]) => (
+                <article key={number} className="flex min-h-64 flex-col bg-primary p-7 text-primary-foreground">
+                  <p className="font-display text-4xl font-light text-accent">{number}</p>
+                  <div className="mt-auto pt-10">
+                    <h4 className="font-display text-2xl font-semibold">{title}</h4>
+                    <p className="mt-3 text-sm leading-relaxed opacity-80">{description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
