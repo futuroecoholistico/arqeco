@@ -9,12 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as PainelRouteImport } from './routes/painel'
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const PainelRoute = PainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiZoeRoute = ApiZoeRouteImport.update({
@@ -24,38 +24,38 @@ const ApiZoeRoute = ApiZoeRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/painel': typeof PainelRoute
   '/api/zoe': typeof ApiZoeRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/painel': typeof PainelRoute
   '/api/zoe': typeof ApiZoeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/painel': typeof PainelRoute
   '/api/zoe': typeof ApiZoeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/zoe'
+  fullPaths: '/painel' | '/api/zoe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/zoe'
-  id: '__root__' | '/' | '/api/zoe'
+  to: '/painel' | '/api/zoe'
+  id: '__root__' | '/painel' | '/api/zoe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  PainelRoute: typeof PainelRoute
   ApiZoeRoute: typeof ApiZoeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/painel': {
+      id: '/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof PainelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/zoe': {
@@ -69,7 +69,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  PainelRoute: PainelRoute,
   ApiZoeRoute: ApiZoeRoute,
 }
 export const routeTree = rootRouteImport
