@@ -6,6 +6,8 @@ import heroImage from "@/assets/home-hero.jpg";
 import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
 import projectImage from "@/assets/arqeco-project.jpg";
+import fullLogoAsset from "@/assets/arqeco-logo-completo.png.asset.json";
+import compactLogoAsset from "@/assets/arqeco-logo-reduzido.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/components/PartnerShell";
@@ -79,7 +81,9 @@ function Home() {
       {/* 1. Menu */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5">
-          <Link to="/" className="font-display text-2xl font-bold text-primary">ARQECO</Link>
+          <Link to="/" aria-label="ARQECO — Arquitetura Ecológica" className="block">
+            <img src={fullLogoAsset.url} alt="ARQECO — Arquitetura Ecológica" width={443} height={198} className="h-12 w-auto object-contain" />
+          </Link>
           <nav className="hidden gap-7 text-xs font-medium lg:flex">{nav.map(([l, h]) => <a key={l} href={h} className="text-muted-foreground transition-colors hover:text-primary">{l}</a>)}</nav>
           <div className="hidden items-center gap-3 lg:flex">
             <Link to="/auth" className="text-sm font-medium">Entrar</Link>
@@ -346,7 +350,7 @@ function Home() {
       {/* 28. Footer */}
       <footer className="bg-sidebar text-sidebar-foreground">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 sm:grid-cols-2 lg:grid-cols-5">
-          <div><p className="font-display text-2xl font-semibold">ARQECO</p><p className="mt-3 text-xs opacity-70">Projetos, profissionais e escolhas conscientes.</p></div>
+           <div><img src={compactLogoAsset.url} alt="ARQECO" width={339} height={159} className="h-14 w-auto object-contain" /><p className="mt-3 text-xs opacity-70">Arquitetura ecológica, projetos e escolhas conscientes.</p></div>
           <FooterCol title="Para clientes" links={[["Começar projeto", "/#planos"], ["Ver planos", "/#planos"], ["Meus projetos", "/painel"]]} />
           <FooterCol title="Para profissionais" links={[["ArqEco Pro", "/auth"], ["Curadoria", "/#curadoria"]]} />
           <FooterCol title="Para empresas" links={[["Seja fornecedor", "/auth?perfil=fornecedor"], ["Seja afiliado", "/auth?perfil=afiliado"]]} />
