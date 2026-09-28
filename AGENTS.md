@@ -15,3 +15,6 @@
 - Use Lovable Cloud with row-level access for persistent platform data because ARQECO requires real accounts, workflows, and relationships.
 - Keep roles in `user_roles`, separate from profiles, to prevent account holders from escalating their own access.
 - Keep the visual system editorial and architectural: Playfair Display, Montserrat, beige paper surfaces, and deep forest green.
+- Affiliate sales arrive via signed webhook `/api/public/conversions` (HMAC per supplier secret); commission = sale × product commission_rate, stored on the conversion row — keeps payouts auditable.
+- Partner approval and product review run through admin-checked SECURITY DEFINER SQL functions — atomic creation of supplier/catalog rows without exposing admin keys.
+- Plans/prices live in `service_plans`/`service_plan_options`; never hardcode prices in UI.

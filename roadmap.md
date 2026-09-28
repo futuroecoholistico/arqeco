@@ -1,7 +1,13 @@
 # ARQECO roadmap
 
-- [x] Construir o painel central do ecossistema ARQECO.
-- [x] Aplicar estética editorial Casa Vogue sustentável em bege e verde-escuro.
-- [x] Usar Playfair Display nos títulos e Montserrat nos textos.
-- [x] Conectar visualmente clientes, profissionais, creators, projetos, Zoe, curadoria, certificação, fornecedores e afiliados.
-- [x] Verificar a experiência em desktop e celular.
+- [x] Painel central, estética editorial, fontes, ecossistema, desktop/celular.
+- [x] Zoe real no painel com a persona do plugin.
+- [x] Home de vendas completa; painel do cliente em /painel.
+- [x] Planos e tamanhos vindos do banco, preços e selo editáveis no admin.
+- [x] Login/cadastro (e-mail + Google) com cadastro de fornecedor/afiliado e aprovação.
+- [x] Tela do fornecedor: enviar produtos, avaliação, chave de integração, vendas.
+- [x] Tela do afiliado: links por projeto, cliques, vendas e comissão (% por produto).
+- [x] Integração automática de vendas com cálculo de comissão (testada).
+- [x] Tela admin: aprovar parceiros, avaliar produtos, planos, vendas.
+- [ ] Bloqueado (usuário): preços reais, depoimentos e números reais; definir primeiro admin.
+- [ ] Zoe só para usuários logados; ler materiais de referência.
