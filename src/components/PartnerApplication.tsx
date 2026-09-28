@@ -39,7 +39,8 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
     const p = schema.safeParse(form);
     if (!p.success) { setErr("Confira os campos: nome obrigatório e site em formato https://…"); return; }
     setBusy(true); setErr(null);
-    const payload = { ...p.data, website: p.data.website || null, user_id: userId, kind };
+    const d = p.data;
+    const payload = { display_name: d.display_name, document: d.document || null, category: d.category || null, city: d.city || null, message: d.message || null, website: d.website || null, user_id: userId, kind };
     const { error } = await supabase.from("partner_applications").insert(payload);
     setBusy(false);
     if (error) setErr(error.message.includes("duplicate") ? "Você já enviou um cadastro. Fale com a equipe ARQECO para reavaliação." : "Não foi possível enviar agora.");

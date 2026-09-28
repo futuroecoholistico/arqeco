@@ -35,7 +35,7 @@ function Applications() {
   const q = useQuery({ queryKey: ["admin-apps"], queryFn: async () => (await supabase.from("partner_applications").select("*").order("created_at", { ascending: false })).data ?? [] });
   async function review(id: string, approve: boolean) {
     const note = approve ? null : window.prompt("Motivo (opcional)") ?? null;
-    const { error } = await supabase.rpc("review_partner_application", { _id: id, _approve: approve, _note: note ?? undefined });
+    const { error } = await supabase.rpc("review_partner_application", { _id: id, _approve: approve, ...(note ? { _note: note } : {}) });
     if (error) alert("Não foi possível concluir."); qc.invalidateQueries({ queryKey: ["admin-apps"] });
   }
   return (
@@ -61,7 +61,7 @@ function Submissions() {
     const eco = Number(scores[id]);
     if (approve && (!Number.isFinite(eco) || eco < 0 || eco > 100)) { alert("Informe o Índice Eco-Holístico (0 a 100)."); return; }
     const note = approve ? undefined : window.prompt("Motivo para o fornecedor (opcional)") ?? undefined;
-    const { error } = await supabase.rpc("review_product_submission", { _id: id, _approve: approve, _eco_index: approve ? eco : undefined, _note: note });
+    const { error } = await supabase.rpc("review_product_submission", { _id: id, _approve: approve, ...(approve ? { _eco_index: eco } : {}), ...(note ? { _note: note } : {}) });
     if (error) alert("Não foi possível concluir."); qc.invalidateQueries({ queryKey: ["admin-subs"] });
   }
   return (

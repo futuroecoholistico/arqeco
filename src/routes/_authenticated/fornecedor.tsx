@@ -54,7 +54,7 @@ function SupplierDashboard({ supplierId, userId }: { supplierId: string; userId:
     const p = productSchema.safeParse(form);
     if (!p.success) { setErr("Confira nome, link do produto (https://…) e comissão entre 0 e 100%."); return; }
     setErr(null);
-    const { error } = await supabase.from("product_submissions").insert({ ...p.data, image_url: p.data.image_url || null, supplier_id: supplierId, submitted_by: userId });
+    const { error } = await supabase.from("product_submissions").insert({ name: p.data.name, category: p.data.category, product_url: p.data.product_url, commission_rate: p.data.commission_rate, description: p.data.description || null, sustainability_notes: p.data.sustainability_notes || null, image_url: p.data.image_url || null, supplier_id: supplierId, submitted_by: userId });
     if (error) { setErr("Não foi possível enviar agora."); return; }
     setForm({ ...form, name: "", description: "", product_url: "", image_url: "", sustainability_notes: "" });
     qc.invalidateQueries({ queryKey: ["submissions", supplierId] });

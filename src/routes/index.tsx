@@ -62,7 +62,7 @@ function usePlans() {
   });
 }
 
-function Price({ cents, installments }: { cents: number | null; installments?: number }) {
+function Price({ cents, installments }: { cents: number | null; installments?: number | undefined }) {
   if (cents == null) return <p className="font-display text-2xl font-semibold">Preço em breve</p>;
   return <div><p className="font-display text-3xl font-semibold">{brl(cents)}</p>{installments ? <p className="text-xs text-muted-foreground">ou {installments}x de {brl(Math.ceil(cents / installments))}</p> : null}</div>;
 }
