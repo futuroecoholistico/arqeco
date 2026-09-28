@@ -24,12 +24,12 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
   const [busy, setBusy] = useState(false);
   const isSupplier = kind === "supplier";
 
-  if (application && application.status !== "rejected") {
+  if (application) {
     return (
       <div className="max-w-xl rounded-lg border border-border bg-card p-8">
         <StatusPill status={application.status} />
         <h2 className="mt-4 font-display text-2xl font-semibold">{application.display_name}</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Recebemos seu cadastro. A equipe ARQECO está avaliando e você verá o acesso liberado aqui assim que for aprovado.</p>
+        <p className="mt-2 text-sm text-muted-foreground">{application.status === "rejected" ? `Seu cadastro não foi aprovado${application.review_note ? `: ${application.review_note}` : "."} Fale com a equipe ARQECO para uma nova avaliação.` : "Recebemos seu cadastro. A equipe ARQECO está avaliando e você verá o acesso liberado aqui assim que for aprovado."}</p>
       </div>
     );
   }
@@ -39,10 +39,8 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
     const p = schema.safeParse(form);
     if (!p.success) { setErr("Confira os campos: nome obrigatório e site em formato https://…"); return; }
     setBusy(true); setErr(null);
-    const payload = { ...p.data, website: p.data.website || null, user_id: userId, kind, status: "pending" as const, review_note: null };
-    const { error } = application
-      ? await supabase.from("partner_applications").delete().eq("id", "00000000-0000-0000-0000-000000000000").then(() => supabase.from("partner_applications").insert(payload))
-      : await supabase.from("partner_applications").insert(payload);
+    const payload = { ...p.data, website: p.data.website || null, user_id: userId, kind };
+    const { error } = await supabase.from("partner_applications").insert(payload);
     setBusy(false);
     if (error) setErr(error.message.includes("duplicate") ? "Você já enviou um cadastro. Fale com a equipe ARQECO para reavaliação." : "Não foi possível enviar agora.");
     else qc.invalidateQueries({ queryKey: ["application", kind] });
@@ -52,7 +50,6 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
 
   return (
     <form onSubmit={submit} className="max-w-xl space-y-3 rounded-lg border border-border bg-card p-8">
-      {application?.status === "rejected" && <p className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">Cadastro anterior recusado{application.review_note ? `: ${application.review_note}` : "."}</p>}
       <h2 className="font-display text-2xl font-semibold">{isSupplier ? "Cadastro de fornecedor" : "Cadastro de afiliado"}</h2>
       <p className="text-sm text-muted-foreground">{isSupplier ? "Conte sobre sua marca. Após aprovação você poderá enviar produtos para a Curadoria." : "Conte sobre você e seu público. Após aprovação você gera links e recebe comissão por venda."}</p>
       <input className={fieldClass} placeholder={isSupplier ? "Nome da empresa/marca" : "Seu nome ou nome do perfil"} value={form.display_name} onChange={set("display_name")} aria-label="Nome" />
