@@ -12,7 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PainelRouteImport } from './routes/painel'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAfiliadoRouteImport } from './routes/_authenticated/afiliado'
+import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authenticated/fornecedor'
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
+import { Route as RCodeRouteImport } from './routes/r.$code'
+import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -28,44 +33,114 @@ const PainelRoute = PainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAfiliadoRoute = AuthenticatedAfiliadoRouteImport.update({
+  id: '/afiliado',
+  path: '/afiliado',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFornecedorRoute = AuthenticatedFornecedorRouteImport.update({
+  id: '/fornecedor',
+  path: '/fornecedor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ApiZoeRoute = ApiZoeRouteImport.update({
   id: '/api/zoe',
   path: '/api/zoe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RCodeRoute = RCodeRouteImport.update({
+  id: '/r/$code',
+  path: '/r/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicConversionsRoute = ApiPublicConversionsRouteImport.update({
+  id: '/api/public/conversions',
+  path: '/api/public/conversions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthenticatedRouteRoute
+  '/': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/afiliado': typeof AuthenticatedAfiliadoRoute
+  '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/api/zoe': typeof ApiZoeRoute
+  '/r/$code': typeof RCodeRoute
+  '/api/public/conversions': typeof ApiPublicConversionsRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof AuthenticatedRouteRoute
+  '/': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/afiliado': typeof AuthenticatedAfiliadoRoute
+  '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/api/zoe': typeof ApiZoeRoute
+  '/r/$code': typeof RCodeRoute
+  '/api/public/conversions': typeof ApiPublicConversionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_authenticated': typeof AuthenticatedRouteRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/afiliado': typeof AuthenticatedAfiliadoRoute
+  '/_authenticated/fornecedor': typeof AuthenticatedFornecedorRoute
   '/api/zoe': typeof ApiZoeRoute
+  '/r/$code': typeof RCodeRoute
+  '/api/public/conversions': typeof ApiPublicConversionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/painel' | '/api/zoe'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/painel'
+    | '/admin'
+    | '/afiliado'
+    | '/fornecedor'
+    | '/api/zoe'
+    | '/r/$code'
+    | '/api/public/conversions'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/painel' | '/api/zoe'
-  id: '__root__' | '/_authenticated' | '/auth' | '/painel' | '/api/zoe'
+  to:
+    | '/'
+    | '/auth'
+    | '/painel'
+    | '/admin'
+    | '/afiliado'
+    | '/fornecedor'
+    | '/api/zoe'
+    | '/r/$code'
+    | '/api/public/conversions'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/auth'
+    | '/painel'
+    | '/_authenticated/admin'
+    | '/_authenticated/afiliado'
+    | '/_authenticated/fornecedor'
+    | '/api/zoe'
+    | '/r/$code'
+    | '/api/public/conversions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   PainelRoute: typeof PainelRoute
   ApiZoeRoute: typeof ApiZoeRoute
+  RCodeRoute: typeof RCodeRoute
+  ApiPublicConversionsRoute: typeof ApiPublicConversionsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -91,6 +166,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PainelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/afiliado': {
+      id: '/_authenticated/afiliado'
+      path: '/afiliado'
+      fullPath: '/afiliado'
+      preLoaderRoute: typeof AuthenticatedAfiliadoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/fornecedor': {
+      id: '/_authenticated/fornecedor'
+      path: '/fornecedor'
+      fullPath: '/fornecedor'
+      preLoaderRoute: typeof AuthenticatedFornecedorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/zoe': {
       id: '/api/zoe'
       path: '/api/zoe'
@@ -98,14 +194,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiZoeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/r/$code': {
+      id: '/r/$code'
+      path: '/r/$code'
+      fullPath: '/r/$code'
+      preLoaderRoute: typeof RCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/conversions': {
+      id: '/api/public/conversions'
+      path: '/api/public/conversions'
+      fullPath: '/api/public/conversions'
+      preLoaderRoute: typeof ApiPublicConversionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAfiliadoRoute: typeof AuthenticatedAfiliadoRoute
+  AuthenticatedFornecedorRoute: typeof AuthenticatedFornecedorRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAfiliadoRoute: AuthenticatedAfiliadoRoute,
+  AuthenticatedFornecedorRoute: AuthenticatedFornecedorRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  AuthenticatedRouteRoute: AuthenticatedRouteRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   PainelRoute: PainelRoute,
   ApiZoeRoute: ApiZoeRoute,
+  RCodeRoute: RCodeRoute,
+  ApiPublicConversionsRoute: ApiPublicConversionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
