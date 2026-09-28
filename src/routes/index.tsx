@@ -13,9 +13,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "ARQECO — Projeto de interiores online, sustentável e com curadoria" },
-      { name: "description", content: "Projetos de interiores que unem design, funcionalidade, sustentabilidade e tecnologia. Profissionais da rede ArqEco, 3D, curadoria de materiais e Zoe." },
+      { name: "description", content: "Há 12 anos, a ARQECO cria projetos de interiores com design, bem-estar e sustentabilidade, conectando clientes, profissionais e curadoria." },
       { property: "og:title", content: "ARQECO — Seu espaço pode fazer mais por você" },
-      { property: "og:description", content: "Projeto online, 3D, curadoria de materiais, Zoe IA e Design Eco-Holístico." },
+      { property: "og:description", content: "Projetos de interiores online que promovem bem-estar e sustentabilidade, com profissionais, 3D e curadoria de materiais." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

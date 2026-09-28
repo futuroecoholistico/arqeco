@@ -75,7 +75,6 @@ function ArqEcoDashboard() {
             <button key={item.label} type="button" onClick={() => { setActive(item.label); setMobileMenu(false); }} className={`flex h-11 w-full items-center gap-3 rounded-md px-3 text-left text-sm transition-colors ${active === item.label ? "bg-sidebar-accent text-sidebar-accent-foreground" : "text-sidebar-foreground/68 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"}`}>
               <item.icon className="size-4" />
               <span className="flex-1">{item.label}</span>
-              {item.badge && <span className="text-[9px] font-bold uppercase text-sidebar-primary">{item.badge}</span>}
             </button>
           ))}
         </nav>
