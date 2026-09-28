@@ -8,3 +8,10 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Project architecture
+
+- Keep ARQECO centered on the project journey; people, Zoe, curation, certification, suppliers, and affiliates connect through projects.
+- Use Lovable Cloud with row-level access for persistent platform data because ARQECO requires real accounts, workflows, and relationships.
+- Keep roles in `user_roles`, separate from profiles, to prevent account holders from escalating their own access.
+- Keep the visual system editorial and architectural: Playfair Display, Montserrat, beige paper surfaces, and deep forest green.

@@ -14,7 +14,229 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      curated_materials: {
+        Row: {
+          affiliate_url: string
+          attributes: Json
+          category: string
+          created_at: string
+          description: string | null
+          eco_index: number
+          id: string
+          image_url: string | null
+          is_active: boolean
+          name: string
+          supplier_id: string
+          updated_at: string
+        }
+        Insert: {
+          affiliate_url: string
+          attributes?: Json
+          category: string
+          created_at?: string
+          description?: string | null
+          eco_index: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name: string
+          supplier_id: string
+          updated_at?: string
+        }
+        Update: {
+          affiliate_url?: string
+          attributes?: Json
+          category?: string
+          created_at?: string
+          description?: string | null
+          eco_index?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name?: string
+          supplier_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "curated_materials_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          account_type: Database["public"]["Enums"]["app_role"]
+          avatar_url: string | null
+          city: string | null
+          created_at: string
+          full_name: string
+          id: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_type?: Database["public"]["Enums"]["app_role"]
+          avatar_url?: string | null
+          city?: string | null
+          created_at?: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_type?: Database["public"]["Enums"]["app_role"]
+          avatar_url?: string | null
+          city?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      project_status_history: {
+        Row: {
+          changed_by: string
+          created_at: string
+          id: string
+          note: string | null
+          project_id: string
+          status: Database["public"]["Enums"]["project_status"]
+        }
+        Insert: {
+          changed_by: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          project_id: string
+          status: Database["public"]["Enums"]["project_status"]
+        }
+        Update: {
+          changed_by?: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          project_id?: string
+          status?: Database["public"]["Enums"]["project_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_status_history_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          client_id: string
+          created_at: string
+          due_date: string | null
+          eco_index: number | null
+          id: string
+          name: string
+          next_action: string | null
+          professional_id: string | null
+          progress: number
+          service_name: string
+          status: Database["public"]["Enums"]["project_status"]
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          due_date?: string | null
+          eco_index?: number | null
+          id?: string
+          name: string
+          next_action?: string | null
+          professional_id?: string | null
+          progress?: number
+          service_name: string
+          status?: Database["public"]["Enums"]["project_status"]
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          due_date?: string | null
+          eco_index?: number | null
+          id?: string
+          name?: string
+          next_action?: string | null
+          professional_id?: string | null
+          progress?: number
+          service_name?: string
+          status?: Database["public"]["Enums"]["project_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      suppliers: {
+        Row: {
+          category: string
+          city: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          city?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          city?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +245,21 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "client" | "professional" | "creator" | "partner"
+      project_status:
+        | "PAYMENT_CONFIRMED"
+        | "BRIEFING_PENDING"
+        | "BRIEFING_COMPLETED"
+        | "BRIEFING_VALIDATED"
+        | "MEETING_1"
+        | "DEVELOPMENT"
+        | "PRESENTATION"
+        | "ADJUSTMENTS"
+        | "APPROVAL"
+        | "FINAL_DELIVERY"
+        | "CERTIFICATION_REVIEW"
+        | "CERTIFIED"
+        | "COMPLETED"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +386,23 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "client", "professional", "creator", "partner"],
+      project_status: [
+        "PAYMENT_CONFIRMED",
+        "BRIEFING_PENDING",
+        "BRIEFING_COMPLETED",
+        "BRIEFING_VALIDATED",
+        "MEETING_1",
+        "DEVELOPMENT",
+        "PRESENTATION",
+        "ADJUSTMENTS",
+        "APPROVAL",
+        "FINAL_DELIVERY",
+        "CERTIFICATION_REVIEW",
+        "CERTIFIED",
+        "COMPLETED",
+      ],
+    },
   },
 } as const
