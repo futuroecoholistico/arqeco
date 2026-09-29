@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { fieldClass } from "@/components/PartnerShell";
 
-const search = z.object({ next: z.string().optional(), perfil: z.enum(["fornecedor", "afiliado"]).optional() });
+const search = z.object({ next: z.string().optional(), perfil: z.enum(["fornecedor", "afiliado", "profissional"]).optional() });
 
 export const Route = createFileRoute("/auth")({
   validateSearch: search,
@@ -27,6 +27,7 @@ function safeNext(next?: string, perfil?: string) {
   if (next && next.startsWith("/") && !next.startsWith("//")) return next;
   if (perfil === "fornecedor") return "/fornecedor";
   if (perfil === "afiliado") return "/afiliado";
+  if (perfil === "profissional") return "/profissional";
   return "/painel";
 }
 
@@ -73,7 +74,7 @@ function AuthPage() {
     if (r.error) setMsg("Não foi possível entrar com Google.");
   }
 
-  const label = perfil === "fornecedor" ? "Seja fornecedor ARQECO" : perfil === "afiliado" ? "Seja afiliado ARQECO" : mode === "in" ? "Bem-vindo de volta" : "Crie sua conta";
+  const label = perfil === "fornecedor" ? "Seja fornecedor ARQECO" : perfil === "afiliado" ? "Seja afiliado ARQECO" : perfil === "profissional" ? "Seja ArqEco Pro" : mode === "in" ? "Bem-vindo de volta" : "Crie sua conta";
 
   return (
     <div className="grid min-h-screen place-items-center bg-background px-5">

@@ -17,9 +17,12 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAfiliadoRouteImport } from './routes/_authenticated/afiliado'
 import { Route as AuthenticatedContratarRouteImport } from './routes/_authenticated/contratar'
 import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authenticated/fornecedor'
+import { Route as AuthenticatedPagamentoRouteImport } from './routes/_authenticated/pagamento'
+import { Route as AuthenticatedProfissionalRouteImport } from './routes/_authenticated/profissional'
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
 import { Route as RCodeRouteImport } from './routes/r.$code'
 import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -60,6 +63,17 @@ const AuthenticatedFornecedorRoute = AuthenticatedFornecedorRouteImport.update({
   path: '/fornecedor',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPagamentoRoute = AuthenticatedPagamentoRouteImport.update({
+  id: '/pagamento',
+  path: '/pagamento',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfissionalRoute =
+  AuthenticatedProfissionalRouteImport.update({
+    id: '/profissional',
+    path: '/profissional',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiZoeRoute = ApiZoeRouteImport.update({
   id: '/api/zoe',
   path: '/api/zoe',
@@ -75,6 +89,12 @@ const ApiPublicConversionsRoute = ApiPublicConversionsRouteImport.update({
   path: '/api/public/conversions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -84,9 +104,12 @@ export interface FileRoutesByFullPath {
   '/afiliado': typeof AuthenticatedAfiliadoRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
+  '/pagamento': typeof AuthenticatedPagamentoRoute
+  '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -96,9 +119,12 @@ export interface FileRoutesByTo {
   '/afiliado': typeof AuthenticatedAfiliadoRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
+  '/pagamento': typeof AuthenticatedPagamentoRoute
+  '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,9 +136,12 @@ export interface FileRoutesById {
   '/_authenticated/afiliado': typeof AuthenticatedAfiliadoRoute
   '/_authenticated/contratar': typeof AuthenticatedContratarRoute
   '/_authenticated/fornecedor': typeof AuthenticatedFornecedorRoute
+  '/_authenticated/pagamento': typeof AuthenticatedPagamentoRoute
+  '/_authenticated/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,9 +153,12 @@ export interface FileRouteTypes {
     | '/afiliado'
     | '/contratar'
     | '/fornecedor'
+    | '/pagamento'
+    | '/profissional'
     | '/api/zoe'
     | '/r/$code'
     | '/api/public/conversions'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -136,9 +168,12 @@ export interface FileRouteTypes {
     | '/afiliado'
     | '/contratar'
     | '/fornecedor'
+    | '/pagamento'
+    | '/profissional'
     | '/api/zoe'
     | '/r/$code'
     | '/api/public/conversions'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -149,9 +184,12 @@ export interface FileRouteTypes {
     | '/_authenticated/afiliado'
     | '/_authenticated/contratar'
     | '/_authenticated/fornecedor'
+    | '/_authenticated/pagamento'
+    | '/_authenticated/profissional'
     | '/api/zoe'
     | '/r/$code'
     | '/api/public/conversions'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -162,6 +200,7 @@ export interface RootRouteChildren {
   ApiZoeRoute: typeof ApiZoeRoute
   RCodeRoute: typeof RCodeRoute
   ApiPublicConversionsRoute: typeof ApiPublicConversionsRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -222,6 +261,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFornecedorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pagamento': {
+      id: '/_authenticated/pagamento'
+      path: '/pagamento'
+      fullPath: '/pagamento'
+      preLoaderRoute: typeof AuthenticatedPagamentoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profissional': {
+      id: '/_authenticated/profissional'
+      path: '/profissional'
+      fullPath: '/profissional'
+      preLoaderRoute: typeof AuthenticatedProfissionalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/zoe': {
       id: '/api/zoe'
       path: '/api/zoe'
@@ -243,6 +296,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicConversionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -251,6 +311,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAfiliadoRoute: typeof AuthenticatedAfiliadoRoute
   AuthenticatedContratarRoute: typeof AuthenticatedContratarRoute
   AuthenticatedFornecedorRoute: typeof AuthenticatedFornecedorRoute
+  AuthenticatedPagamentoRoute: typeof AuthenticatedPagamentoRoute
+  AuthenticatedProfissionalRoute: typeof AuthenticatedProfissionalRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -258,6 +320,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAfiliadoRoute: AuthenticatedAfiliadoRoute,
   AuthenticatedContratarRoute: AuthenticatedContratarRoute,
   AuthenticatedFornecedorRoute: AuthenticatedFornecedorRoute,
+  AuthenticatedPagamentoRoute: AuthenticatedPagamentoRoute,
+  AuthenticatedProfissionalRoute: AuthenticatedProfissionalRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -271,6 +335,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiZoeRoute: ApiZoeRoute,
   RCodeRoute: RCodeRoute,
   ApiPublicConversionsRoute: ApiPublicConversionsRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
