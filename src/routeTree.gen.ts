@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAfiliadoRouteImport } from './routes/_authenticated/afiliado'
+import { Route as AuthenticatedContratarRouteImport } from './routes/_authenticated/contratar'
 import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authenticated/fornecedor'
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
 import { Route as RCodeRouteImport } from './routes/r.$code'
@@ -49,6 +50,11 @@ const AuthenticatedAfiliadoRoute = AuthenticatedAfiliadoRouteImport.update({
   path: '/afiliado',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedContratarRoute = AuthenticatedContratarRouteImport.update({
+  id: '/contratar',
+  path: '/contratar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedFornecedorRoute = AuthenticatedFornecedorRouteImport.update({
   id: '/fornecedor',
   path: '/fornecedor',
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/painel': typeof PainelRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
+  '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/painel': typeof PainelRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
+  '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/painel': typeof PainelRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/afiliado': typeof AuthenticatedAfiliadoRoute
+  '/_authenticated/contratar': typeof AuthenticatedContratarRoute
   '/_authenticated/fornecedor': typeof AuthenticatedFornecedorRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
@@ -113,6 +122,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/admin'
     | '/afiliado'
+    | '/contratar'
     | '/fornecedor'
     | '/api/zoe'
     | '/r/$code'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/admin'
     | '/afiliado'
+    | '/contratar'
     | '/fornecedor'
     | '/api/zoe'
     | '/r/$code'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/_authenticated/admin'
     | '/_authenticated/afiliado'
+    | '/_authenticated/contratar'
     | '/_authenticated/fornecedor'
     | '/api/zoe'
     | '/r/$code'
@@ -196,6 +208,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAfiliadoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/contratar': {
+      id: '/_authenticated/contratar'
+      path: '/contratar'
+      fullPath: '/contratar'
+      preLoaderRoute: typeof AuthenticatedContratarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/fornecedor': {
       id: '/_authenticated/fornecedor'
       path: '/fornecedor'
@@ -230,12 +249,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAfiliadoRoute: typeof AuthenticatedAfiliadoRoute
+  AuthenticatedContratarRoute: typeof AuthenticatedContratarRoute
   AuthenticatedFornecedorRoute: typeof AuthenticatedFornecedorRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAfiliadoRoute: AuthenticatedAfiliadoRoute,
+  AuthenticatedContratarRoute: AuthenticatedContratarRoute,
   AuthenticatedFornecedorRoute: AuthenticatedFornecedorRoute,
 }
 

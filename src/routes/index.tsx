@@ -222,13 +222,11 @@ function Home() {
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 0{idx + 1}</p>
                 <h3 className="mt-2 font-display text-3xl font-semibold">{p.name}</h3>
                 <p className="mt-3 text-sm font-semibold">{p.tagline}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{p.description}</p>
-                <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.18em]">Você recebe</p>
-                <ul className="mt-3 flex-1 space-y-2 text-sm">{p.deliverables.map((d) => <li key={d} className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-primary" />{d}</li>)}</ul>
-                <div className="mt-6 border-t border-border pt-5">
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
+                <div className="mt-8 border-t border-border pt-5">
                   <p className="text-xs text-muted-foreground">{opt?.rooms_label} · a partir de</p>
                   <Price cents={opt?.price_cents ?? null} installments={opt?.installments} />
-                  <Button asChild variant={featured ? "editorial" : "paper"} className="mt-4 w-full"><Link to="/auth">{p.cta_label}</Link></Button>
+                  {opt && opt.price_cents != null ? <Button asChild variant={featured ? "editorial" : "paper"} className="mt-4 w-full"><Link to="/auth" search={{ next: `/contratar?plano=${encodeURIComponent(p.id)}&opcao=${encodeURIComponent(opt.id)}` }}>Começar agora</Link></Button> : <Button type="button" variant={featured ? "editorial" : "paper"} className="mt-4 w-full" disabled>Preço em configuração</Button>}
                   {p.footnote && <p className="mt-3 text-[11px] font-semibold text-forest-soft">{p.footnote}</p>}
                 </div>
               </article>
@@ -240,7 +238,7 @@ function Home() {
         <div className="mt-16 overflow-x-auto border border-border bg-card">
           <h3 className="px-6 pt-6 font-display text-2xl font-semibold">O que muda entre os projetos?</h3>
           <table className="mt-4 w-full min-w-[640px] text-sm">
-            <thead><tr className="border-b border-border text-left text-[11px] uppercase tracking-[0.14em] text-muted-foreground"><th className="px-6 py-3 font-semibold" /><th className="px-4 py-3">Viver Bem</th><th className="px-4 py-3">Viver Lifestyle</th><th className="px-4 py-3">Design Eco-Holístico</th></tr></thead>
+            <thead className="sticky top-20 z-10 bg-card"><tr className="border-b border-border text-left text-[11px] uppercase tracking-[0.14em] text-muted-foreground"><th className="px-6 py-3 font-semibold" /><th className="px-4 py-3">Viver Bem</th><th className="px-4 py-3">Viver Lifestyle</th><th className="px-4 py-3">Design Eco-Holístico</th></tr></thead>
             <tbody>{comparison.map(([f, ...v]) => <tr key={f} className="border-b border-border last:border-0"><td className="px-6 py-3">{f}</td>{v.map((c, i) => <td key={i} className="px-4 py-3">{c === "✓" ? <Check className="size-4 text-primary" /> : c === "—" ? <Minus className="size-4 text-muted-foreground/50" /> : <span className="text-xs text-muted-foreground">{c}</span>}</td>)}</tr>)}</tbody>
           </table>
         </div>
