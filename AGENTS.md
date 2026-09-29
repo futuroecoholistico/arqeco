@@ -20,3 +20,6 @@
 - Plans/prices live in `service_plans`/`service_plan_options`; never hardcode prices in UI.
 - Zoe is available only to authenticated architects/designers with the `professional` role; enforce this on the server because client visibility is not access control.
 - Service bookings use `appointment_slots` and `service_bookings`; reserve and calculate totals atomically through `reserve_service_booking` to prevent double booking and client-side price manipulation.
+- Plan payments use embedded checkout with `price_data` whose amount is the `total_cents` already stored by `reserve_service_booking`; the browser never sends amounts — fixed admin prices, no client manipulation.
+- Payment results arrive only via signed webhook `/api/public/payments/webhook`, which confirms the booking and blocks the slot — confirmation must not depend on the browser returning.
+- Architects apply via `partner_applications` kind `professional`; approval grants the `professional` role inside `review_partner_application` — one audited approval path.

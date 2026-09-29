@@ -16,5 +16,6 @@
 - [x] Comparador interativo de antes e depois na visualização do projeto 3D.
 - [x] Fluxo “Começar agora”: agenda disponível → dados pessoais → endereço do imóvel → revisão → pagamento preparado.
 - [x] Adicionais na contratação: mais 1 ambiente pelo valor configurado e taxa de urgência de R$ 190,00.
-- [ ] Bloqueado (usuário): ativar o pagamento após definir preços reais e confirmar o provedor recomendado.
+- [x] Pagamento real (cartão e Pix) nos planos, confirmado automaticamente; painel admin de contratos, horários, depoimentos e preços; cadastro de arquitetos com aprovação e atribuição.
+- [ ] Bloqueado (usuário): concluir a ativação do recebimento real na aba de pagamentos; definir o primeiro admin.
 - [ ] Zoe: ler materiais de referência.
