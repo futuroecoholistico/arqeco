@@ -17,6 +17,8 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAfiliadoRouteImport } from './routes/_authenticated/afiliado'
 import { Route as AuthenticatedContratarRouteImport } from './routes/_authenticated/contratar'
 import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authenticated/fornecedor'
+import { Route as AuthenticatedPagamentoRouteImport } from './routes/_authenticated/pagamento'
+import { Route as AuthenticatedProfissionalRouteImport } from './routes/_authenticated/profissional'
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
 import { Route as RCodeRouteImport } from './routes/r.$code'
 import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
@@ -61,6 +63,17 @@ const AuthenticatedFornecedorRoute = AuthenticatedFornecedorRouteImport.update({
   path: '/fornecedor',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPagamentoRoute = AuthenticatedPagamentoRouteImport.update({
+  id: '/pagamento',
+  path: '/pagamento',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfissionalRoute =
+  AuthenticatedProfissionalRouteImport.update({
+    id: '/profissional',
+    path: '/profissional',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiZoeRoute = ApiZoeRouteImport.update({
   id: '/api/zoe',
   path: '/api/zoe',
@@ -91,6 +104,8 @@ export interface FileRoutesByFullPath {
   '/afiliado': typeof AuthenticatedAfiliadoRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
+  '/pagamento': typeof AuthenticatedPagamentoRoute
+  '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
@@ -104,6 +119,8 @@ export interface FileRoutesByTo {
   '/afiliado': typeof AuthenticatedAfiliadoRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
+  '/pagamento': typeof AuthenticatedPagamentoRoute
+  '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
@@ -119,6 +136,8 @@ export interface FileRoutesById {
   '/_authenticated/afiliado': typeof AuthenticatedAfiliadoRoute
   '/_authenticated/contratar': typeof AuthenticatedContratarRoute
   '/_authenticated/fornecedor': typeof AuthenticatedFornecedorRoute
+  '/_authenticated/pagamento': typeof AuthenticatedPagamentoRoute
+  '/_authenticated/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
@@ -134,6 +153,8 @@ export interface FileRouteTypes {
     | '/afiliado'
     | '/contratar'
     | '/fornecedor'
+    | '/pagamento'
+    | '/profissional'
     | '/api/zoe'
     | '/r/$code'
     | '/api/public/conversions'
@@ -147,6 +168,8 @@ export interface FileRouteTypes {
     | '/afiliado'
     | '/contratar'
     | '/fornecedor'
+    | '/pagamento'
+    | '/profissional'
     | '/api/zoe'
     | '/r/$code'
     | '/api/public/conversions'
@@ -161,6 +184,8 @@ export interface FileRouteTypes {
     | '/_authenticated/afiliado'
     | '/_authenticated/contratar'
     | '/_authenticated/fornecedor'
+    | '/_authenticated/pagamento'
+    | '/_authenticated/profissional'
     | '/api/zoe'
     | '/r/$code'
     | '/api/public/conversions'
@@ -236,6 +261,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFornecedorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pagamento': {
+      id: '/_authenticated/pagamento'
+      path: '/pagamento'
+      fullPath: '/pagamento'
+      preLoaderRoute: typeof AuthenticatedPagamentoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profissional': {
+      id: '/_authenticated/profissional'
+      path: '/profissional'
+      fullPath: '/profissional'
+      preLoaderRoute: typeof AuthenticatedProfissionalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/zoe': {
       id: '/api/zoe'
       path: '/api/zoe'
@@ -272,6 +311,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAfiliadoRoute: typeof AuthenticatedAfiliadoRoute
   AuthenticatedContratarRoute: typeof AuthenticatedContratarRoute
   AuthenticatedFornecedorRoute: typeof AuthenticatedFornecedorRoute
+  AuthenticatedPagamentoRoute: typeof AuthenticatedPagamentoRoute
+  AuthenticatedProfissionalRoute: typeof AuthenticatedProfissionalRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -279,6 +320,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAfiliadoRoute: AuthenticatedAfiliadoRoute,
   AuthenticatedContratarRoute: AuthenticatedContratarRoute,
   AuthenticatedFornecedorRoute: AuthenticatedFornecedorRoute,
+  AuthenticatedPagamentoRoute: AuthenticatedPagamentoRoute,
+  AuthenticatedProfissionalRoute: AuthenticatedProfissionalRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
