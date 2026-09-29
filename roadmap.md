@@ -19,3 +19,4 @@
 - [x] Pagamento real (cartão e Pix) nos planos, confirmado automaticamente; painel admin de contratos, horários, depoimentos e preços; cadastro de arquitetos com aprovação e atribuição.
 - [ ] Bloqueado (usuário): concluir a ativação do recebimento real na aba de pagamentos; definir o primeiro admin.
 - [ ] Zoe: ler materiais de referência.
+- [ ] Separar Projeto Design Eco-Holístico do Acompanhamento recorrente; criar mensal, trimestral e anual, checkout, gestão e acesso trimestral ao especialista.
