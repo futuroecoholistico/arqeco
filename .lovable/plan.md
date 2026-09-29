@@ -1,22 +1,36 @@
-# Planos com contratação direta
+# Contratação e agendamento simplificados
 
 ## Objetivo
-Usar a estrutura prática da referência sem copiar sua identidade visual, mantendo a estética ARQECO e a tabela comparativa completa.
+Usar a praticidade da referência sem copiar sua identidade visual, mantendo a estética ARQECO e a tabela comparativa completa.
 
-## Alterações
-- Simplificar cada plano para mostrar apenas nome, proposta principal, ambiente selecionado, preço e a ação **“Começar agora”**.
-- Remover das caixas dos planos as listas longas e os detalhamentos que já estão disponíveis na tabela comparativa.
-- Manter a seleção rápida da quantidade de ambientes e refletir imediatamente o preço correspondente.
-- Preservar integralmente a tabela comparativa, com os nomes dos planos sempre visíveis durante a leitura.
-- Fazer **“Começar agora”** guardar o plano e a quantidade de ambientes escolhidos ao levar a pessoa ao acesso/cadastro.
-- Após o acesso, apresentar um resumo curto da escolha e ações diretas para contratar ou agendar, sem explicações extensas.
+## Jornada “Começar agora”
+1. A pessoa escolhe o plano e a quantidade de ambientes na página inicial.
+2. **Começar agora** abre a agenda com apenas os horários disponíveis.
+3. Após escolher o horário, a pessoa informa nome, e-mail e telefone.
+4. Em seguida, informa os dados do imóvel e o endereço completo.
+5. Antes do pagamento, revisa plano, ambientes, horário e endereço.
+6. Pode adicionar mais 1 ambiente e/ou a taxa de urgência de **R$ 190,00**.
+7. Finaliza com CPF e dados de pagamento.
+
+## Planos
+- Simplificar cada plano para mostrar nome, proposta principal, ambiente selecionado, preço e **Começar agora**.
+- Remover das caixas as listas longas que já aparecem na comparação.
+- Manter a seleção rápida de ambientes e a atualização imediata do preço.
+- Preservar integralmente a tabela comparativa, com os nomes dos planos visíveis durante a leitura.
+
+## Dados e regras
+- Manter planos e preços configuráveis no painel da equipe.
+- Salvar agendamento e contratação na conta da pessoa.
+- Validar todos os dados em cada etapa e impedir reserva de horário indisponível.
+- Somar os adicionais ao total antes de abrir o pagamento.
+- Não criar preços fictícios para planos nem para o ambiente extra; usar os valores configurados.
+
+## Pagamento
+- Conectar o checkout somente após os produtos e preços reais estarem configurados.
+- Registrar o resultado do pagamento e confirmar o agendamento apenas após aprovação.
+- Manter CPF e dados sensíveis de pagamento no ambiente seguro do provedor, sem armazenar cartão na ARQECO.
 
 ## Validação
-- Conferir seleção de ambientes, preço e plano escolhido.
-- Testar a continuidade antes e depois do acesso.
-- Validar leitura e interação em computador e celular.
-
-## Detalhes técnicos
-- Reutilizar os planos e preços configuráveis já existentes.
-- Reutilizar o redirecionamento seguro após o acesso.
-- Não alterar os dados da tabela comparativa nem criar preços fictícios.
+- Testar a jornada completa em computador e celular.
+- Confirmar seleção de horário, formulários, adicionais, total e retorno do pagamento.
+- Validar que a tabela comparativa permaneceu completa.
