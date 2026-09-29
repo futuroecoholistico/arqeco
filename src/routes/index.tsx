@@ -51,24 +51,6 @@ const faq: [string, string][] = [
   ["O que é o Certificado ArqEco?", "Um registro emitido para projetos elegíveis, conforme critérios e metodologia definidos pela plataforma."],
 ];
 
-const testimonials = [
-  {
-    quote: "O projeto trouxe clareza para decisões que antes pareciam difíceis. Conseguimos enxergar o conjunto antes de começar a comprar.",
-    context: "Cliente residencial",
-    project: "Sala de estar",
-  },
-  {
-    quote: "A curadoria organizou nossas escolhas e aproximou estética, rotina e materiais mais conscientes em uma mesma direção.",
-    context: "Cliente residencial",
-    project: "Apartamento compacto",
-  },
-  {
-    quote: "O processo online foi objetivo sem perder a escuta. Cada etapa ajudou a transformar necessidades reais em soluções para o espaço.",
-    context: "Cliente profissional",
-    project: "Espaço de atendimento",
-  },
-];
-
 const illustrativeResults = [
   ["01", "Mais clareza", "para visualizar o ambiente e decidir antes da execução."],
   ["02", "Escolhas organizadas", "com materiais, produtos e referências reunidos no projeto."],
@@ -77,6 +59,13 @@ const illustrativeResults = [
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-forest-soft"><span className="h-px w-8 bg-forest-soft" />{children}</p>;
+}
+
+function useTestimonials() {
+  return useQuery({
+    queryKey: ["testimonials"],
+    queryFn: async () => (await supabase.from("testimonials").select("id,author_name,context,project_label,quote").eq("is_active", true).order("sort_order")).data ?? [],
+  });
 }
 
 function usePlans() {
@@ -193,6 +182,7 @@ function BeforeAfter() {
 function Home() {
   const [open, setOpen] = useState(false);
   const plans = usePlans();
+  const testimonials = useTestimonials().data ?? [];
   const [rooms, setRooms] = useState(1);
   const [modes, setModes] = useState<Record<string, number>>({});
   const viewers = useLiveViewers();
@@ -428,20 +418,17 @@ function Home() {
               <Eyebrow>Experiências e resultados</Eyebrow>
               <h2 className="mt-4 max-w-3xl font-display text-4xl font-bold md:text-5xl">Quando o projeto faz sentido, a transformação vai além da estética.</h2>
             </div>
-            <p className="border-l border-border pl-5 text-sm leading-relaxed text-muted-foreground">Os relatos e resultados abaixo são exemplos ilustrativos de como esta seção será apresentada. Serão substituídos por experiências reais e autorizadas.</p>
+            <p className="border-l border-border pl-5 text-sm leading-relaxed text-muted-foreground">Relatos de quem viveu a experiência ArqEco.</p>
           </div>
 
           <div className="mt-12 grid gap-px overflow-hidden border border-border bg-border lg:grid-cols-3">
-            {testimonials.map((testimonial, index) => (
-              <figure key={testimonial.project} className="flex min-h-72 flex-col bg-background p-7">
-                <div className="flex items-center justify-between">
-                  <Quote className="size-7 text-primary" aria-hidden="true" />
-                  <span className="text-[9px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Depoimento ilustrativo</span>
-                </div>
+            {testimonials.map((testimonial) => (
+              <figure key={testimonial.id} className="flex min-h-72 flex-col bg-background p-7">
+                <Quote className="size-7 text-primary" aria-hidden="true" />
                 <blockquote className="mt-8 flex-1 font-display text-2xl font-medium leading-snug">“{testimonial.quote}”</blockquote>
                 <figcaption className="mt-8 border-t border-border pt-4">
-                  <p className="text-sm font-semibold">{testimonial.context}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{testimonial.project} · Exemplo 0{index + 1}</p>
+                  <p className="text-sm font-semibold">{testimonial.author_name}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{[testimonial.context, testimonial.project_label].filter(Boolean).join(" · ")}</p>
                 </figcaption>
               </figure>
             ))}
