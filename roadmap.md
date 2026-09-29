@@ -14,6 +14,7 @@
 - [x] Home redesenhada com presença institucional eco-humanista, paleta verde/preto/bege e composição editorial assimétrica.
 - [x] Direção Sophisticated Eco-Futurism aplicada: Playfair Display + Montserrat, preto/bege dominantes e ações no verde do logo.
 - [x] Comparador interativo de antes e depois na visualização do projeto 3D.
-- [ ] Fluxo “Começar agora”: agenda disponível → dados pessoais → endereço do imóvel → adicionais → pagamento.
-- [ ] Adicionais na contratação: mais 1 ambiente e taxa de urgência de R$ 190,00.
+- [x] Fluxo “Começar agora”: agenda disponível → dados pessoais → endereço do imóvel → revisão → pagamento preparado.
+- [x] Adicionais na contratação: mais 1 ambiente pelo valor configurado e taxa de urgência de R$ 190,00.
+- [ ] Bloqueado (usuário): ativar o pagamento após definir preços reais e confirmar o provedor recomendado.
 - [ ] Zoe: ler materiais de referência.
