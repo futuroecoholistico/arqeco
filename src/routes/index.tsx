@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { ArrowRight, Check, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
@@ -92,6 +92,33 @@ function usePlans() {
 function Price({ cents, installments }: { cents: number | null; installments?: number | undefined }) {
   if (cents == null) return <p className="font-display text-2xl font-semibold">Preço em breve</p>;
   return <div><p className="font-display text-3xl font-semibold">{brl(cents)}</p>{installments ? <p className="text-xs text-muted-foreground">ou {installments}x de {brl(Math.ceil(cents / installments))}</p> : null}</div>;
+}
+
+function PlanDetails({ description, deliverables }: { description: string | null; deliverables: string[] | null }) {
+  const [open, setOpen] = useState(false);
+  const items = deliverables ?? [];
+  if (!description && items.length === 0) return <div className="flex-1" />;
+  return (
+    <div className="mt-3 flex-1">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between gap-2 text-left text-[11px] font-bold uppercase tracking-[0.16em] text-forest-soft transition-colors hover:text-primary"
+      >
+        Detalhes do plano
+        <ChevronDown className={`size-4 shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+      </button>
+      {open && (
+        <div className="mt-3 space-y-3 border-l-2 border-primary/30 pl-4">
+          {description && <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>}
+          {items.length > 0 && (
+            <ul className="space-y-2 text-sm">{items.map((d) => <li key={d} className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />{d}</li>)}</ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 function BeforeAfter() {
@@ -222,7 +249,7 @@ function Home() {
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 0{idx + 1}</p>
                 <h3 className="mt-2 font-display text-3xl font-semibold">{p.name}</h3>
                 <p className="mt-3 text-sm font-semibold">{p.tagline}</p>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
+                <PlanDetails description={p.description} deliverables={p.deliverables} />
                 <div className="mt-8 border-t border-border pt-5">
                   <p className="text-xs text-muted-foreground">{opt?.rooms_label} · a partir de</p>
                   <Price cents={opt?.price_cents ?? null} installments={opt?.installments} />
