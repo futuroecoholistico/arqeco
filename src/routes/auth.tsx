@@ -69,8 +69,7 @@ function AuthPage() {
   }
 
   async function google() {
-    sessionStorage.setItem("arqeco_auth_next", target);
-    const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: `${window.location.origin}/auth` });
+    const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: `${window.location.origin}/auth?next=${encodeURIComponent(target)}` });
     if (r.error) setMsg("Não foi possível entrar com Google.");
   }
 
