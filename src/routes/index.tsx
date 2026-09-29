@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { ArrowRight, Check, ChevronDown, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, Check, ChevronDown, Eye, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
@@ -29,8 +29,9 @@ export const Route = createFileRoute("/")({
 const nav = [["Projetos", "#planos"], ["Como funciona", "#como-funciona"], ["Curadoria", "#curadoria"], ["ArqEco Pro", "#pro"], ["Sobre", "#sobre"]];
 
 const comparison: [string, string, string, string][] = [
-  ["Projeto de interiores", "✓", "✓", "✓"], ["Layout", "✓", "✓", "✓"], ["Estilo e estética", "✓", "✓", "✓"],
-  ["Visualização 3D", "✓", "✓", "conforme plano"], ["Lista de materiais", "✓", "✓", "✓"], ["Curadoria ArqEco", "✓", "✓", "✓"],
+  ["Formato", "Projeto", "Projeto", "Consultoria"], ["Projeto de interiores", "✓", "✓", "à parte"], ["Layout", "✓", "✓", "à parte"], ["Estilo e estética", "✓", "✓", "✓"],
+  ["Visualização 3D personalizada", "✓", "✓", "à parte"], ["Lista de materiais", "✓", "✓", "à parte"], ["Curadoria ArqEco", "✓", "✓", "✓"],
+  ["Harmonização de ambientes", "—", "—", "✓"], ["Faça você mesmo pelo app", "—", "—", "✓"],
   ["Sustentabilidade", "✓", "✓", "✓"], ["Conforto ambiental", "✓", "✓", "✓"], ["Rotina e hábitos", "—", "✓", "✓"],
   ["Biophilia", "—", "✓", "✓"], ["Neuroarquitetura", "—", "✓", "✓"], ["Sensorialidade", "—", "—", "✓"],
   ["Cinco elementos", "—", "—", "✓"], ["Dimensão vibracional", "—", "—", "✓"], ["Relatório Eco-Holístico", "—", "—", "✓"],
@@ -82,16 +83,54 @@ function usePlans() {
   return useQuery({
     queryKey: ["plans"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("service_plans").select("id,slug,name,tagline,description,badge,cta_label,deliverables,footnote,sort_order,service_plan_options(id,rooms_label,price_cents,installments,sort_order)").eq("is_active", true).order("sort_order");
+      const { data, error } = await supabase.from("service_plans").select("id,slug,name,tagline,description,badge,cta_label,deliverables,footnote,sort_order,service_plan_options(id,rooms_label,description,price_cents,compare_at_price_cents,price_per_room,is_starting_price,installments,sort_order)").eq("is_active", true).order("sort_order");
       if (error) throw error;
       return (data ?? []).map((p) => ({ ...p, service_plan_options: [...p.service_plan_options].sort((a, b) => a.sort_order - b.sort_order) }));
     },
   });
 }
 
-function Price({ cents, installments }: { cents: number | null; installments?: number | undefined }) {
-  if (cents == null) return <p className="font-display text-2xl font-semibold">Preço em breve</p>;
-  return <div><p className="font-display text-3xl font-semibold">{brl(cents)}</p>{installments ? <p className="text-xs text-muted-foreground">ou {installments}x de {brl(Math.ceil(cents / installments))}</p> : null}</div>;
+/** Contagem real de visitantes na página de planos, via presença em tempo real. */
+function useLiveViewers() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const key = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : String(Math.random());
+    const channel = supabase.channel("home-plans-viewers", { config: { presence: { key } } });
+    channel
+      .on("presence", { event: "sync" }, () => setCount(Object.keys(channel.presenceState()).length))
+      .subscribe((status) => { if (status === "SUBSCRIBED") void channel.track({ at: Date.now() }); });
+    return () => { void supabase.removeChannel(channel); };
+  }, []);
+  return count;
+}
+
+function LiveViewers({ count }: { count: number }) {
+  if (count < 1) return null;
+  return (
+    <p className="mt-2 flex items-center gap-2 text-[11px] font-semibold text-forest-soft" aria-live="polite">
+      <span className="relative flex size-2"><span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-60" /><span className="relative inline-flex size-2 rounded-full bg-primary" /></span>
+      <Eye className="size-3.5" aria-hidden="true" />
+      {count === 1 ? "1 pessoa vendo agora" : `${count} pessoas vendo agora`}
+    </p>
+  );
+}
+
+type PlanOpt = { price_cents: number | null; compare_at_price_cents: number | null; price_per_room: boolean; is_starting_price: boolean; installments: number };
+
+function Price({ opt }: { opt: PlanOpt | undefined }) {
+  if (!opt || opt.price_cents == null) return <p className="font-display text-2xl font-semibold">Preço em breve</p>;
+  const cents = opt.price_cents;
+  const compare = opt.compare_at_price_cents;
+  const off = compare && compare > cents ? Math.round((1 - cents / compare) * 100) : 0;
+  return (
+    <div>
+      {off > 0 && compare && (
+        <p className="flex items-center gap-2 text-sm text-muted-foreground"><span className="line-through">{brl(compare)}</span><span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-primary-foreground">{off}% off</span></p>
+      )}
+      <p className="font-display text-3xl font-semibold">{opt.is_starting_price && <span className="mr-1 text-sm font-normal text-muted-foreground">a partir de</span>}{brl(cents)}{opt.price_per_room && <span className="ml-1 text-sm font-normal text-muted-foreground">/ ambiente</span>}</p>
+      {!opt.price_per_room && opt.installments ? <p className="text-xs text-muted-foreground">ou {opt.installments}x de {brl(Math.ceil(cents / opt.installments))}</p> : null}
+    </div>
+  );
 }
 
 function PlanDetails({ description, deliverables }: { description: string | null; deliverables: string[] | null }) {
@@ -154,8 +193,10 @@ function BeforeAfter() {
 function Home() {
   const [open, setOpen] = useState(false);
   const plans = usePlans();
-  const [rooms, setRooms] = useState(0);
-  const roomLabels = plans.data?.[0]?.service_plan_options.map((o) => o.rooms_label) ?? [];
+  const [rooms, setRooms] = useState(1);
+  const [modes, setModes] = useState<Record<string, number>>({});
+  const viewers = useLiveViewers();
+  const roomLabels = plans.data?.find((p) => !p.service_plan_options.some((o) => o.price_per_room))?.service_plan_options.map((o) => o.rooms_label) ?? [];
 
   return (
     <div className="bg-background text-foreground">
@@ -241,7 +282,12 @@ function Home() {
           {plans.isLoading && [0, 1, 2].map((i) => <div key={i} className="h-[560px] animate-pulse rounded-lg bg-card" />)}
           {plans.isError && <p className="text-sm text-muted-foreground">Não foi possível carregar os planos agora.</p>}
           {plans.data?.map((p, idx) => {
-            const opt = p.service_plan_options[rooms] ?? p.service_plan_options[0];
+            const perRoom = p.service_plan_options.some((o) => o.price_per_room);
+            const priced = p.service_plan_options.find((o) => o.price_cents != null);
+            const byLabel = p.service_plan_options.find((o) => o.rooms_label === roomLabels[rooms]);
+            const opt = perRoom
+              ? p.service_plan_options[modes[p.id] ?? 0]
+              : byLabel?.price_cents != null ? byLabel : priced ?? byLabel ?? p.service_plan_options[0];
             const featured = idx === 1;
             return (
               <article key={p.id} className={`relative flex flex-col border p-7 ${featured ? "border-primary bg-card shadow-editorial" : "border-border bg-card"}`}>
@@ -249,10 +295,21 @@ function Home() {
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 0{idx + 1}</p>
                 <h3 className="mt-2 font-display text-3xl font-semibold">{p.name}</h3>
                 <p className="mt-3 text-sm font-semibold">{p.tagline}</p>
+                <LiveViewers count={viewers} />
+                {perRoom && (
+                  <div className="mt-4 grid gap-2" aria-label={`Modalidades do ${p.name}`}>
+                    {p.service_plan_options.map((o, i) => (
+                      <button key={o.id} type="button" aria-pressed={(modes[p.id] ?? 0) === i} onClick={() => setModes((m) => ({ ...m, [p.id]: i }))} className={`border px-3 py-2 text-left text-xs transition-colors ${(modes[p.id] ?? 0) === i ? "border-primary bg-primary/10" : "border-border hover:border-primary/60"}`}>
+                        <span className="block font-semibold">{o.rooms_label}</span>
+                        {o.description && <span className="text-muted-foreground">{o.description}</span>}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <PlanDetails description={p.description} deliverables={p.deliverables} />
                 <div className="mt-8 border-t border-border pt-5">
-                  <p className="text-xs text-muted-foreground">{opt?.rooms_label} · a partir de</p>
-                  <Price cents={opt?.price_cents ?? null} installments={opt?.installments} />
+                  <p className="text-xs text-muted-foreground">{perRoom ? opt?.rooms_label : `Até ${opt?.rooms_label ?? ""}`}</p>
+                  <Price opt={opt} />
                   {opt && opt.price_cents != null ? <Button asChild variant={featured ? "editorial" : "paper"} className="mt-4 w-full"><Link to="/auth" search={{ next: `/contratar?plano=${encodeURIComponent(p.id)}&opcao=${encodeURIComponent(opt.id)}` }}>Começar agora</Link></Button> : <Button type="button" variant={featured ? "editorial" : "paper"} className="mt-4 w-full" disabled>Preço em configuração</Button>}
                   {p.footnote && <p className="mt-3 text-[11px] font-semibold text-forest-soft">{p.footnote}</p>}
                 </div>
