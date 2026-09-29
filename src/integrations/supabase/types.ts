@@ -601,48 +601,60 @@ export type Database = {
       }
       service_plan_options: {
         Row: {
+          compare_at_price_cents: number | null
           created_at: string
           delivery_days: number | null
+          description: string | null
           id: string
           includes_3d: boolean
           includes_material_list: boolean
           includes_tour: boolean
           installments: number
+          is_starting_price: boolean
           meetings: number | null
           plan_id: string
           price_cents: number | null
+          price_per_room: boolean
           revisions: number | null
           rooms_label: string
           sort_order: number
           updated_at: string
         }
         Insert: {
+          compare_at_price_cents?: number | null
           created_at?: string
           delivery_days?: number | null
+          description?: string | null
           id?: string
           includes_3d?: boolean
           includes_material_list?: boolean
           includes_tour?: boolean
           installments?: number
+          is_starting_price?: boolean
           meetings?: number | null
           plan_id: string
           price_cents?: number | null
+          price_per_room?: boolean
           revisions?: number | null
           rooms_label: string
           sort_order?: number
           updated_at?: string
         }
         Update: {
+          compare_at_price_cents?: number | null
           created_at?: string
           delivery_days?: number | null
+          description?: string | null
           id?: string
           includes_3d?: boolean
           includes_material_list?: boolean
           includes_tour?: boolean
           installments?: number
+          is_starting_price?: boolean
           meetings?: number | null
           plan_id?: string
           price_cents?: number | null
+          price_per_room?: boolean
           revisions?: number | null
           rooms_label?: string
           sort_order?: number
