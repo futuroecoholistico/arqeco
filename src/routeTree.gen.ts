@@ -20,6 +20,7 @@ import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authentic
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
 import { Route as RCodeRouteImport } from './routes/r.$code'
 import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -75,6 +76,12 @@ const ApiPublicConversionsRoute = ApiPublicConversionsRouteImport.update({
   path: '/api/public/conversions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -99,6 +107,7 @@ export interface FileRoutesByTo {
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -113,6 +122,7 @@ export interface FileRoutesById {
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/api/zoe'
     | '/r/$code'
     | '/api/public/conversions'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/api/zoe'
     | '/r/$code'
     | '/api/public/conversions'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -152,6 +164,7 @@ export interface FileRouteTypes {
     | '/api/zoe'
     | '/r/$code'
     | '/api/public/conversions'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -162,6 +175,7 @@ export interface RootRouteChildren {
   ApiZoeRoute: typeof ApiZoeRoute
   RCodeRoute: typeof RCodeRoute
   ApiPublicConversionsRoute: typeof ApiPublicConversionsRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -243,6 +257,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicConversionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -271,6 +292,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiZoeRoute: ApiZoeRoute,
   RCodeRoute: RCodeRoute,
   ApiPublicConversionsRoute: ApiPublicConversionsRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

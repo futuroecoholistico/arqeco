@@ -12,6 +12,10 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { brl } from "@/components/PartnerShell";
 import { supabase } from "@/integrations/supabase/client";
+import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
+import { getStripe, getStripeEnvironment } from "@/lib/stripe";
+import { createBookingCheckout } from "@/lib/payments.functions";
+import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 
 const searchSchema = z.object({
   plano: z.string().uuid(),
@@ -71,6 +75,7 @@ function BookingPage() {
   const [property, setProperty] = useState({ propertyType: "", postalCode: "", street: "", number: "", complement: "", neighborhood: "", city: "", state: "" });
   const [extraRoom, setExtraRoom] = useState(false);
   const [urgent, setUrgent] = useState(false);
+  const [roomCount, setRoomCount] = useState(1);
   const [bookingId, setBookingId] = useState<string>();
   const [error, setError] = useState<string>();
   const [busy, setBusy] = useState(false);
@@ -80,7 +85,7 @@ function BookingPage() {
     queryFn: async () => {
       const { data, error: queryError } = await supabase
         .from("service_plan_options")
-        .select("id,rooms_label,price_cents,sort_order,service_plans!inner(id,name,tagline)")
+        .select("id,rooms_label,price_cents,price_per_room,sort_order,service_plans!inner(id,name,tagline)")
         .eq("id", opcao)
         .eq("plan_id", plano)
         .single();
@@ -115,8 +120,10 @@ function BookingPage() {
   const availableDays = useMemo(() => new Set((slots.data ?? []).map((slot) => new Date(slot.starts_at).toDateString())), [slots.data]);
   const daySlots = useMemo(() => selectedDay ? (slots.data ?? []).filter((slot) => new Date(slot.starts_at).toDateString() === selectedDay.toDateString()) : [], [selectedDay, slots.data]);
   const chosenSlot = slots.data?.find((slot) => slot.id === selectedSlot);
-  const basePrice = selection.data?.price_cents ?? null;
-  const extraRoomPrice = basePrice != null && selection.data?.nextPrice != null ? Math.max(0, selection.data.nextPrice - basePrice) : null;
+  const perRoom = selection.data?.price_per_room === true;
+  const unitPrice = selection.data?.price_cents ?? null;
+  const basePrice = unitPrice == null ? null : perRoom ? unitPrice * roomCount : unitPrice;
+  const extraRoomPrice = perRoom ? unitPrice : unitPrice != null && selection.data?.nextPrice != null ? Math.max(0, selection.data.nextPrice - unitPrice) : null;
   const selectedExtraPrice = extraRoom ? extraRoomPrice : 0;
   const total = basePrice == null || selectedExtraPrice == null ? null : basePrice + selectedExtraPrice + (urgent ? 19000 : 0);
 
@@ -156,6 +163,7 @@ function BookingPage() {
   async function preparePayment() {
     if (!bookingId || !selectedSlot || total == null) return;
     setBusy(true); setError(undefined);
+    if (perRoom) await supabase.from("service_bookings").update({ room_count: roomCount }).eq("id", bookingId);
     const { error: reserveError } = await supabase.rpc("reserve_service_booking", {
       _booking_id: bookingId,
       _slot_id: selectedSlot,
@@ -185,6 +193,7 @@ function BookingPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <PaymentTestModeBanner />
       <header className="border-b border-border bg-sidebar text-sidebar-foreground">
         <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5">
           <Link to="/" className="font-display text-2xl font-semibold">ARQECO</Link>
@@ -210,9 +219,9 @@ function BookingPage() {
 
             {step === 3 && <div><StepTitle icon={MapPin} eyebrow="Etapa 3 de 5" title="Onde está o imóvel?" text="Essas informações ajudam a preparar a primeira conversa sobre o espaço." /><div className="mt-8 grid gap-5 sm:grid-cols-2"><Field label="Tipo de imóvel" className="sm:col-span-2"><Select value={property.propertyType} onValueChange={(value) => setProperty({ ...property, propertyType: value })}><SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger><SelectContent><SelectItem value="Apartamento">Apartamento</SelectItem><SelectItem value="Casa">Casa</SelectItem><SelectItem value="Comercial">Espaço comercial</SelectItem><SelectItem value="Outro">Outro</SelectItem></SelectContent></Select></Field><Field label="CEP"><Input inputMode="numeric" value={property.postalCode} onChange={(e) => setProperty({ ...property, postalCode: e.target.value })} maxLength={9} autoComplete="postal-code" /></Field><Field label="Rua / avenida"><Input value={property.street} onChange={(e) => setProperty({ ...property, street: e.target.value })} maxLength={160} autoComplete="street-address" /></Field><Field label="Número"><Input value={property.number} onChange={(e) => setProperty({ ...property, number: e.target.value })} maxLength={20} /></Field><Field label="Complemento"><Input value={property.complement} onChange={(e) => setProperty({ ...property, complement: e.target.value })} maxLength={100} /></Field><Field label="Bairro"><Input value={property.neighborhood} onChange={(e) => setProperty({ ...property, neighborhood: e.target.value })} maxLength={100} /></Field><Field label="Cidade"><Input value={property.city} onChange={(e) => setProperty({ ...property, city: e.target.value })} maxLength={100} /></Field><Field label="Estado (UF)"><Input value={property.state} onChange={(e) => setProperty({ ...property, state: e.target.value.toUpperCase() })} maxLength={2} autoComplete="address-level1" /></Field></div><StepActions back={back} next={goFromProperty} /></div>}
 
-            {step === 4 && <div><StepTitle icon={ShieldCheck} eyebrow="Etapa 4 de 5" title="Revise antes de continuar." text="Confira a contratação e escolha os adicionais que fazem sentido para você." /><div className="mt-8 divide-y divide-border border-y border-border"><ReviewRow label="Atendimento" value={chosenSlot ? `${formatDay(new Date(chosenSlot.starts_at))}, ${formatTime(chosenSlot.starts_at)}` : "—"} /><ReviewRow label="Contato" value={`${contact.fullName} · ${contact.email} · ${contact.phone}`} /><ReviewRow label="Imóvel" value={`${property.propertyType} · ${property.street}, ${property.number}${property.complement ? `, ${property.complement}` : ""} · ${property.city}/${property.state}`} /></div><div className="mt-8 space-y-3"><ExtraOption checked={extraRoom} onCheckedChange={setExtraRoom} title="Incluir mais 1 ambiente" price={extraRoomPrice == null ? "Valor ainda não configurado" : `+ ${brl(extraRoomPrice)}`} disabled={extraRoomPrice == null} /><ExtraOption checked={urgent} onCheckedChange={setUrgent} title="Prioridade na entrega" price="+ R$ 190,00" /></div>{total == null && <p className="mt-5 border-l-2 border-primary pl-4 text-sm text-muted-foreground">O pagamento será liberado assim que o preço deste plano e dos adicionais estiver configurado.</p>}<StepActions back={back} next={preparePayment} busy={busy} disabled={total == null} nextLabel="Ir para pagamento seguro" /></div>}
+            {step === 4 && <div><StepTitle icon={ShieldCheck} eyebrow="Etapa 4 de 5" title="Revise antes de continuar." text="Confira a contratação e escolha os adicionais que fazem sentido para você." /><div className="mt-8 divide-y divide-border border-y border-border"><ReviewRow label="Atendimento" value={chosenSlot ? `${formatDay(new Date(chosenSlot.starts_at))}, ${formatTime(chosenSlot.starts_at)}` : "—"} /><ReviewRow label="Contato" value={`${contact.fullName} · ${contact.email} · ${contact.phone}`} /><ReviewRow label="Imóvel" value={`${property.propertyType} · ${property.street}, ${property.number}${property.complement ? `, ${property.complement}` : ""} · ${property.city}/${property.state}`} /></div><div className="mt-8 space-y-3">{perRoom && <div className="flex items-center gap-4 border border-border bg-card p-5"><span className="flex-1 text-sm font-semibold">Quantidade de ambientes</span><Button type="button" size="sm" variant="paper" onClick={() => setRoomCount((n) => Math.max(1, n - 1))} aria-label="Menos um ambiente">−</Button><span className="w-6 text-center font-semibold">{roomCount}</span><Button type="button" size="sm" variant="paper" onClick={() => setRoomCount((n) => Math.min(30, n + 1))} aria-label="Mais um ambiente">+</Button></div>}{!perRoom && <ExtraOption checked={extraRoom} onCheckedChange={setExtraRoom} title="Incluir mais 1 ambiente" price={extraRoomPrice == null ? "Valor ainda não configurado" : `+ ${brl(extraRoomPrice)}`} disabled={extraRoomPrice == null} />}<ExtraOption checked={urgent} onCheckedChange={setUrgent} title="Prioridade na entrega" price="+ R$ 190,00" /></div>{total == null && <p className="mt-5 border-l-2 border-primary pl-4 text-sm text-muted-foreground">O pagamento será liberado assim que o preço deste plano e dos adicionais estiver configurado.</p>}<StepActions back={back} next={preparePayment} busy={busy} disabled={total == null} nextLabel="Ir para pagamento seguro" /></div>}
 
-            {step === 5 && <div><StepTitle icon={CreditCard} eyebrow="Etapa 5 de 5" title="Pagamento seguro" text="Seu horário foi reservado enquanto a contratação aguarda o pagamento." /><div className="mt-8 border border-border bg-card p-7"><div className="flex items-start gap-4"><ShieldCheck className="mt-1 size-6 shrink-0 text-primary" /><div><h2 className="font-display text-2xl font-semibold">Pagamento protegido pelo provedor</h2><p className="mt-3 text-sm leading-relaxed text-muted-foreground">CPF e dados do cartão serão informados diretamente no ambiente seguro de pagamento. A ARQECO não armazena esses dados.</p><p className="mt-5 text-sm font-semibold text-primary">A conexão para pagamento será ativada após a configuração dos preços reais e do meio de pagamento.</p></div></div></div><div className="mt-8 flex flex-wrap gap-3"><Button type="button" variant="paper" onClick={back}><ArrowLeft /> Voltar à revisão</Button><Button asChild variant="editorial"><Link to="/painel">Ir para meu painel <ArrowRight /></Link></Button></div></div>}
+            {step === 5 && bookingId && <div><StepTitle icon={CreditCard} eyebrow="Etapa 5 de 5" title="Pagamento seguro" text="Seu horário fica reservado enquanto você conclui o pagamento com cartão ou Pix. CPF e dados do cartão são informados diretamente no ambiente seguro do pagamento." /><div className="mt-8 border border-border bg-card"><BookingCheckout bookingId={bookingId} /></div><div className="mt-6"><Button type="button" variant="paper" onClick={back}><ArrowLeft /> Voltar à revisão</Button></div></div>}
 
             {error && <p role="alert" className="mt-6 border-l-2 border-destructive pl-4 text-sm text-destructive">{error}</p>}
           </section>
@@ -221,7 +230,7 @@ function BookingPage() {
             <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Seu projeto</p>
             <h2 className="mt-3 font-display text-2xl font-semibold">{selection.data?.service_plans.name ?? "Carregando…"}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{selection.data?.rooms_label}</p>
-            <div className="mt-6 space-y-3 border-y border-border py-5 text-sm"><div className="flex justify-between gap-3"><span>Projeto</span><span>{basePrice == null ? "A definir" : brl(basePrice)}</span></div>{extraRoom && <div className="flex justify-between gap-3"><span>+ 1 ambiente</span><span>{extraRoomPrice == null ? "A definir" : brl(extraRoomPrice)}</span></div>}{urgent && <div className="flex justify-between gap-3"><span>Prioridade</span><span>{brl(19000)}</span></div>}</div>
+            <div className="mt-6 space-y-3 border-y border-border py-5 text-sm"><div className="flex justify-between gap-3"><span>Projeto{perRoom ? ` (${roomCount} amb.)` : ""}</span><span>{basePrice == null ? "A definir" : brl(basePrice)}</span></div>{extraRoom && <div className="flex justify-between gap-3"><span>+ 1 ambiente</span><span>{extraRoomPrice == null ? "A definir" : brl(extraRoomPrice)}</span></div>}{urgent && <div className="flex justify-between gap-3"><span>Prioridade</span><span>{brl(19000)}</span></div>}</div>
             <div className="mt-5 flex items-end justify-between gap-3"><span className="text-xs font-semibold uppercase tracking-[0.12em]">Total</span><span className="font-display text-2xl font-semibold">{total == null ? "A definir" : brl(total)}</span></div>
             <p className="mt-5 text-[11px] leading-relaxed text-muted-foreground">O agendamento é confirmado somente após a aprovação do pagamento.</p>
           </aside>
@@ -249,4 +258,14 @@ function ReviewRow({ label, value }: { label: string; value: string }) {
 
 function ExtraOption({ checked, onCheckedChange, title, price, disabled }: { checked: boolean; onCheckedChange: (value: boolean) => void; title: string; price: string; disabled?: boolean }) {
   return <label className={`flex items-center gap-4 border border-border bg-card p-5 ${disabled ? "opacity-60" : "cursor-pointer"}`}><Checkbox checked={checked} onCheckedChange={(value) => onCheckedChange(value === true)} disabled={disabled} /><span className="flex-1 text-sm font-semibold">{title}</span><span className="text-sm text-muted-foreground">{price}</span></label>;
+}
+function BookingCheckout({ bookingId }: { bookingId: string }) {
+  const [options] = useState(() => ({
+    fetchClientSecret: async () => {
+      const result = await createBookingCheckout({ data: { bookingId, environment: getStripeEnvironment(), returnUrl: `${window.location.origin}/pagamento?session_id={CHECKOUT_SESSION_ID}` } });
+      if ("error" in result) throw new Error(result.error);
+      return result.clientSecret;
+    },
+  }));
+  return <EmbeddedCheckoutProvider stripe={getStripe()} options={options}><EmbeddedCheckout /></EmbeddedCheckoutProvider>;
 }
