@@ -481,7 +481,7 @@ function Home() {
       {/* 21-23. Pro / Creators / Parceiros */}
       <section id="pro" className="mx-auto grid max-w-7xl gap-6 px-5 py-20 lg:grid-cols-3">
         {[
-          { t: "Você é arquiteto ou designer?", s: "Faça parte da rede ArqEco.", items: ["Oportunidades de projetos", "Clientes", "Curadoria e lista de materiais", "Zoe e ferramentas digitais", "Indicações e comissões", "Certificação ArqEco"], cta: "Quero ser ArqEco Pro", to: "/auth" as const, perfil: undefined },
+          { t: "Você é arquiteto ou designer?", s: "Faça parte da rede ArqEco.", items: ["Oportunidades de projetos", "Clientes", "Curadoria e lista de materiais", "Zoe e ferramentas digitais", "Indicações e comissões", "Certificação ArqEco"], cta: "Quero ser ArqEco Pro", to: "/auth" as const, perfil: "profissional" as const },
           { t: "Você fala sobre casa, design ou lifestyle?", s: "Transforme sua audiência em novas possibilidades.", items: ["Link personalizado", "Materiais de divulgação", "Campanhas", "Rastreamento", "Comissões", "Dashboard"], cta: "Ser creator / afiliado", to: "/auth" as const, perfil: "afiliado" as const },
           { t: "Sua empresa pode fazer parte dessa jornada.", s: "Fornecedores, marcas, imobiliárias e incorporadoras.", items: ["Produtos na Curadoria ArqEco", "Avaliação pelo Índice Eco-Holístico™", "Vendas diretas na sua loja", "Rede de afiliados", "Integração automática de vendas"], cta: "Quero ser fornecedor", to: "/auth" as const, perfil: "fornecedor" as const },
         ].map((b) => (
