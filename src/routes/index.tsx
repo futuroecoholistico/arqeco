@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { ArrowRight, Check, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
@@ -222,7 +222,7 @@ function Home() {
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 0{idx + 1}</p>
                 <h3 className="mt-2 font-display text-3xl font-semibold">{p.name}</h3>
                 <p className="mt-3 text-sm font-semibold">{p.tagline}</p>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
+                <PlanDetails description={p.description} deliverables={p.deliverables} />
                 <div className="mt-8 border-t border-border pt-5">
                   <p className="text-xs text-muted-foreground">{opt?.rooms_label} · a partir de</p>
                   <Price cents={opt?.price_cents ?? null} installments={opt?.installments} />
