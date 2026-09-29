@@ -14,6 +14,7 @@ export function PartnerShell({ eyebrow, title, children }: { eyebrow: string; ti
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
           <Link to="/" className="font-display text-xl font-semibold tracking-wide text-primary">ARQECO</Link>
           <nav className="flex items-center gap-1 text-sm">
+            <Link to="/profissional" className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground" activeProps={{ className: "rounded-md px-3 py-2 font-semibold text-primary" }}>Arquiteto</Link>
             <Link to="/fornecedor" className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground" activeProps={{ className: "rounded-md px-3 py-2 font-semibold text-primary" }}>Fornecedor</Link>
             <Link to="/afiliado" className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground" activeProps={{ className: "rounded-md px-3 py-2 font-semibold text-primary" }}>Afiliado</Link>
             <Link to="/admin" className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground" activeProps={{ className: "rounded-md px-3 py-2 font-semibold text-primary" }}>Admin</Link>

@@ -74,7 +74,7 @@ function AuthPage() {
     if (r.error) setMsg("Não foi possível entrar com Google.");
   }
 
-  const label = perfil === "fornecedor" ? "Seja fornecedor ARQECO" : perfil === "afiliado" ? "Seja afiliado ARQECO" : mode === "in" ? "Bem-vindo de volta" : "Crie sua conta";
+  const label = perfil === "fornecedor" ? "Seja fornecedor ARQECO" : perfil === "afiliado" ? "Seja afiliado ARQECO" : perfil === "profissional" ? "Seja ArqEco Pro" : mode === "in" ? "Bem-vindo de volta" : "Crie sua conta";
 
   return (
     <div className="grid min-h-screen place-items-center bg-background px-5">

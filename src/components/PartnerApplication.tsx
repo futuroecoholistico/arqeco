@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { fieldClass, StatusPill } from "@/components/PartnerShell";
 
-type Kind = "supplier" | "affiliate";
+type Kind = "supplier" | "affiliate" | "professional";
 type App = { id: string; status: string; review_note: string | null; display_name: string } | null;
 
 const schema = z.object({
@@ -23,6 +23,7 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const isSupplier = kind === "supplier";
+  const isPro = kind === "professional";
 
   if (application) {
     return (
@@ -51,12 +52,12 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
 
   return (
     <form onSubmit={submit} className="max-w-xl space-y-3 rounded-lg border border-border bg-card p-8">
-      <h2 className="font-display text-2xl font-semibold">{isSupplier ? "Cadastro de fornecedor" : "Cadastro de afiliado"}</h2>
-      <p className="text-sm text-muted-foreground">{isSupplier ? "Conte sobre sua marca. Após aprovação você poderá enviar produtos para a Curadoria." : "Conte sobre você e seu público. Após aprovação você gera links e recebe comissão por venda."}</p>
-      <input className={fieldClass} placeholder={isSupplier ? "Nome da empresa/marca" : "Seu nome ou nome do perfil"} value={form.display_name} onChange={set("display_name")} aria-label="Nome" />
-      <input className={fieldClass} placeholder={isSupplier ? "CNPJ" : "CPF ou CNPJ (opcional)"} value={form.document} onChange={set("document")} aria-label="Documento" />
-      <input className={fieldClass} placeholder={isSupplier ? "Site da loja (https://…)" : "Instagram, site ou canal (https://…)"} value={form.website} onChange={set("website")} aria-label="Site" />
-      <input className={fieldClass} placeholder={isSupplier ? "Categoria (ex.: Revestimentos)" : "Tema (ex.: Casa e lifestyle)"} value={form.category} onChange={set("category")} aria-label="Categoria" />
+      <h2 className="font-display text-2xl font-semibold">{isPro ? "Cadastro de arquiteto ou designer" : isSupplier ? "Cadastro de fornecedor" : "Cadastro de afiliado"}</h2>
+      <p className="text-sm text-muted-foreground">{isPro ? "Informe seu registro profissional e portfólio. Após aprovação da equipe ARQECO, você recebe projetos e acesso à Zoe." : isSupplier ? "Conte sobre sua marca. Após aprovação você poderá enviar produtos para a Curadoria." : "Conte sobre você e seu público. Após aprovação você gera links e recebe comissão por venda."}</p>
+      <input className={fieldClass} placeholder={isPro ? "Nome completo ou escritório" : isSupplier ? "Nome da empresa/marca" : "Seu nome ou nome do perfil"} value={form.display_name} onChange={set("display_name")} aria-label="Nome" />
+      <input className={fieldClass} placeholder={isPro ? "Registro CAU ou ABD" : isSupplier ? "CNPJ" : "CPF ou CNPJ (opcional)"} value={form.document} onChange={set("document")} aria-label="Documento" />
+      <input className={fieldClass} placeholder={isPro ? "Portfólio ou Instagram (https://…)" : isSupplier ? "Site da loja (https://…)" : "Instagram, site ou canal (https://…)"} value={form.website} onChange={set("website")} aria-label="Site" />
+      <input className={fieldClass} placeholder={isPro ? "Especialidade (ex.: Interiores residenciais)" : isSupplier ? "Categoria (ex.: Revestimentos)" : "Tema (ex.: Casa e lifestyle)"} value={form.category} onChange={set("category")} aria-label="Categoria" />
       <input className={fieldClass} placeholder="Cidade" value={form.city} onChange={set("city")} aria-label="Cidade" />
       <textarea className={`${fieldClass} h-24 py-2`} placeholder="Mensagem para a equipe ARQECO" value={form.message} onChange={set("message")} aria-label="Mensagem" />
       {err && <p className="text-sm text-destructive">{err}</p>}
