@@ -94,6 +94,33 @@ function Price({ cents, installments }: { cents: number | null; installments?: n
   return <div><p className="font-display text-3xl font-semibold">{brl(cents)}</p>{installments ? <p className="text-xs text-muted-foreground">ou {installments}x de {brl(Math.ceil(cents / installments))}</p> : null}</div>;
 }
 
+function PlanDetails({ description, deliverables }: { description: string | null; deliverables: string[] | null }) {
+  const [open, setOpen] = useState(false);
+  const items = deliverables ?? [];
+  if (!description && items.length === 0) return <div className="flex-1" />;
+  return (
+    <div className="mt-3 flex-1">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between gap-2 text-left text-[11px] font-bold uppercase tracking-[0.16em] text-forest-soft transition-colors hover:text-primary"
+      >
+        Detalhes do plano
+        <ChevronDown className={`size-4 shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+      </button>
+      {open && (
+        <div className="mt-3 space-y-3 border-l-2 border-primary/30 pl-4">
+          {description && <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>}
+          {items.length > 0 && (
+            <ul className="space-y-2 text-sm">{items.map((d) => <li key={d} className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />{d}</li>)}</ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function BeforeAfter() {
   const [position, setPosition] = useState(50);
 
