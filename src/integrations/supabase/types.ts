@@ -142,6 +142,36 @@ export type Database = {
           },
         ]
       }
+      appointment_slots: {
+        Row: {
+          capacity: number
+          created_at: string
+          ends_at: string
+          id: string
+          is_available: boolean
+          starts_at: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number
+          created_at?: string
+          ends_at: string
+          id?: string
+          is_available?: boolean
+          starts_at: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number
+          created_at?: string
+          ends_at?: string
+          id?: string
+          is_available?: boolean
+          starts_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       curated_materials: {
         Row: {
           affiliate_url: string
@@ -457,6 +487,118 @@ export type Database = {
         }
         Relationships: []
       }
+      service_bookings: {
+        Row: {
+          add_extra_room: boolean
+          address_complement: string | null
+          appointment_slot_id: string | null
+          city: string | null
+          client_id: string
+          created_at: string
+          email: string | null
+          extra_room_price_cents: number | null
+          full_name: string | null
+          id: string
+          neighborhood: string | null
+          payment_reference: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          phone: string | null
+          plan_id: string
+          plan_option_id: string
+          postal_code: string | null
+          property_type: string | null
+          state: string | null
+          status: Database["public"]["Enums"]["booking_status"]
+          street: string | null
+          street_number: string | null
+          subtotal_cents: number | null
+          total_cents: number | null
+          updated_at: string
+          urgent_delivery: boolean
+          urgent_fee_cents: number
+        }
+        Insert: {
+          add_extra_room?: boolean
+          address_complement?: string | null
+          appointment_slot_id?: string | null
+          city?: string | null
+          client_id: string
+          created_at?: string
+          email?: string | null
+          extra_room_price_cents?: number | null
+          full_name?: string | null
+          id?: string
+          neighborhood?: string | null
+          payment_reference?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          phone?: string | null
+          plan_id: string
+          plan_option_id: string
+          postal_code?: string | null
+          property_type?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["booking_status"]
+          street?: string | null
+          street_number?: string | null
+          subtotal_cents?: number | null
+          total_cents?: number | null
+          updated_at?: string
+          urgent_delivery?: boolean
+          urgent_fee_cents?: number
+        }
+        Update: {
+          add_extra_room?: boolean
+          address_complement?: string | null
+          appointment_slot_id?: string | null
+          city?: string | null
+          client_id?: string
+          created_at?: string
+          email?: string | null
+          extra_room_price_cents?: number | null
+          full_name?: string | null
+          id?: string
+          neighborhood?: string | null
+          payment_reference?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          phone?: string | null
+          plan_id?: string
+          plan_option_id?: string
+          postal_code?: string | null
+          property_type?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["booking_status"]
+          street?: string | null
+          street_number?: string | null
+          subtotal_cents?: number | null
+          total_cents?: number | null
+          updated_at?: string
+          urgent_delivery?: boolean
+          urgent_fee_cents?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_bookings_appointment_slot_id_fkey"
+            columns: ["appointment_slot_id"]
+            isOneToOne: false
+            referencedRelation: "appointment_slots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_bookings_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "service_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_bookings_plan_option_id_fkey"
+            columns: ["plan_option_id"]
+            isOneToOne: false
+            referencedRelation: "service_plan_options"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       service_plan_options: {
         Row: {
           created_at: string
@@ -656,6 +798,60 @@ export type Database = {
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
+      reserve_service_booking: {
+        Args: {
+          _add_extra_room: boolean
+          _address_complement: string
+          _booking_id: string
+          _city: string
+          _email: string
+          _full_name: string
+          _neighborhood: string
+          _phone: string
+          _postal_code: string
+          _property_type: string
+          _slot_id: string
+          _state: string
+          _street: string
+          _street_number: string
+          _urgent_delivery: boolean
+        }
+        Returns: {
+          add_extra_room: boolean
+          address_complement: string | null
+          appointment_slot_id: string | null
+          city: string | null
+          client_id: string
+          created_at: string
+          email: string | null
+          extra_room_price_cents: number | null
+          full_name: string | null
+          id: string
+          neighborhood: string | null
+          payment_reference: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          phone: string | null
+          plan_id: string
+          plan_option_id: string
+          postal_code: string | null
+          property_type: string | null
+          state: string | null
+          status: Database["public"]["Enums"]["booking_status"]
+          street: string | null
+          street_number: string | null
+          subtotal_cents: number | null
+          total_cents: number | null
+          updated_at: string
+          urgent_delivery: boolean
+          urgent_fee_cents: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "service_bookings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       review_partner_application: {
         Args: { _approve: boolean; _id: string; _note?: string }
         Returns: undefined
@@ -672,8 +868,15 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "client" | "professional" | "creator" | "partner"
+      booking_status:
+        | "draft"
+        | "awaiting_payment"
+        | "payment_processing"
+        | "confirmed"
+        | "cancelled"
       conversion_status: "pending" | "approved" | "paid" | "cancelled"
       partner_kind: "supplier" | "affiliate"
+      payment_status: "not_started" | "pending" | "paid" | "failed" | "refunded"
       project_status:
         | "PAYMENT_CONFIRMED"
         | "BRIEFING_PENDING"
@@ -817,8 +1020,16 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "client", "professional", "creator", "partner"],
+      booking_status: [
+        "draft",
+        "awaiting_payment",
+        "payment_processing",
+        "confirmed",
+        "cancelled",
+      ],
       conversion_status: ["pending", "approved", "paid", "cancelled"],
       partner_kind: ["supplier", "affiliate"],
+      payment_status: ["not_started", "pending", "paid", "failed", "refunded"],
       project_status: [
         "PAYMENT_CONFIRMED",
         "BRIEFING_PENDING",
