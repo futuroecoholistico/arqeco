@@ -117,7 +117,8 @@ function BookingPage() {
   const chosenSlot = slots.data?.find((slot) => slot.id === selectedSlot);
   const basePrice = selection.data?.price_cents ?? null;
   const extraRoomPrice = basePrice != null && selection.data?.nextPrice != null ? Math.max(0, selection.data.nextPrice - basePrice) : null;
-  const total = basePrice == null || (extraRoom && extraRoomPrice == null) ? null : basePrice + (extraRoom ? extraRoomPrice : 0) + (urgent ? 19000 : 0);
+  const selectedExtraPrice = extraRoom ? extraRoomPrice : 0;
+  const total = basePrice == null || selectedExtraPrice == null ? null : basePrice + selectedExtraPrice + (urgent ? 19000 : 0);
 
   async function saveDraft() {
     if (bookingId) return bookingId;
