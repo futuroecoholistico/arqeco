@@ -492,6 +492,7 @@ export type Database = {
           add_extra_room: boolean
           address_complement: string | null
           appointment_slot_id: string | null
+          checkout_session_id: string | null
           city: string | null
           client_id: string
           created_at: string
@@ -500,13 +501,16 @@ export type Database = {
           full_name: string | null
           id: string
           neighborhood: string | null
+          paid_at: string | null
           payment_reference: string | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           phone: string | null
           plan_id: string
           plan_option_id: string
           postal_code: string | null
+          professional_id: string | null
           property_type: string | null
+          room_count: number
           state: string | null
           status: Database["public"]["Enums"]["booking_status"]
           street: string | null
@@ -521,6 +525,7 @@ export type Database = {
           add_extra_room?: boolean
           address_complement?: string | null
           appointment_slot_id?: string | null
+          checkout_session_id?: string | null
           city?: string | null
           client_id: string
           created_at?: string
@@ -529,13 +534,16 @@ export type Database = {
           full_name?: string | null
           id?: string
           neighborhood?: string | null
+          paid_at?: string | null
           payment_reference?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
           phone?: string | null
           plan_id: string
           plan_option_id: string
           postal_code?: string | null
+          professional_id?: string | null
           property_type?: string | null
+          room_count?: number
           state?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
           street?: string | null
@@ -550,6 +558,7 @@ export type Database = {
           add_extra_room?: boolean
           address_complement?: string | null
           appointment_slot_id?: string | null
+          checkout_session_id?: string | null
           city?: string | null
           client_id?: string
           created_at?: string
@@ -558,13 +567,16 @@ export type Database = {
           full_name?: string | null
           id?: string
           neighborhood?: string | null
+          paid_at?: string | null
           payment_reference?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
           phone?: string | null
           plan_id?: string
           plan_option_id?: string
           postal_code?: string | null
+          professional_id?: string | null
           property_type?: string | null
+          room_count?: number
           state?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
           street?: string | null
@@ -783,6 +795,42 @@ export type Database = {
         }
         Relationships: []
       }
+      testimonials: {
+        Row: {
+          author_name: string
+          context: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          project_label: string | null
+          quote: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          author_name: string
+          context?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          project_label?: string | null
+          quote: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          context?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          project_label?: string | null
+          quote?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -832,6 +880,7 @@ export type Database = {
           add_extra_room: boolean
           address_complement: string | null
           appointment_slot_id: string | null
+          checkout_session_id: string | null
           city: string | null
           client_id: string
           created_at: string
@@ -840,13 +889,16 @@ export type Database = {
           full_name: string | null
           id: string
           neighborhood: string | null
+          paid_at: string | null
           payment_reference: string | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           phone: string | null
           plan_id: string
           plan_option_id: string
           postal_code: string | null
+          professional_id: string | null
           property_type: string | null
+          room_count: number
           state: string | null
           status: Database["public"]["Enums"]["booking_status"]
           street: string | null
@@ -887,7 +939,7 @@ export type Database = {
         | "confirmed"
         | "cancelled"
       conversion_status: "pending" | "approved" | "paid" | "cancelled"
-      partner_kind: "supplier" | "affiliate"
+      partner_kind: "supplier" | "affiliate" | "professional"
       payment_status: "not_started" | "pending" | "paid" | "failed" | "refunded"
       project_status:
         | "PAYMENT_CONFIRMED"
@@ -1040,7 +1092,7 @@ export const Constants = {
         "cancelled",
       ],
       conversion_status: ["pending", "approved", "paid", "cancelled"],
-      partner_kind: ["supplier", "affiliate"],
+      partner_kind: ["supplier", "affiliate", "professional"],
       payment_status: ["not_started", "pending", "paid", "failed", "refunded"],
       project_status: [
         "PAYMENT_CONFIRMED",
