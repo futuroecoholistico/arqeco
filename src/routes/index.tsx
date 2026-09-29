@@ -7,7 +7,7 @@ import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
 import projectImage from "@/assets/arqeco-project.jpg";
 import projectBeforeImage from "@/assets/arqeco-project-before.jpg";
-import compactLogoAsset from "@/assets/arqeco-logo-reduzido.png.asset.json";
+import compactLogoAsset from "@/assets/arqeco-logo-branco.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/components/PartnerShell";
@@ -222,8 +222,8 @@ function Home() {
           <div className="relative grid min-h-[640px] overflow-hidden border border-sidebar-border lg:grid-cols-[0.9fr_1.1fr]">
             <div className="relative z-10 order-2 flex flex-col justify-center p-7 gentle-rise lg:order-1 lg:p-14">
               <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-accent"><span className="h-px w-8 bg-accent" />Arquitetura sustentável</p>
-              <h1 className="mt-7 max-w-2xl font-display text-5xl font-semibold leading-[1.03] md:text-7xl">Espaços que <span className="italic font-normal text-accent">respiram</span> o futuro.</h1>
-              <p className="mt-7 max-w-xl text-sm leading-relaxed opacity-70 md:text-base">Há 12 anos, unimos <strong className="font-medium opacity-100">rigor técnico e sensibilidade humana</strong> para criar interiores que promovem bem-estar e escolhas mais sustentáveis.</p>
+              <h1 className="mt-7 max-w-2xl font-display text-5xl font-semibold leading-[1.03] md:text-7xl">Espaços que criam o <span className="italic font-normal text-accent">Futuro Consciente</span></h1>
+              <p className="mt-7 max-w-xl text-sm leading-relaxed opacity-70 md:text-base">Criamos <strong className="font-medium opacity-100">projetos de Arquitetura e Design de Interiores sustentáveis e conscientes</strong> — unindo rigor técnico e sensibilidade humana para promover bem-estar em cada espaço.</p>
               <div className="mt-9 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#planos">Começar meu projeto <ArrowRight /></a></Button><Button asChild variant="paper" size="lg" className="border-sidebar-border text-sidebar-foreground hover:border-accent hover:text-accent"><a href="#sobre">Conheça a ARQECO</a></Button></div>
             </div>
             <div className="relative order-1 min-h-80 overflow-hidden lg:order-2">
