@@ -91,7 +91,8 @@ function Plans() {
   async function savePrice(id: string, value: string, field: "price_cents" | "compare_at_price_cents" = "price_cents") {
     const n = value.trim() === "" ? null : Math.round(Number(value.replace(",", ".")) * 100);
     if (n !== null && (!Number.isFinite(n) || n < 0)) return;
-    await supabase.from("service_plan_options").update(field === "price_cents" ? { price_cents: n } : { compare_at_price_cents: n }).eq("id", id);
+    if (field === "price_cents") await supabase.from("service_plan_options").update({ price_cents: n }).eq("id", id);
+    else await supabase.from("service_plan_options").update({ compare_at_price_cents: n }).eq("id", id);
     qc.invalidateQueries({ queryKey: ["admin-plans"] }); qc.invalidateQueries({ queryKey: ["plans"] });
   }
   async function saveBadge(id: string, value: string) {
