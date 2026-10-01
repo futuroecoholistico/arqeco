@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import { createConstructionInquiry, scheduleConstructionMeeting } from "@/lib/construction.functions";
 
 export const Route = createFileRoute("/_authenticated/construir")({
   head: () => ({
@@ -71,33 +72,23 @@ function ConstructionPage() {
     const parsed = inquirySchema.safeParse(form);
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Revise os dados informados."); return; }
     setBusy(true); setError(undefined);
-    const { data: auth } = await supabase.auth.getUser();
-    if (!auth.user) { setError("Sua sessão expirou. Entre novamente."); setBusy(false); return; }
-    const { data, error: insertError } = await supabase.from("construction_inquiries").insert({
-      client_id: auth.user.id,
-      full_name: parsed.data.fullName,
-      email: parsed.data.email,
-      phone: parsed.data.phone,
-      postal_code: parsed.data.postalCode,
-      city: parsed.data.city,
-      state: parsed.data.state,
-      construction_description: parsed.data.description,
-      service_scope: parsed.data.scope,
-      desired_timeline: parsed.data.timeline,
-    }).select("id").single();
-    if (insertError) setError("Não foi possível enviar sua solicitação. Tente novamente.");
-    else { setInquiryId(data.id); setForm(parsed.data); setStep(2); }
+    try {
+      const result = await createConstructionInquiry({ data: parsed.data });
+      setInquiryId(result.id); setForm(parsed.data); setStep(2);
+    } catch { setError("Não foi possível enviar sua solicitação. Tente novamente."); }
     setBusy(false);
   }
 
   async function scheduleMeeting() {
     if (!inquiryId || !selectedSlot) { setError("Escolha um horário para a conversa."); return; }
     setBusy(true); setError(undefined);
-    const { error: scheduleError } = await supabase.rpc("schedule_construction_meeting", { _inquiry_id: inquiryId, _slot_id: selectedSlot });
-    if (scheduleError) {
-      setError(scheduleError.message.includes("slot_not_available") ? "Este horário acabou de ser reservado. Escolha outro." : "Não foi possível marcar a reunião.");
+    try {
+      await scheduleConstructionMeeting({ data: { inquiryId, slotId: selectedSlot } });
+      setStep(3);
+    } catch (scheduleError) {
+      setError(scheduleError instanceof Error && scheduleError.message.includes("slot_not_available") ? "Este horário acabou de ser reservado. Escolha outro." : "Não foi possível marcar a reunião.");
       await slots.refetch();
-    } else setStep(3);
+    }
     setBusy(false);
   }
 
