@@ -260,20 +260,20 @@ function Home() {
           <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold md:text-5xl">Cada transformação pede um caminho diferente.</h2>
           <p className="mt-4 max-w-2xl text-muted-foreground">Identifique o momento do seu imóvel e encontre os serviços certos para seguir com clareza.</p>
           <div className="mt-10 grid border border-border bg-border lg:grid-cols-2 lg:gap-px">
-            <article className="architectural-grid flex min-h-96 flex-col bg-sidebar p-7 text-sidebar-foreground md:p-10">
+            <article className="architectural-grid flex min-h-96 min-w-0 flex-col overflow-hidden bg-sidebar p-7 text-sidebar-foreground md:p-10">
               <Building2 className="size-8 text-accent" aria-hidden="true" />
               <p className="mt-10 text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Arquitetura</p>
               <h3 className="mt-3 font-display text-4xl font-semibold">Vai construir?</h3>
               <p className="mt-4 max-w-xl text-sm leading-relaxed opacity-70">Conte onde fica o imóvel, o que pretende construir, quando deseja começar e se procura somente o projeto ou uma jornada completa com obra e acompanhamento.</p>
-              <div className="mt-auto pt-8"><Button asChild variant="editorial" size="lg"><Link to="/auth" search={{ next: "/construir" }}>Solicitar projeto de construção <ArrowRight /></Link></Button></div>
+              <div className="mt-auto pt-8"><Button asChild variant="editorial" size="lg" className="h-auto w-full whitespace-normal py-3 text-center leading-snug sm:w-auto"><Link to="/auth" search={{ next: "/construir" }}>Solicitar projeto de construção <ArrowRight className="shrink-0" /></Link></Button></div>
             </article>
-            <article className="flex min-h-96 flex-col bg-card p-7 md:p-10">
+            <article className="flex min-h-96 min-w-0 flex-col overflow-hidden bg-card p-7 md:p-10">
               <Hammer className="size-8 text-primary" aria-hidden="true" />
               <p className="mt-10 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Interiores</p>
               <h3 className="mt-3 font-display text-4xl font-semibold">Vai reformar ou decorar?</h3>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Conheça os projetos sustentáveis e conscientes Viver Bem, Viver Lifestyle e Design Eco-Holístico, com contratação prática por ambiente.</p>
               <div className="mt-8 flex flex-wrap gap-2 text-xs font-semibold"><span className="border border-border px-3 py-2">Viver Bem</span><span className="border border-border px-3 py-2">Viver Lifestyle</span><span className="border border-border px-3 py-2">Design Eco-Holístico</span></div>
-              <div className="mt-auto pt-8"><Button asChild variant="paper" size="lg"><a href="#planos">Ver reforma e decoração <ArrowRight /></a></Button></div>
+              <div className="mt-auto pt-8"><Button asChild variant="paper" size="lg" className="h-auto w-full whitespace-normal py-3 text-center leading-snug sm:w-auto"><a href="#planos">Ver reforma e decoração <ArrowRight className="shrink-0" /></a></Button></div>
             </article>
           </div>
         </div>
