@@ -172,6 +172,71 @@ export type Database = {
         }
         Relationships: []
       }
+      construction_inquiries: {
+        Row: {
+          admin_notes: string | null
+          appointment_slot_id: string | null
+          city: string
+          client_id: string
+          construction_description: string
+          created_at: string
+          desired_timeline: string
+          email: string
+          full_name: string
+          id: string
+          phone: string
+          postal_code: string
+          service_scope: Database["public"]["Enums"]["construction_scope"]
+          state: string
+          status: Database["public"]["Enums"]["construction_inquiry_status"]
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          appointment_slot_id?: string | null
+          city: string
+          client_id: string
+          construction_description: string
+          created_at?: string
+          desired_timeline: string
+          email: string
+          full_name: string
+          id?: string
+          phone: string
+          postal_code: string
+          service_scope: Database["public"]["Enums"]["construction_scope"]
+          state: string
+          status?: Database["public"]["Enums"]["construction_inquiry_status"]
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          appointment_slot_id?: string | null
+          city?: string
+          client_id?: string
+          construction_description?: string
+          created_at?: string
+          desired_timeline?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string
+          postal_code?: string
+          service_scope?: Database["public"]["Enums"]["construction_scope"]
+          state?: string
+          status?: Database["public"]["Enums"]["construction_inquiry_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "construction_inquiries_appointment_slot_id_fkey"
+            columns: ["appointment_slot_id"]
+            isOneToOne: true
+            referencedRelation: "appointment_slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       curated_materials: {
         Row: {
           affiliate_url: string
@@ -929,6 +994,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      schedule_construction_meeting: {
+        Args: { _inquiry_id: string; _slot_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "client" | "professional" | "creator" | "partner"
@@ -938,6 +1007,13 @@ export type Database = {
         | "payment_processing"
         | "confirmed"
         | "cancelled"
+      construction_inquiry_status:
+        | "submitted"
+        | "meeting_scheduled"
+        | "contacted"
+        | "converted"
+        | "closed"
+      construction_scope: "project_only" | "project_build_followup"
       conversion_status: "pending" | "approved" | "paid" | "cancelled"
       partner_kind: "supplier" | "affiliate" | "professional"
       payment_status: "not_started" | "pending" | "paid" | "failed" | "refunded"
@@ -1091,6 +1167,14 @@ export const Constants = {
         "confirmed",
         "cancelled",
       ],
+      construction_inquiry_status: [
+        "submitted",
+        "meeting_scheduled",
+        "contacted",
+        "converted",
+        "closed",
+      ],
+      construction_scope: ["project_only", "project_build_followup"],
       conversion_status: ["pending", "approved", "paid", "cancelled"],
       partner_kind: ["supplier", "affiliate", "professional"],
       payment_status: ["not_started", "pending", "paid", "failed", "refunded"],
