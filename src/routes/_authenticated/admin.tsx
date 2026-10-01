@@ -6,21 +6,22 @@ import { supabase } from "@/integrations/supabase/client";
 import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Administração — ARQECO" }, { name: "description", content: "Aprovação de parceiros, avaliação de produtos e planos." }] }),
+  head: () => ({ meta: [{ title: "Administração — ARQECO" }, { name: "description", content: "Gerencie contratos, solicitações de construção, parceiros, produtos e planos ARQECO." }, { property: "og:title", content: "Administração — ARQECO" }, { property: "og:description", content: "Gestão da operação, dos serviços e dos parceiros ARQECO." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: AdminPage,
 });
 
 function AdminPage() {
   const isAdmin = useQuery({ queryKey: ["is-admin"], queryFn: async () => (await supabase.rpc("is_admin")).data === true });
-  const [tab, setTab] = useState<"contratos" | "planos" | "horarios" | "depoimentos" | "parceiros" | "produtos" | "vendas">("contratos");
+  const [tab, setTab] = useState<"contratos" | "construcao" | "planos" | "horarios" | "depoimentos" | "parceiros" | "produtos" | "vendas">("contratos");
   return (
     <PartnerShell eyebrow="Administração" title="Curadoria e parceiros">
       {isAdmin.isLoading ? <p className="text-sm text-muted-foreground">Carregando…</p> : !isAdmin.data ? <p className="text-sm text-muted-foreground">Esta área é exclusiva da equipe ARQECO.</p> : (
         <>
           <div className="mb-6 flex flex-wrap gap-2">
-            {(["contratos", "planos", "horarios", "depoimentos", "parceiros", "produtos", "vendas"] as const).map((t) => <Button key={t} variant={tab === t ? "editorial" : "paper"} size="sm" onClick={() => setTab(t)} className="capitalize">{t === "horarios" ? "horários" : t === "parceiros" ? "parceiros e arquitetos" : t}</Button>)}
+            {(["contratos", "construcao", "planos", "horarios", "depoimentos", "parceiros", "produtos", "vendas"] as const).map((t) => <Button key={t} variant={tab === t ? "editorial" : "paper"} size="sm" onClick={() => setTab(t)} className="capitalize">{t === "horarios" ? "horários" : t === "construcao" ? "construção" : t === "parceiros" ? "parceiros e arquitetos" : t}</Button>)}
           </div>
           {tab === "contratos" && <Contracts />}
+          {tab === "construcao" && <ConstructionInquiries />}
           {tab === "horarios" && <Slots />}
           {tab === "depoimentos" && <Testimonials />}
           {tab === "parceiros" && <Applications />}
@@ -30,6 +31,39 @@ function AdminPage() {
         </>
       )}
     </PartnerShell>
+  );
+}
+
+const constructionStatusLabel: Record<string, string> = { submitted: "Recebido", meeting_scheduled: "Reunião marcada", contacted: "Contato realizado", converted: "Convertido em projeto", closed: "Encerrado" };
+
+function ConstructionInquiries() {
+  const qc = useQueryClient();
+  const q = useQuery({ queryKey: ["admin-construction-inquiries"], queryFn: async () => (await supabase.from("construction_inquiries").select("id,full_name,email,phone,postal_code,city,state,construction_description,service_scope,desired_timeline,status,admin_notes,created_at,appointment_slots(starts_at)").order("created_at", { ascending: false })).data ?? [] });
+  async function setStatus(id: string, status: "submitted" | "meeting_scheduled" | "contacted" | "converted" | "closed") {
+    await supabase.from("construction_inquiries").update({ status }).eq("id", id);
+    qc.invalidateQueries({ queryKey: ["admin-construction-inquiries"] });
+  }
+  async function saveNotes(id: string, admin_notes: string) {
+    await supabase.from("construction_inquiries").update({ admin_notes: admin_notes.trim().slice(0, 2000) || null }).eq("id", id);
+  }
+  return (
+    <div className="divide-y divide-border rounded-lg border border-border bg-card">
+      {(q.data ?? []).length === 0 && <p className="p-5 text-sm text-muted-foreground">Nenhuma solicitação de construção recebida.</p>}
+      {(q.data ?? []).map((item) => (
+        <article key={item.id} className="grid gap-4 p-5 text-sm lg:grid-cols-[1fr_250px]">
+          <div>
+            <div className="flex flex-wrap items-center gap-3"><h3 className="font-semibold">{item.full_name}</h3><span className="rounded bg-secondary px-2 py-0.5 text-[11px] font-semibold">{constructionStatusLabel[item.status] ?? item.status}</span></div>
+            <p className="mt-1 text-xs text-muted-foreground">{item.email} · {item.phone} · {item.city}/{item.state} · CEP {item.postal_code}</p>
+            <p className="mt-3 leading-relaxed">{item.construction_description}</p>
+            <p className="mt-3 text-xs font-semibold text-primary">{item.service_scope === "project_only" ? "Somente projeto" : "Projeto, obra e acompanhamento"} · {item.desired_timeline}{item.appointment_slots?.starts_at ? ` · reunião em ${new Date(item.appointment_slots.starts_at).toLocaleString("pt-BR")}` : " · reunião ainda não marcada"}</p>
+          </div>
+          <div className="space-y-3">
+            <select className={fieldClass} value={item.status} onChange={(e) => setStatus(item.id, e.target.value as "submitted" | "meeting_scheduled" | "contacted" | "converted" | "closed")} aria-label="Situação da solicitação"><option value="submitted">Recebido</option><option value="meeting_scheduled">Reunião marcada</option><option value="contacted">Contato realizado</option><option value="converted">Convertido em projeto</option><option value="closed">Encerrado</option></select>
+            <textarea className={`${fieldClass} min-h-24 py-2`} defaultValue={item.admin_notes ?? ""} onBlur={(e) => saveNotes(item.id, e.target.value)} maxLength={2000} placeholder="Anotações da equipe" aria-label="Anotações da equipe" />
+          </div>
+        </article>
+      ))}
+    </div>
   );
 }
 

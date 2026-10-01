@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAfiliadoRouteImport } from './routes/_authenticated/afiliado'
+import { Route as AuthenticatedConstruirRouteImport } from './routes/_authenticated/construir'
 import { Route as AuthenticatedContratarRouteImport } from './routes/_authenticated/contratar'
 import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authenticated/fornecedor'
 import { Route as AuthenticatedPagamentoRouteImport } from './routes/_authenticated/pagamento'
@@ -51,6 +52,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
 const AuthenticatedAfiliadoRoute = AuthenticatedAfiliadoRouteImport.update({
   id: '/afiliado',
   path: '/afiliado',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedConstruirRoute = AuthenticatedConstruirRouteImport.update({
+  id: '/construir',
+  path: '/construir',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedContratarRoute = AuthenticatedContratarRouteImport.update({
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/painel': typeof PainelRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
+  '/construir': typeof AuthenticatedConstruirRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/painel': typeof PainelRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
+  '/construir': typeof AuthenticatedConstruirRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/painel': typeof PainelRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/afiliado': typeof AuthenticatedAfiliadoRoute
+  '/_authenticated/construir': typeof AuthenticatedConstruirRoute
   '/_authenticated/contratar': typeof AuthenticatedContratarRoute
   '/_authenticated/fornecedor': typeof AuthenticatedFornecedorRoute
   '/_authenticated/pagamento': typeof AuthenticatedPagamentoRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/admin'
     | '/afiliado'
+    | '/construir'
     | '/contratar'
     | '/fornecedor'
     | '/pagamento'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/admin'
     | '/afiliado'
+    | '/construir'
     | '/contratar'
     | '/fornecedor'
     | '/pagamento'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/_authenticated/admin'
     | '/_authenticated/afiliado'
+    | '/_authenticated/construir'
     | '/_authenticated/contratar'
     | '/_authenticated/fornecedor'
     | '/_authenticated/pagamento'
@@ -247,6 +259,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAfiliadoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/construir': {
+      id: '/_authenticated/construir'
+      path: '/construir'
+      fullPath: '/construir'
+      preLoaderRoute: typeof AuthenticatedConstruirRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/contratar': {
       id: '/_authenticated/contratar'
       path: '/contratar'
@@ -309,6 +328,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAfiliadoRoute: typeof AuthenticatedAfiliadoRoute
+  AuthenticatedConstruirRoute: typeof AuthenticatedConstruirRoute
   AuthenticatedContratarRoute: typeof AuthenticatedContratarRoute
   AuthenticatedFornecedorRoute: typeof AuthenticatedFornecedorRoute
   AuthenticatedPagamentoRoute: typeof AuthenticatedPagamentoRoute
@@ -318,6 +338,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAfiliadoRoute: AuthenticatedAfiliadoRoute,
+  AuthenticatedConstruirRoute: AuthenticatedConstruirRoute,
   AuthenticatedContratarRoute: AuthenticatedContratarRoute,
   AuthenticatedFornecedorRoute: AuthenticatedFornecedorRoute,
   AuthenticatedPagamentoRoute: AuthenticatedPagamentoRoute,

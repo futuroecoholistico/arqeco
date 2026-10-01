@@ -23,3 +23,4 @@
 - Plan payments use embedded checkout with `price_data` whose amount is the `total_cents` already stored by `reserve_service_booking`; the browser never sends amounts — fixed admin prices, no client manipulation.
 - Payment results arrive only via signed webhook `/api/public/payments/webhook`, which confirms the booking and blocks the slot — confirmation must not depend on the browser returning.
 - Architects apply via `partner_applications` kind `professional`; approval grants the `professional` role inside `review_partner_application` — one audited approval path.
+- Construction requests live separately from fixed-price interior plan bookings; authenticated clients submit an inquiry before optionally reserving a meeting slot, because construction needs a scoped proposal rather than instant checkout.
