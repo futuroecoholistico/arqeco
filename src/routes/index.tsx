@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { ArrowRight, Check, ChevronDown, Eye, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
+import { ArrowRight, Building2, Check, ChevronDown, Eye, Hammer, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const nav = [["Projetos", "#planos"], ["Como funciona", "#como-funciona"], ["Curadoria", "#curadoria"], ["ArqEco Pro", "#pro"], ["Sobre", "#sobre"]];
+const nav = [["Serviços", "#servicos"], ["Projetos", "#planos"], ["Como funciona", "#como-funciona"], ["Curadoria", "#curadoria"], ["Sobre", "#sobre"]];
 
 const comparison: [string, string, string, string][] = [
   ["Formato", "Projeto", "Projeto", "Consultoria"], ["Projeto de interiores", "✓", "✓", "à parte"], ["Layout", "✓", "✓", "à parte"], ["Estilo e estética", "✓", "✓", "✓"],
@@ -199,7 +199,7 @@ function Home() {
           <nav className="hidden gap-7 text-xs font-medium lg:flex">{nav.map(([l, h]) => <a key={l} href={h} className="opacity-65 transition-opacity hover:opacity-100">{l}</a>)}</nav>
           <div className="hidden items-center gap-3 lg:flex">
              <Link to="/auth" className="text-sm font-medium opacity-75 hover:opacity-100">Entrar</Link>
-            <Button asChild variant="editorial"><a href="#planos">Começar meu projeto</a></Button>
+             <Button asChild variant="editorial"><a href="#servicos">Começar meu projeto</a></Button>
           </div>
           <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button>
         </div>
@@ -214,7 +214,7 @@ function Home() {
               <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-accent"><span className="h-px w-8 bg-accent" />Arquitetura sustentável</p>
               <h1 className="mt-7 max-w-2xl font-display text-5xl font-semibold leading-[1.03] md:text-7xl">Espaços que criam o <span className="italic font-normal text-accent">Futuro Consciente</span></h1>
               <p className="mt-7 max-w-xl text-sm leading-relaxed opacity-70 md:text-base">Criamos <strong className="font-medium opacity-100">projetos de Arquitetura e Design de Interiores sustentáveis e conscientes</strong> — unindo rigor técnico e sensibilidade humana para promover bem-estar em cada espaço.</p>
-              <div className="mt-9 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#planos">Começar meu projeto <ArrowRight /></a></Button><Button asChild variant="paper" size="lg" className="border-sidebar-border text-sidebar-foreground hover:border-accent hover:text-accent"><a href="#sobre">Conheça a ARQECO</a></Button></div>
+               <div className="mt-9 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#servicos">Começar meu projeto <ArrowRight /></a></Button><Button asChild variant="paper" size="lg" className="border-sidebar-border text-sidebar-foreground hover:border-accent hover:text-accent"><a href="#sobre">Conheça a ARQECO</a></Button></div>
             </div>
             <div className="relative order-1 min-h-80 overflow-hidden lg:order-2">
               <img src={institutionalHero} alt="Arquiteta selecionando materiais naturais em um interior sustentável" width={1600} height={1200} className="absolute inset-0 h-full w-full object-cover" />
@@ -253,10 +253,36 @@ function Home() {
         </div>
       </section>
 
+      {/* Escolha de serviços */}
+      <section id="servicos" className="border-y border-border bg-secondary">
+        <div className="mx-auto max-w-7xl px-5 py-20">
+          <Eyebrow>Por onde você quer começar?</Eyebrow>
+          <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold md:text-5xl">Cada transformação pede um caminho diferente.</h2>
+          <p className="mt-4 max-w-2xl text-muted-foreground">Identifique o momento do seu imóvel e encontre os serviços certos para seguir com clareza.</p>
+          <div className="mt-10 grid border border-border bg-border lg:grid-cols-2 lg:gap-px">
+            <article className="architectural-grid flex min-h-96 flex-col bg-sidebar p-7 text-sidebar-foreground md:p-10">
+              <Building2 className="size-8 text-accent" aria-hidden="true" />
+              <p className="mt-10 text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Arquitetura</p>
+              <h3 className="mt-3 font-display text-4xl font-semibold">Vai construir?</h3>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed opacity-70">Conte onde fica o imóvel, o que pretende construir, quando deseja começar e se procura somente o projeto ou uma jornada completa com obra e acompanhamento.</p>
+              <div className="mt-auto pt-8"><Button asChild variant="editorial" size="lg"><Link to="/auth" search={{ next: "/construir" }}>Solicitar projeto de construção <ArrowRight /></Link></Button></div>
+            </article>
+            <article className="flex min-h-96 flex-col bg-card p-7 md:p-10">
+              <Hammer className="size-8 text-primary" aria-hidden="true" />
+              <p className="mt-10 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Interiores</p>
+              <h3 className="mt-3 font-display text-4xl font-semibold">Vai reformar ou decorar?</h3>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Conheça os projetos sustentáveis e conscientes Viver Bem, Viver Lifestyle e Design Eco-Holístico, com contratação prática por ambiente.</p>
+              <div className="mt-8 flex flex-wrap gap-2 text-xs font-semibold"><span className="border border-border px-3 py-2">Viver Bem</span><span className="border border-border px-3 py-2">Viver Lifestyle</span><span className="border border-border px-3 py-2">Design Eco-Holístico</span></div>
+              <div className="mt-auto pt-8"><Button asChild variant="paper" size="lg"><a href="#planos">Ver reforma e decoração <ArrowRight /></a></Button></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       {/* 5-7. Planos + 9. Ambientes */}
       <section id="planos" className="mx-auto max-w-7xl px-5 py-20">
-        <Eyebrow>Encontre o projeto certo para você</Eyebrow>
-        <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold">Escolha como você quer transformar seu espaço.</h2>
+        <Eyebrow>Reforma e decoração sustentáveis</Eyebrow>
+        <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold">Escolha como você quer reformar ou decorar seu espaço.</h2>
         <p className="mt-4 max-w-2xl text-muted-foreground">Não precisa contratar um projeto maior do que precisa. Escolha a experiência de acordo com o nível de transformação que procura.</p>
 
         {roomLabels.length > 0 && (

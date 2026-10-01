@@ -20,3 +20,4 @@
 - [ ] Bloqueado (usuário): concluir a ativação do recebimento real na aba de pagamentos; definir o primeiro admin.
 - [ ] Zoe: ler materiais de referência.
 - [ ] Separar Projeto Design Eco-Holístico do Acompanhamento recorrente; criar mensal, trimestral e anual, checkout, gestão e acesso trimestral ao especialista.
+- [x] Organizar a entrada por “Vai construir?” e “Vai reformar/decorar?”, com formulário de construção, envio à equipe e agendamento de reunião.
