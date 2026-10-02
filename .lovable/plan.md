@@ -20,7 +20,7 @@
 
 ## Dossiê Eco-Holístico
 - Inserir abaixo dos serviços uma faixa própria para o **Dossiê Eco-Holístico**.
-- Apresentá-lo como **bônus gratuito por tempo limitado, incluído em todos os projetos**.
+- Apresentá-lo como **bônus gratuito incluído em todos os pacotes de projeto ARQECO**.
 - O botão abrirá `https://holistic-echo-care.lovable.app/#relatorio` em uma nova guia.
 
 ## Validação
