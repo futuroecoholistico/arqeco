@@ -562,6 +562,7 @@ export type Database = {
           client_id: string
           created_at: string
           email: string | null
+          extra_room_count: number
           extra_room_price_cents: number | null
           full_name: string | null
           id: string
@@ -595,6 +596,7 @@ export type Database = {
           client_id: string
           created_at?: string
           email?: string | null
+          extra_room_count?: number
           extra_room_price_cents?: number | null
           full_name?: string | null
           id?: string
@@ -628,6 +630,7 @@ export type Database = {
           client_id?: string
           created_at?: string
           email?: string | null
+          extra_room_count?: number
           extra_room_price_cents?: number | null
           full_name?: string | null
           id?: string
@@ -682,6 +685,7 @@ export type Database = {
           created_at: string
           delivery_days: number | null
           description: string | null
+          extra_room_price_cents: number
           id: string
           includes_3d: boolean
           includes_material_list: boolean
@@ -702,6 +706,7 @@ export type Database = {
           created_at?: string
           delivery_days?: number | null
           description?: string | null
+          extra_room_price_cents?: number
           id?: string
           includes_3d?: boolean
           includes_material_list?: boolean
@@ -722,6 +727,7 @@ export type Database = {
           created_at?: string
           delivery_days?: number | null
           description?: string | null
+          extra_room_price_cents?: number
           id?: string
           includes_3d?: boolean
           includes_material_list?: boolean
@@ -923,64 +929,125 @@ export type Database = {
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
-      reserve_service_booking: {
-        Args: {
-          _add_extra_room: boolean
-          _address_complement: string
-          _booking_id: string
-          _city: string
-          _email: string
-          _full_name: string
-          _neighborhood: string
-          _phone: string
-          _postal_code: string
-          _property_type: string
-          _slot_id: string
-          _state: string
-          _street: string
-          _street_number: string
-          _urgent_delivery: boolean
-        }
-        Returns: {
-          add_extra_room: boolean
-          address_complement: string | null
-          appointment_slot_id: string | null
-          checkout_session_id: string | null
-          city: string | null
-          client_id: string
-          created_at: string
-          email: string | null
-          extra_room_price_cents: number | null
-          full_name: string | null
-          id: string
-          neighborhood: string | null
-          paid_at: string | null
-          payment_reference: string | null
-          payment_status: Database["public"]["Enums"]["payment_status"]
-          phone: string | null
-          plan_id: string
-          plan_option_id: string
-          postal_code: string | null
-          professional_id: string | null
-          property_type: string | null
-          room_count: number
-          state: string | null
-          status: Database["public"]["Enums"]["booking_status"]
-          street: string | null
-          street_number: string | null
-          subtotal_cents: number | null
-          total_cents: number | null
-          updated_at: string
-          urgent_delivery: boolean
-          urgent_fee_cents: number
-        }
-        SetofOptions: {
-          from: "*"
-          to: "service_bookings"
-          isOneToOne: true
-          isSetofReturn: false
-        }
-      }
+      reserve_service_booking:
+        | {
+            Args: {
+              _add_extra_room: boolean
+              _address_complement: string
+              _booking_id: string
+              _city: string
+              _email: string
+              _full_name: string
+              _neighborhood: string
+              _phone: string
+              _postal_code: string
+              _property_type: string
+              _slot_id: string
+              _state: string
+              _street: string
+              _street_number: string
+              _urgent_delivery: boolean
+            }
+            Returns: {
+              add_extra_room: boolean
+              address_complement: string | null
+              appointment_slot_id: string | null
+              checkout_session_id: string | null
+              city: string | null
+              client_id: string
+              created_at: string
+              email: string | null
+              extra_room_count: number
+              extra_room_price_cents: number | null
+              full_name: string | null
+              id: string
+              neighborhood: string | null
+              paid_at: string | null
+              payment_reference: string | null
+              payment_status: Database["public"]["Enums"]["payment_status"]
+              phone: string | null
+              plan_id: string
+              plan_option_id: string
+              postal_code: string | null
+              professional_id: string | null
+              property_type: string | null
+              room_count: number
+              state: string | null
+              status: Database["public"]["Enums"]["booking_status"]
+              street: string | null
+              street_number: string | null
+              subtotal_cents: number | null
+              total_cents: number | null
+              updated_at: string
+              urgent_delivery: boolean
+              urgent_fee_cents: number
+            }
+            SetofOptions: {
+              from: "*"
+              to: "service_bookings"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
+        | {
+            Args: {
+              _address_complement: string
+              _booking_id: string
+              _city: string
+              _email: string
+              _extra_room_count: number
+              _full_name: string
+              _neighborhood: string
+              _phone: string
+              _postal_code: string
+              _property_type: string
+              _slot_id: string
+              _state: string
+              _street: string
+              _street_number: string
+              _urgent_delivery: boolean
+            }
+            Returns: {
+              add_extra_room: boolean
+              address_complement: string | null
+              appointment_slot_id: string | null
+              checkout_session_id: string | null
+              city: string | null
+              client_id: string
+              created_at: string
+              email: string | null
+              extra_room_count: number
+              extra_room_price_cents: number | null
+              full_name: string | null
+              id: string
+              neighborhood: string | null
+              paid_at: string | null
+              payment_reference: string | null
+              payment_status: Database["public"]["Enums"]["payment_status"]
+              phone: string | null
+              plan_id: string
+              plan_option_id: string
+              postal_code: string | null
+              professional_id: string | null
+              property_type: string | null
+              room_count: number
+              state: string | null
+              status: Database["public"]["Enums"]["booking_status"]
+              street: string | null
+              street_number: string | null
+              subtotal_cents: number | null
+              total_cents: number | null
+              updated_at: string
+              urgent_delivery: boolean
+              urgent_fee_cents: number
+            }
+            SetofOptions: {
+              from: "*"
+              to: "service_bookings"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
       review_partner_application: {
         Args: { _approve: boolean; _id: string; _note?: string }
         Returns: undefined
