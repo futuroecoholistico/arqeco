@@ -28,13 +28,11 @@ export const Route = createFileRoute("/")({
 
 const nav = [["Serviços", "#servicos"], ["Projetos", "#planos"], ["Como funciona", "#como-funciona"], ["Curadoria", "#curadoria"], ["Sobre", "#sobre"]];
 
-const comparison: [string, string, string, string][] = [
-  ["Formato", "Projeto", "Projeto", "Consultoria"], ["Projeto de interiores", "✓", "✓", "à parte"], ["Layout", "✓", "✓", "à parte"], ["Estilo e estética", "✓", "✓", "✓"],
-  ["Visualização 3D personalizada", "✓", "✓", "à parte"], ["Lista de materiais", "✓", "✓", "à parte"], ["Curadoria ArqEco", "✓", "✓", "✓"],
-  ["Harmonização de ambientes", "—", "—", "✓"], ["Faça você mesmo pelo app", "—", "—", "✓"],
-  ["Sustentabilidade", "✓", "✓", "✓"], ["Conforto ambiental", "✓", "✓", "✓"], ["Rotina e hábitos", "—", "✓", "✓"],
-  ["Biophilia", "—", "✓", "✓"], ["Neuroarquitetura", "—", "✓", "✓"], ["Sensorialidade", "—", "—", "✓"],
-  ["Cinco elementos", "—", "—", "✓"], ["Dimensão vibracional", "—", "—", "✓"], ["Relatório Eco-Holístico", "—", "—", "✓"],
+const comparison: [string, string, string][] = [
+  ["Formato", "Projeto sustentável", "Projeto sustentável ampliado"], ["Projeto de interiores", "✓", "✓"], ["Layout", "✓", "✓"], ["Estilo e estética", "✓", "✓"],
+  ["Visualização 3D personalizada", "✓", "✓"], ["Lista de materiais", "✓", "✓"], ["Curadoria ArqEco", "✓", "✓"],
+  ["Sustentabilidade", "✓", "✓"], ["Conforto ambiental", "✓", "✓"], ["Rotina e hábitos", "—", "✓"],
+  ["Biofilia", "—", "✓"], ["Neuroarquitetura", "—", "✓"], ["Dossiê Eco-Holístico", "Bônus", "Bônus"],
 ];
 
 const faq: [string, string][] = [
@@ -46,7 +44,7 @@ const faq: [string, string][] = [
   ["Recebo projeto em 3D?", "Nos planos em que o 3D estiver incluído, sim."],
   ["A ArqEco vende os produtos?", "Não. Os produtos são vendidos diretamente pelos fornecedores parceiros."],
   ["O que é o Índice Eco-Holístico™?", "Uma metodologia proprietária para organizar e interpretar critérios relacionados a materiais e produtos."],
-  ["A sensorialidade está em todos os projetos?", "Não. A dimensão sensorial, vibracional e dos cinco elementos é exclusiva do Design Eco-Holístico."],
+  ["O Dossiê Eco-Holístico está incluído?", "Sim. Por tempo limitado, todos os projetos Viver Bem e Viver Lifestyle recebem o Dossiê Eco-Holístico como bônus gratuito."],
   ["Quem pode usar a Zoe?", "A Zoe está disponível exclusivamente no painel de arquitetos e designers da rede ArqEco. Ela apoia o trabalho profissional, mas não substitui um responsável técnico habilitado."],
   ["O que é o Certificado ArqEco?", "Um registro emitido para projetos elegíveis, conforme critérios e metodologia definidos pela plataforma."],
 ];
@@ -110,11 +108,12 @@ function Price({ opt }: { opt: PlanOpt | undefined }) {
   if (!opt || opt.price_cents == null) return <p className="font-display text-2xl font-semibold">Preço em breve</p>;
   const cents = opt.price_cents;
   const compare = opt.compare_at_price_cents;
-  const off = compare && compare > cents ? Math.round((1 - cents / compare) * 100) : 0;
+  const off = compare && compare > cents ? (1 - cents / compare) * 100 : 0;
+  const offLabel = Number(off.toFixed(2)).toLocaleString("pt-BR", { maximumFractionDigits: 2 });
   return (
     <div>
       {off > 0 && compare && (
-        <p className="flex items-center gap-2 text-sm text-muted-foreground"><span className="line-through">{brl(compare)}</span><span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-primary-foreground">{off}% off</span></p>
+        <p className="flex items-center gap-2 text-sm text-muted-foreground"><span className="line-through">{brl(compare)}</span><span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-primary-foreground">{offLabel}% off</span></p>
       )}
       <p className="font-display text-3xl font-semibold">{opt.is_starting_price && <span className="mr-1 text-sm font-normal text-muted-foreground">a partir de</span>}{brl(cents)}{opt.price_per_room && <span className="ml-1 text-sm font-normal text-muted-foreground">/ ambiente</span>}</p>
       {!opt.price_per_room && opt.installments ? <p className="text-xs text-muted-foreground">ou {opt.installments}x de {brl(Math.ceil(cents / opt.installments))}</p> : null}
@@ -235,7 +234,7 @@ function Home() {
           <Eyebrow>O que é a ArqEco?</Eyebrow>
           <h2 className="mt-4 max-w-2xl font-display text-4xl font-bold">Estrutura profissional. Olhar humano.</h2>
           <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">A ArqEco conecta <strong className="text-foreground">clientes, profissionais, tecnologia e curadoria de materiais</strong> para tornar a transformação dos espaços mais simples, acessível e consciente.</p>
-          <p className="mt-8 text-sm text-muted-foreground">Para quem busca uma experiência mais profunda, o <strong className="text-foreground">Design Eco-Holístico</strong> amplia o olhar sobre a relação entre pessoa e espaço.</p>
+           <p className="mt-8 text-sm text-muted-foreground">Em cada projeto, decisões de layout, materiais e conforto são organizadas para unir <strong className="text-foreground">estética, bem-estar e responsabilidade ambiental</strong>.</p>
           </div>
           <div className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
             {[["Projeto", "Desenvolvido por profissionais da rede ArqEco."], ["Tecnologia", "Projeto online, visualização 3D e ferramentas digitais."], ["Sustentabilidade", "Critérios para escolhas mais conscientes."], ["Curadoria", "Produtos selecionados de diferentes fornecedores."], ["Inteligência", "Zoe apoia arquitetos e designers no desenvolvimento dos projetos."]].map(([t, d]) => (
@@ -270,19 +269,26 @@ function Home() {
             <article className="flex min-h-96 min-w-0 flex-col overflow-hidden bg-card p-7 md:p-10">
               <Hammer className="size-8 text-primary" aria-hidden="true" />
               <p className="mt-10 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Interiores</p>
-              <h3 className="mt-3 font-display text-4xl font-semibold">Vai reformar ou decorar?</h3>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Conheça os projetos sustentáveis e conscientes Viver Bem, Viver Lifestyle e Design Eco-Holístico, com contratação prática por ambiente.</p>
-              <div className="mt-8 flex flex-wrap gap-2 text-xs font-semibold"><span className="border border-border px-3 py-2">Viver Bem</span><span className="border border-border px-3 py-2">Viver Lifestyle</span><span className="border border-border px-3 py-2">Design Eco-Holístico</span></div>
-              <div className="mt-auto pt-8"><Button asChild variant="paper" size="lg" className="h-auto w-full whitespace-normal py-3 text-center leading-snug sm:w-auto"><a href="#planos">Ver reforma e decoração <ArrowRight className="shrink-0" /></a></Button></div>
+               <h3 className="mt-3 font-display text-4xl font-semibold">Design de interiores sustentável</h3>
+               <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Conheça os projetos sustentáveis e conscientes Viver Bem e Viver Lifestyle, com contratação prática e diferenças claras entre cada experiência.</p>
+               <div className="mt-8 flex flex-wrap gap-2 text-xs font-semibold"><span className="border border-border px-3 py-2">Viver Bem</span><span className="border border-border px-3 py-2">Viver Lifestyle</span></div>
+               <div className="mt-auto pt-8"><Button asChild variant="paper" size="lg" className="h-auto w-full whitespace-normal py-3 text-center leading-snug sm:w-auto"><a href="#planos">Ver projetos de interiores <ArrowRight className="shrink-0" /></a></Button></div>
             </article>
           </div>
         </div>
       </section>
 
+      <section className="architectural-grid bg-sidebar text-sidebar-foreground">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Bônus em todos os projetos</p><h2 className="mt-3 font-display text-3xl font-semibold md:text-4xl">Dossiê Eco-Holístico gratuito</h2><p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-75">Por tempo limitado, todo projeto Viver Bem ou Viver Lifestyle inclui um Dossiê Eco-Holístico para ampliar o olhar sobre bem-estar, sustentabilidade e a relação com seus ambientes.</p></div>
+          <Button asChild variant="editorial" size="lg"><a href="https://holistic-echo-care.lovable.app/#relatorio" target="_blank" rel="noreferrer">Conhecer o Dossiê <ArrowRight /></a></Button>
+        </div>
+      </section>
+
       {/* 5-7. Planos + 9. Ambientes */}
       <section id="planos" className="mx-auto max-w-7xl px-5 py-20">
-        <Eyebrow>Reforma e decoração sustentáveis</Eyebrow>
-        <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold">Escolha como você quer reformar ou decorar seu espaço.</h2>
+        <Eyebrow>Design de interiores sustentável</Eyebrow>
+        <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold">Escolha o projeto sustentável ideal para o seu espaço.</h2>
         <p className="mt-4 max-w-2xl text-muted-foreground">Não precisa contratar um projeto maior do que precisa. Escolha a experiência de acordo com o nível de transformação que procura.</p>
 
         {roomLabels.length > 0 && (
@@ -294,8 +300,8 @@ function Home() {
           </div>
         )}
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {plans.isLoading && [0, 1, 2].map((i) => <div key={i} className="h-[560px] animate-pulse rounded-lg bg-card" />)}
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          {plans.isLoading && [0, 1].map((i) => <div key={i} className="h-[560px] animate-pulse bg-card" />)}
           {plans.isError && <p className="text-sm text-muted-foreground">Não foi possível carregar os planos agora.</p>}
           {plans.data?.map((p, idx) => {
             const perRoom = p.service_plan_options.some((o) => o.price_per_room);
@@ -338,7 +344,7 @@ function Home() {
         <div className="mt-16 overflow-x-auto border border-border bg-card">
           <h3 className="px-6 pt-6 font-display text-2xl font-semibold">O que muda entre os projetos?</h3>
           <table className="mt-4 w-full min-w-[640px] text-sm">
-            <thead className="sticky top-20 z-10 bg-card"><tr className="border-b border-border text-left text-[11px] uppercase tracking-[0.14em] text-muted-foreground"><th className="px-6 py-3 font-semibold" /><th className="px-4 py-3">Viver Bem</th><th className="px-4 py-3">Viver Lifestyle</th><th className="px-4 py-3">Design Eco-Holístico</th></tr></thead>
+            <thead className="sticky top-20 z-10 bg-card"><tr className="border-b border-border text-left text-[11px] uppercase tracking-[0.14em] text-muted-foreground"><th className="px-6 py-3 font-semibold" /><th className="px-4 py-3">Viver Bem</th><th className="px-4 py-3">Viver Lifestyle</th></tr></thead>
             <tbody>{comparison.map(([f, ...v]) => <tr key={f} className="border-b border-border last:border-0"><td className="px-6 py-3">{f}</td>{v.map((c, i) => <td key={i} className="px-4 py-3">{c === "✓" ? <Check className="size-4 text-primary" /> : c === "—" ? <Minus className="size-4 text-muted-foreground/50" /> : <span className="text-xs text-muted-foreground">{c}</span>}</td>)}</tr>)}</tbody>
           </table>
         </div>
@@ -405,10 +411,10 @@ function Home() {
           </div>
         </div>
         <div className="bg-sidebar p-8 text-sidebar-foreground lg:self-center">
-          <h3 className="font-display text-3xl font-semibold">E onde entra o Design Eco-Holístico?</h3>
-          <p className="mt-4 text-sm opacity-90">O <strong>Índice Eco-Holístico™</strong> ajuda a interpretar materiais e produtos. Já o <strong>Design Eco-Holístico</strong> é uma experiência de projeto própria da ArqEco. É nele que entram:</p>
-          <div className="mt-6 flex flex-wrap gap-2">{["Sensorialidade", "Cinco elementos", "Dimensão vibracional", "Leitura simbólica", "Diretrizes sensoriais", "Relação pessoa-espaço"].map((t) => <span key={t} className="rounded-full border border-primary-foreground/30 px-3 py-1 text-xs">{t}</span>)}</div>
-          <p className="mt-6 text-xs opacity-75">Comprar um produto com Índice não significa contratar um projeto Eco-Holístico.</p>
+          <h3 className="font-display text-3xl font-semibold">Um olhar complementar para cada projeto.</h3>
+          <p className="mt-4 text-sm opacity-90">O <strong>Índice Eco-Holístico™</strong> ajuda a interpretar materiais e produtos. O Dossiê oferecido como bônus reúne orientações para ampliar a relação entre bem-estar, escolhas conscientes e o espaço vivido.</p>
+          <div className="mt-6 flex flex-wrap gap-2">{["Bem-estar", "Materiais conscientes", "Conforto", "Relação pessoa-espaço"].map((t) => <span key={t} className="rounded-full border border-primary-foreground/30 px-3 py-1 text-xs">{t}</span>)}</div>
+          <Button asChild variant="editorial" className="mt-7"><a href="https://holistic-echo-care.lovable.app/#relatorio" target="_blank" rel="noreferrer">Acessar Dossiê <ArrowRight /></a></Button>
         </div>
       </section>
 
