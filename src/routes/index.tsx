@@ -44,7 +44,7 @@ const faq: [string, string][] = [
   ["Recebo projeto em 3D?", "Nos planos em que o 3D estiver incluído, sim."],
   ["A ArqEco vende os produtos?", "Não. Os produtos são vendidos diretamente pelos fornecedores parceiros."],
   ["O que é o Índice Eco-Holístico™?", "Uma metodologia proprietária para organizar e interpretar critérios relacionados a materiais e produtos."],
-  ["O Dossiê Eco-Holístico está incluído?", "Sim. Por tempo limitado, todos os projetos Viver Bem e Viver Lifestyle recebem o Dossiê Eco-Holístico como bônus gratuito."],
+  ["O Dossiê Eco-Holístico está incluído?", "Sim. Todos os pacotes de projeto ARQECO recebem o Dossiê Eco-Holístico como bônus gratuito."],
   ["Quem pode usar a Zoe?", "A Zoe está disponível exclusivamente no painel de arquitetos e designers da rede ArqEco. Ela apoia o trabalho profissional, mas não substitui um responsável técnico habilitado."],
   ["O que é o Certificado ArqEco?", "Um registro emitido para projetos elegíveis, conforme critérios e metodologia definidos pela plataforma."],
 ];
@@ -280,7 +280,7 @@ function Home() {
 
       <section className="architectural-grid bg-sidebar text-sidebar-foreground">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Bônus em todos os projetos</p><h2 className="mt-3 font-display text-3xl font-semibold md:text-4xl">Dossiê Eco-Holístico gratuito</h2><p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-75">Por tempo limitado, todo projeto Viver Bem ou Viver Lifestyle inclui um Dossiê Eco-Holístico para ampliar o olhar sobre bem-estar, sustentabilidade e a relação com seus ambientes.</p></div>
+          <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Bônus em todos os pacotes</p><h2 className="mt-3 font-display text-3xl font-semibold md:text-4xl">Dossiê Eco-Holístico gratuito</h2><p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-75">Todos os pacotes de projeto ARQECO incluem um Dossiê Eco-Holístico para ampliar o olhar sobre bem-estar, sustentabilidade e a relação com seus ambientes.</p></div>
           <Button asChild variant="editorial" size="lg"><a href="https://holistic-echo-care.lovable.app/#relatorio" target="_blank" rel="noreferrer">Conhecer o Dossiê <ArrowRight /></a></Button>
         </div>
       </section>

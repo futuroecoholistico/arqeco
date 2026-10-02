@@ -21,4 +21,4 @@
 - [ ] Zoe: ler materiais de referência.
 - [x] Acompanhamento recorrente Eco-Holístico cancelado em favor do Dossiê Eco-Holístico gratuito como bônus dos projetos.
 - [x] Organizar a entrada por “Vai construir?” e “Vai reformar/decorar?”, com formulário de construção, envio à equipe e agendamento de reunião.
-- [x] Atualizar Viver Bem e Lifestyle, remover Design Eco-Holístico dos planos, incluir ambientes extras a R$ 450 e oferecer o Dossiê Eco-Holístico gratuito como bônus de todos os projetos.
+- [x] Atualizar Viver Bem e Lifestyle, remover Design Eco-Holístico dos planos, incluir ambientes extras a R$ 450 e oferecer o Dossiê Eco-Holístico gratuito como bônus em todos os pacotes de projeto ARQECO.
