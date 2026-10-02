@@ -15,10 +15,10 @@
 - [x] Direção Sophisticated Eco-Futurism aplicada: Playfair Display + Montserrat, preto/bege dominantes e ações no verde do logo.
 - [x] Comparador interativo de antes e depois na visualização do projeto 3D.
 - [x] Fluxo “Começar agora”: agenda disponível → dados pessoais → endereço do imóvel → revisão → pagamento preparado.
-- [x] Adicionais na contratação: mais 1 ambiente pelo valor configurado e taxa de urgência de R$ 190,00.
+- [x] Adicionais na contratação: quantidade livre de ambientes extras pelo valor unitário configurado e taxa de urgência de R$ 190,00.
 - [x] Pagamento real (cartão e Pix) nos planos, confirmado automaticamente; painel admin de contratos, horários, depoimentos e preços; cadastro de arquitetos com aprovação e atribuição.
 - [ ] Bloqueado (usuário): concluir a ativação do recebimento real na aba de pagamentos; definir o primeiro admin.
 - [ ] Zoe: ler materiais de referência.
-- [ ] Separar Projeto Design Eco-Holístico do Acompanhamento recorrente; criar mensal, trimestral e anual, checkout, gestão e acesso trimestral ao especialista.
+- [x] Acompanhamento recorrente Eco-Holístico cancelado em favor do Dossiê Eco-Holístico gratuito como bônus dos projetos.
 - [x] Organizar a entrada por “Vai construir?” e “Vai reformar/decorar?”, com formulário de construção, envio à equipe e agendamento de reunião.
-- [ ] Atualizar Viver Bem e Lifestyle, remover Design Eco-Holístico dos planos, incluir ambientes extras a R$ 450 e oferecer o Dossiê Eco-Holístico gratuito como bônus de todos os projetos.
+- [x] Atualizar Viver Bem e Lifestyle, remover Design Eco-Holístico dos planos, incluir ambientes extras a R$ 450 e oferecer o Dossiê Eco-Holístico gratuito como bônus de todos os projetos.
