@@ -2,13 +2,13 @@
 
 ## Resultado
 - Renomear a entrada e a seção de planos para **Design de Interiores Sustentável**, retirando a palavra “reforma”.
-- Reforçar em cada plano, nos detalhes e na comparação, o que o projeto sustentável contempla e como cada opção se diferencia.
+- Reforçar nos planos Viver Bem e Viver Lifestyle, nos detalhes e na comparação, o que cada projeto sustentável contempla e como as duas opções se diferenciam.
 - Refinar a composição dos serviços e planos para uma aparência mais sofisticada, mantendo Playfair Display, Montserrat, preto, bege e verde do logo.
 
 ## Preços e descontos
 - **Viver Bem — até 2 ambientes:** R$ 698,00, com desconto de 35% apresentado sobre o valor proporcional anterior de R$ 1.073,85.
-- **Viver Lifestyle — até 4 ambientes:** R$ 936,00, com desconto de 35% apresentado sobre o valor proporcional anterior de R$ 1.440,00.
-- **Design Eco-Holístico com Design de Interiores:** R$ 650,00, com desconto de 35% sobre R$ 1.000,00.
+- **Viver Lifestyle — até 4 ambientes:** R$ 936,00, com desconto de 56,42% apresentado sobre R$ 2.147,77.
+- Retirar o Design Eco-Holístico da lista de planos e do comparativo de contratação.
 - Manter preços e referências gravados no painel administrativo, sem valores manipuláveis pelo navegador.
 
 ## Ambiente adicional
@@ -20,7 +20,7 @@
 
 ## Dossiê Eco-Holístico
 - Inserir abaixo dos serviços uma faixa própria para o **Dossiê Eco-Holístico**.
-- Apresentá-lo como **gratuito por tempo limitado**.
+- Apresentá-lo como **bônus gratuito por tempo limitado, incluído em todos os projetos**.
 - O botão abrirá `https://holistic-echo-care.lovable.app/#relatorio` em uma nova guia.
 
 ## Validação
