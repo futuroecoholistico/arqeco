@@ -562,6 +562,7 @@ export type Database = {
           client_id: string
           created_at: string
           email: string | null
+          extra_room_count: number
           extra_room_price_cents: number | null
           full_name: string | null
           id: string
@@ -595,6 +596,7 @@ export type Database = {
           client_id: string
           created_at?: string
           email?: string | null
+          extra_room_count?: number
           extra_room_price_cents?: number | null
           full_name?: string | null
           id?: string
@@ -628,6 +630,7 @@ export type Database = {
           client_id?: string
           created_at?: string
           email?: string | null
+          extra_room_count?: number
           extra_room_price_cents?: number | null
           full_name?: string | null
           id?: string
@@ -682,6 +685,7 @@ export type Database = {
           created_at: string
           delivery_days: number | null
           description: string | null
+          extra_room_price_cents: number
           id: string
           includes_3d: boolean
           includes_material_list: boolean
@@ -702,6 +706,7 @@ export type Database = {
           created_at?: string
           delivery_days?: number | null
           description?: string | null
+          extra_room_price_cents?: number
           id?: string
           includes_3d?: boolean
           includes_material_list?: boolean
@@ -722,6 +727,7 @@ export type Database = {
           created_at?: string
           delivery_days?: number | null
           description?: string | null
+          extra_room_price_cents?: number
           id?: string
           includes_3d?: boolean
           includes_material_list?: boolean
@@ -925,11 +931,11 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean }
       reserve_service_booking: {
         Args: {
-          _add_extra_room: boolean
           _address_complement: string
           _booking_id: string
           _city: string
           _email: string
+          _extra_room_count: number
           _full_name: string
           _neighborhood: string
           _phone: string
@@ -950,6 +956,7 @@ export type Database = {
           client_id: string
           created_at: string
           email: string | null
+          extra_room_count: number
           extra_room_price_cents: number | null
           full_name: string | null
           id: string

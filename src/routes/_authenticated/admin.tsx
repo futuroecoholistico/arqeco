@@ -121,12 +121,13 @@ function Submissions() {
 
 function Plans() {
   const qc = useQueryClient();
-  const q = useQuery({ queryKey: ["admin-plans"], queryFn: async () => (await supabase.from("service_plans").select("id,name,badge,service_plan_options(id,rooms_label,price_cents,compare_at_price_cents,delivery_days,sort_order)").order("sort_order")).data ?? [] });
-  async function savePrice(id: string, value: string, field: "price_cents" | "compare_at_price_cents" = "price_cents") {
+  const q = useQuery({ queryKey: ["admin-plans"], queryFn: async () => (await supabase.from("service_plans").select("id,name,badge,is_active,service_plan_options(id,rooms_label,price_cents,compare_at_price_cents,extra_room_price_cents,delivery_days,sort_order)").eq("is_active", true).order("sort_order")).data ?? [] });
+  async function savePrice(id: string, value: string, field: "price_cents" | "compare_at_price_cents" | "extra_room_price_cents" = "price_cents") {
     const n = value.trim() === "" ? null : Math.round(Number(value.replace(",", ".")) * 100);
     if (n !== null && (!Number.isFinite(n) || n < 0)) return;
     if (field === "price_cents") await supabase.from("service_plan_options").update({ price_cents: n }).eq("id", id);
-    else await supabase.from("service_plan_options").update({ compare_at_price_cents: n }).eq("id", id);
+    else if (field === "compare_at_price_cents") await supabase.from("service_plan_options").update({ compare_at_price_cents: n }).eq("id", id);
+    else if (n !== null) await supabase.from("service_plan_options").update({ extra_room_price_cents: n }).eq("id", id);
     qc.invalidateQueries({ queryKey: ["admin-plans"] }); qc.invalidateQueries({ queryKey: ["plans"] });
   }
   async function saveBadge(id: string, value: string) {
@@ -145,6 +146,7 @@ function Plans() {
                 <input className={`${fieldClass} mt-1`} inputMode="decimal" placeholder="R$ —" defaultValue={o.price_cents != null ? (o.price_cents / 100).toString() : ""} onBlur={(e) => savePrice(o.id, e.target.value)} />
                 <span className="mt-1 block font-normal">{brl(o.price_cents)}</span>
                 <input className={`${fieldClass} mt-2`} inputMode="decimal" placeholder="Preço antes (riscado)" defaultValue={o.compare_at_price_cents != null ? (o.compare_at_price_cents / 100).toString() : ""} onBlur={(e) => savePrice(o.id, e.target.value, "compare_at_price_cents")} aria-label={`Preço antes ${o.rooms_label}`} />
+                 <input className={`${fieldClass} mt-2`} inputMode="decimal" placeholder="Ambiente extra" defaultValue={(o.extra_room_price_cents / 100).toString()} onBlur={(e) => savePrice(o.id, e.target.value, "extra_room_price_cents")} aria-label={`Valor do ambiente extra ${o.rooms_label}`} />
               </label>
             ))}
           </div>
@@ -177,7 +179,7 @@ const statusLabel: Record<string, string> = { draft: "Rascunho", awaiting_paymen
 
 function Contracts() {
   const qc = useQueryClient();
-  const q = useQuery({ queryKey: ["admin-contracts"], queryFn: async () => (await supabase.from("service_bookings").select("id,full_name,email,phone,city,state,status,total_cents,room_count,professional_id,add_extra_room,urgent_delivery,service_plans(name),service_plan_options(rooms_label),appointment_slots(starts_at)").neq("status", "draft").order("created_at", { ascending: false })).data ?? [] });
+  const q = useQuery({ queryKey: ["admin-contracts"], queryFn: async () => (await supabase.from("service_bookings").select("id,full_name,email,phone,city,state,status,total_cents,room_count,extra_room_count,professional_id,urgent_delivery,service_plans(name),service_plan_options(rooms_label),appointment_slots(starts_at)").neq("status", "draft").order("created_at", { ascending: false })).data ?? [] });
   const pros = useQuery({ queryKey: ["admin-pros"], queryFn: async () => (await supabase.from("partner_applications").select("user_id,display_name").eq("kind", "professional").eq("status", "approved")).data ?? [] });
   async function assign(id: string, professional_id: string) {
     await supabase.from("service_bookings").update({ professional_id: professional_id || null }).eq("id", id);
@@ -190,7 +192,7 @@ function Contracts() {
         <div key={c.id} className="flex flex-wrap items-center gap-4 p-4 text-sm">
           <div className="min-w-60 flex-1">
             <p className="font-semibold">{c.full_name} <span className="font-normal text-muted-foreground">· {c.email} · {c.phone}</span></p>
-            <p className="text-xs text-muted-foreground">{c.service_plans?.name} · {c.service_plan_options?.rooms_label}{c.room_count > 1 ? ` × ${c.room_count}` : ""}{c.add_extra_room ? " · +1 ambiente" : ""}{c.urgent_delivery ? " · urgência" : ""} · {c.city}/{c.state}{c.appointment_slots?.starts_at ? ` · ${new Date(c.appointment_slots.starts_at).toLocaleString("pt-BR")}` : ""}</p>
+            <p className="text-xs text-muted-foreground">{c.service_plans?.name} · {c.service_plan_options?.rooms_label}{c.room_count > 1 ? ` × ${c.room_count}` : ""}{c.extra_room_count > 0 ? ` · +${c.extra_room_count} ambiente${c.extra_room_count === 1 ? "" : "s"}` : ""}{c.urgent_delivery ? " · urgência" : ""} · {c.city}/{c.state}{c.appointment_slots?.starts_at ? ` · ${new Date(c.appointment_slots.starts_at).toLocaleString("pt-BR")}` : ""}</p>
           </div>
           <span className="font-semibold">{brl(c.total_cents)}</span>
           <span className="rounded bg-secondary px-2 py-0.5 text-[11px] font-semibold">{statusLabel[c.status] ?? c.status}</span>

@@ -1,0 +1,1 @@
+DROP FUNCTION public.reserve_service_booking(uuid, uuid, text, text, text, text, text, text, text, text, text, text, text, boolean, boolean);
