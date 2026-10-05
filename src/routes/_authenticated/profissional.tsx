@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
+import { SlotManager } from "@/components/SlotManager";
 import { ZoeChat } from "@/components/ZoeChat";
 
 export const Route = createFileRoute("/_authenticated/profissional")({
