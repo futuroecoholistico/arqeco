@@ -18,6 +18,7 @@ import { Route as AuthenticatedConstruirRouteImport } from './routes/_authentica
 import { Route as AuthenticatedContratarRouteImport } from './routes/_authenticated/contratar'
 import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authenticated/fornecedor'
 import { Route as AuthenticatedPagamentoRouteImport } from './routes/_authenticated/pagamento'
+import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedProfissionalRouteImport } from './routes/_authenticated/profissional'
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
 import { Route as RCodeRouteImport } from './routes/r.$code'
@@ -69,6 +70,11 @@ const AuthenticatedPagamentoRoute = AuthenticatedPagamentoRouteImport.update({
   path: '/pagamento',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProfissionalRoute =
   AuthenticatedProfissionalRouteImport.update({
     id: '/profissional',
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
+  '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
+  '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/_authenticated/contratar': typeof AuthenticatedContratarRoute
   '/_authenticated/fornecedor': typeof AuthenticatedFornecedorRoute
   '/_authenticated/pagamento': typeof AuthenticatedPagamentoRoute
+  '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
     | '/contratar'
     | '/fornecedor'
     | '/pagamento'
+    | '/painel'
     | '/profissional'
     | '/api/zoe'
     | '/r/$code'
@@ -180,6 +190,7 @@ export interface FileRouteTypes {
     | '/contratar'
     | '/fornecedor'
     | '/pagamento'
+    | '/painel'
     | '/profissional'
     | '/api/zoe'
     | '/r/$code'
@@ -197,6 +208,7 @@ export interface FileRouteTypes {
     | '/_authenticated/contratar'
     | '/_authenticated/fornecedor'
     | '/_authenticated/pagamento'
+    | '/_authenticated/painel'
     | '/_authenticated/profissional'
     | '/api/zoe'
     | '/r/$code'
@@ -280,6 +292,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPagamentoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/painel': {
+      id: '/_authenticated/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof AuthenticatedPainelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profissional': {
       id: '/_authenticated/profissional'
       path: '/profissional'
@@ -332,6 +351,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedContratarRoute: typeof AuthenticatedContratarRoute
   AuthenticatedFornecedorRoute: typeof AuthenticatedFornecedorRoute
   AuthenticatedPagamentoRoute: typeof AuthenticatedPagamentoRoute
+  AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedProfissionalRoute: typeof AuthenticatedProfissionalRoute
   AuthenticatedBriefingProjectIdRoute: typeof AuthenticatedBriefingProjectIdRoute
 }
@@ -343,6 +363,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedContratarRoute: AuthenticatedContratarRoute,
   AuthenticatedFornecedorRoute: AuthenticatedFornecedorRoute,
   AuthenticatedPagamentoRoute: AuthenticatedPagamentoRoute,
+  AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedProfissionalRoute: AuthenticatedProfissionalRoute,
   AuthenticatedBriefingProjectIdRoute: AuthenticatedBriefingProjectIdRoute,
 }
