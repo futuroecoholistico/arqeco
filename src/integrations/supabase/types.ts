@@ -149,6 +149,7 @@ export type Database = {
           ends_at: string
           id: string
           is_available: boolean
+          professional_id: string | null
           starts_at: string
           updated_at: string
         }
@@ -158,6 +159,7 @@ export type Database = {
           ends_at: string
           id?: string
           is_available?: boolean
+          professional_id?: string | null
           starts_at: string
           updated_at?: string
         }
@@ -167,6 +169,7 @@ export type Database = {
           ends_at?: string
           id?: string
           is_available?: boolean
+          professional_id?: string | null
           starts_at?: string
           updated_at?: string
         }
@@ -929,6 +932,14 @@ export type Database = {
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
+      list_professionals: {
+        Args: never
+        Returns: {
+          city: string
+          display_name: string
+          user_id: string
+        }[]
+      }
       reserve_service_booking: {
         Args: {
           _address_complement: string
