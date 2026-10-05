@@ -12,16 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as PainelRouteImport } from './routes/painel'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAfiliadoRouteImport } from './routes/_authenticated/afiliado'
 import { Route as AuthenticatedConstruirRouteImport } from './routes/_authenticated/construir'
 import { Route as AuthenticatedContratarRouteImport } from './routes/_authenticated/contratar'
 import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authenticated/fornecedor'
 import { Route as AuthenticatedPagamentoRouteImport } from './routes/_authenticated/pagamento'
+import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedProfissionalRouteImport } from './routes/_authenticated/profissional'
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
 import { Route as RCodeRouteImport } from './routes/r.$code'
+import { Route as AuthenticatedBriefingProjectIdRouteImport } from './routes/_authenticated/briefing.$projectId'
 import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -37,11 +38,6 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PainelRoute = PainelRouteImport.update({
-  id: '/painel',
-  path: '/painel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -74,6 +70,11 @@ const AuthenticatedPagamentoRoute = AuthenticatedPagamentoRouteImport.update({
   path: '/pagamento',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProfissionalRoute =
   AuthenticatedProfissionalRouteImport.update({
     id: '/profissional',
@@ -90,6 +91,12 @@ const RCodeRoute = RCodeRouteImport.update({
   path: '/r/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedBriefingProjectIdRoute =
+  AuthenticatedBriefingProjectIdRouteImport.update({
+    id: '/briefing/$projectId',
+    path: '/briefing/$projectId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiPublicConversionsRoute = ApiPublicConversionsRouteImport.update({
   id: '/api/public/conversions',
   path: '/api/public/conversions',
@@ -105,32 +112,34 @@ const ApiPublicPaymentsWebhookRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/painel': typeof PainelRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
   '/construir': typeof AuthenticatedConstruirRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
+  '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
+  '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/painel': typeof PainelRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
   '/construir': typeof AuthenticatedConstruirRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
+  '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
+  '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -139,16 +148,17 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/painel': typeof PainelRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/afiliado': typeof AuthenticatedAfiliadoRoute
   '/_authenticated/construir': typeof AuthenticatedConstruirRoute
   '/_authenticated/contratar': typeof AuthenticatedContratarRoute
   '/_authenticated/fornecedor': typeof AuthenticatedFornecedorRoute
   '/_authenticated/pagamento': typeof AuthenticatedPagamentoRoute
+  '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
   '/r/$code': typeof RCodeRoute
+  '/_authenticated/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -157,32 +167,34 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
-    | '/painel'
     | '/admin'
     | '/afiliado'
     | '/construir'
     | '/contratar'
     | '/fornecedor'
     | '/pagamento'
+    | '/painel'
     | '/profissional'
     | '/api/zoe'
     | '/r/$code'
+    | '/briefing/$projectId'
     | '/api/public/conversions'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
-    | '/painel'
     | '/admin'
     | '/afiliado'
     | '/construir'
     | '/contratar'
     | '/fornecedor'
     | '/pagamento'
+    | '/painel'
     | '/profissional'
     | '/api/zoe'
     | '/r/$code'
+    | '/briefing/$projectId'
     | '/api/public/conversions'
     | '/api/public/payments/webhook'
   id:
@@ -190,16 +202,17 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
-    | '/painel'
     | '/_authenticated/admin'
     | '/_authenticated/afiliado'
     | '/_authenticated/construir'
     | '/_authenticated/contratar'
     | '/_authenticated/fornecedor'
     | '/_authenticated/pagamento'
+    | '/_authenticated/painel'
     | '/_authenticated/profissional'
     | '/api/zoe'
     | '/r/$code'
+    | '/_authenticated/briefing/$projectId'
     | '/api/public/conversions'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -208,7 +221,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
-  PainelRoute: typeof PainelRoute
   ApiZoeRoute: typeof ApiZoeRoute
   RCodeRoute: typeof RCodeRoute
   ApiPublicConversionsRoute: typeof ApiPublicConversionsRoute
@@ -236,13 +248,6 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/painel': {
-      id: '/painel'
-      path: '/painel'
-      fullPath: '/painel'
-      preLoaderRoute: typeof PainelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -287,6 +292,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPagamentoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/painel': {
+      id: '/_authenticated/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof AuthenticatedPainelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profissional': {
       id: '/_authenticated/profissional'
       path: '/profissional'
@@ -307,6 +319,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/r/$code'
       preLoaderRoute: typeof RCodeRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/briefing/$projectId': {
+      id: '/_authenticated/briefing/$projectId'
+      path: '/briefing/$projectId'
+      fullPath: '/briefing/$projectId'
+      preLoaderRoute: typeof AuthenticatedBriefingProjectIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/public/conversions': {
       id: '/api/public/conversions'
@@ -332,7 +351,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedContratarRoute: typeof AuthenticatedContratarRoute
   AuthenticatedFornecedorRoute: typeof AuthenticatedFornecedorRoute
   AuthenticatedPagamentoRoute: typeof AuthenticatedPagamentoRoute
+  AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedProfissionalRoute: typeof AuthenticatedProfissionalRoute
+  AuthenticatedBriefingProjectIdRoute: typeof AuthenticatedBriefingProjectIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -342,7 +363,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedContratarRoute: AuthenticatedContratarRoute,
   AuthenticatedFornecedorRoute: AuthenticatedFornecedorRoute,
   AuthenticatedPagamentoRoute: AuthenticatedPagamentoRoute,
+  AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedProfissionalRoute: AuthenticatedProfissionalRoute,
+  AuthenticatedBriefingProjectIdRoute: AuthenticatedBriefingProjectIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -352,7 +375,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
-  PainelRoute: PainelRoute,
   ApiZoeRoute: ApiZoeRoute,
   RCodeRoute: RCodeRoute,
   ApiPublicConversionsRoute: ApiPublicConversionsRoute,

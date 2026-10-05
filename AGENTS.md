@@ -27,3 +27,4 @@
 - Construction requests live separately from fixed-price interior plan bookings; authenticated clients submit an inquiry before optionally reserving a meeting slot, because construction needs a scoped proposal rather than instant checkout.
 
 - Each approved professional manages own `appointment_slots` (professional_id); slots without professional are the central ARQECO team agenda; booking a professional slot assigns the booking to that professional inside `reserve_service_booking`.
+- Briefings: one per project (created when a plan payment is confirmed); answers live in briefings.answers jsonb with question catalogue in src/lib/briefing/config.ts; submit_briefing normalizes rooms/people and advances the project — keeps the form flexible while filters and future AI read structured data. Visual options (styles/palettes/materials/moodboards) are rows in briefing_visual_options so the team swaps images without code.

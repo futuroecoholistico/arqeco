@@ -175,6 +175,239 @@ export type Database = {
         }
         Relationships: []
       }
+      briefing_files: {
+        Row: {
+          briefing_id: string
+          category: string
+          client_id: string
+          created_at: string
+          file_name: string
+          id: string
+          mime_type: string | null
+          size_bytes: number | null
+          storage_path: string
+        }
+        Insert: {
+          briefing_id: string
+          category?: string
+          client_id: string
+          created_at?: string
+          file_name: string
+          id?: string
+          mime_type?: string | null
+          size_bytes?: number | null
+          storage_path: string
+        }
+        Update: {
+          briefing_id?: string
+          category?: string
+          client_id?: string
+          created_at?: string
+          file_name?: string
+          id?: string
+          mime_type?: string | null
+          size_bytes?: number | null
+          storage_path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "briefing_files_briefing_id_fkey"
+            columns: ["briefing_id"]
+            isOneToOne: false
+            referencedRelation: "briefings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      briefing_people: {
+        Row: {
+          age: string | null
+          briefing_id: string
+          created_at: string
+          id: string
+          name: string | null
+          notes: string | null
+          occupation: string | null
+          relation: string | null
+          usage: string | null
+        }
+        Insert: {
+          age?: string | null
+          briefing_id: string
+          created_at?: string
+          id?: string
+          name?: string | null
+          notes?: string | null
+          occupation?: string | null
+          relation?: string | null
+          usage?: string | null
+        }
+        Update: {
+          age?: string | null
+          briefing_id?: string
+          created_at?: string
+          id?: string
+          name?: string | null
+          notes?: string | null
+          occupation?: string | null
+          relation?: string | null
+          usage?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "briefing_people_briefing_id_fkey"
+            columns: ["briefing_id"]
+            isOneToOne: false
+            referencedRelation: "briefings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      briefing_rooms: {
+        Row: {
+          briefing_id: string
+          created_at: string
+          id: string
+          name: string
+          needs: Json
+          room_key: string
+        }
+        Insert: {
+          briefing_id: string
+          created_at?: string
+          id?: string
+          name: string
+          needs?: Json
+          room_key: string
+        }
+        Update: {
+          briefing_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+          needs?: Json
+          room_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "briefing_rooms_briefing_id_fkey"
+            columns: ["briefing_id"]
+            isOneToOne: false
+            referencedRelation: "briefings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      briefing_visual_options: {
+        Row: {
+          colors: string[]
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          kind: string
+          name: string
+          sort_order: number
+          tags: string[]
+          updated_at: string
+        }
+        Insert: {
+          colors?: string[]
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          kind: string
+          name: string
+          sort_order?: number
+          tags?: string[]
+          updated_at?: string
+        }
+        Update: {
+          colors?: string[]
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          kind?: string
+          name?: string
+          sort_order?: number
+          tags?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      briefings: {
+        Row: {
+          admin_notes: string | null
+          aesthetic_profile: string | null
+          ai_summary: Json | null
+          answers: Json
+          client_id: string
+          consents: Json | null
+          created_at: string
+          current_step: number
+          eco_holistic: Json | null
+          id: string
+          progress: number
+          project_dna: Json | null
+          project_id: string
+          schema_version: number
+          status: string
+          submitted_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          aesthetic_profile?: string | null
+          ai_summary?: Json | null
+          answers?: Json
+          client_id: string
+          consents?: Json | null
+          created_at?: string
+          current_step?: number
+          eco_holistic?: Json | null
+          id?: string
+          progress?: number
+          project_dna?: Json | null
+          project_id: string
+          schema_version?: number
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          aesthetic_profile?: string | null
+          ai_summary?: Json | null
+          answers?: Json
+          client_id?: string
+          consents?: Json | null
+          created_at?: string
+          current_step?: number
+          eco_holistic?: Json | null
+          id?: string
+          progress?: number
+          project_dna?: Json | null
+          project_id?: string
+          schema_version?: number
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "briefings_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: true
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       construction_inquiries: {
         Row: {
           admin_notes: string | null
@@ -512,6 +745,7 @@ export type Database = {
       }
       projects: {
         Row: {
+          booking_id: string | null
           client_id: string
           created_at: string
           due_date: string | null
@@ -526,6 +760,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          booking_id?: string | null
           client_id: string
           created_at?: string
           due_date?: string | null
@@ -540,6 +775,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          booking_id?: string | null
           client_id?: string
           created_at?: string
           due_date?: string | null
@@ -553,7 +789,15 @@ export type Database = {
           status?: Database["public"]["Enums"]["project_status"]
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "projects_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "service_bookings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       service_bookings: {
         Row: {
@@ -1014,6 +1258,15 @@ export type Database = {
       }
       schedule_construction_meeting: {
         Args: { _inquiry_id: string; _slot_id: string }
+        Returns: undefined
+      }
+      submit_briefing: {
+        Args: {
+          _aesthetic_profile: string
+          _briefing_id: string
+          _consents: Json
+          _project_dna: Json
+        }
         Returns: undefined
       }
     }
