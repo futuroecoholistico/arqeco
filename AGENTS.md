@@ -25,3 +25,5 @@
 - Payment results arrive only via signed webhook `/api/public/payments/webhook`, which confirms the booking and blocks the slot — confirmation must not depend on the browser returning.
 - Architects apply via `partner_applications` kind `professional`; approval grants the `professional` role inside `review_partner_application` — one audited approval path.
 - Construction requests live separately from fixed-price interior plan bookings; authenticated clients submit an inquiry before optionally reserving a meeting slot, because construction needs a scoped proposal rather than instant checkout.
+
+- Each approved professional manages own `appointment_slots` (professional_id); slots without professional are the central ARQECO team agenda; booking a professional slot assigns the booking to that professional inside `reserve_service_booking`.
