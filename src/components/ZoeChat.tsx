@@ -2,14 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import zoeAvatar from "@/assets/zoe-avatar.jpg.asset.json";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
 const SUGGESTIONS = [
-  "Me ajude a montar o programa de necessidades",
-  "Como trazer biofilia para a sala?",
-  "Estime o CO₂ incorporado dos meus materiais",
-  "Simule reúso de água e energia solar",
+  "Gerar programa de necessidades detalhado",
+  "Escrever um memorial descritivo",
+  "Integrar biofilia ao projeto",
+  "Propor telhado verde",
+  "Relatório de CO₂ incorporado dos materiais",
+  "Sugerir materiais ecológicos",
+  "Simular reúso de água e energia solar",
 ];
 
 function renderText(text: string) {
@@ -99,6 +103,13 @@ export function ZoeChat({ userName, context }: { userName: string; context: stri
 
   return (
     <>
+      <div className="flex items-center gap-3 border-b border-border pb-4">
+        <img src={zoeAvatar.url} alt="Zoe" className="size-11 rounded-full object-cover" />
+        <div>
+          <p className="font-display text-lg font-semibold leading-tight">Zoe</p>
+          <p className="text-xs text-muted-foreground">Estagiária criativa e consciente</p>
+        </div>
+      </div>
       <div className="flex-1 space-y-4 overflow-y-auto py-6">
         <div className="max-w-[88%] rounded-lg bg-secondary p-4 text-sm leading-relaxed">
           Olá, {userName}. Sou a Zoe. Antes de qualquer cálculo, me conta: o que esse espaço precisa expressar?
