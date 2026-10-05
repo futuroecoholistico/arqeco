@@ -31,7 +31,7 @@ export function DNACard({ dna, profile }: { dna: ProjectDNA; profile: string | n
   );
 }
 
-function Block({ title, step, onEdit, children }: { title: string; step?: number; onEdit?: (step: number) => void; children: ReactNode }) {
+function Block({ title, step, onEdit, children }: { title: string; step?: number; onEdit?: ((step: number) => void) | undefined; children: ReactNode }) {
   return (
     <section className="border border-border bg-card p-5 md:p-6">
       <div className="mb-4 flex items-center justify-between gap-3">
@@ -46,7 +46,7 @@ function Row({ label, value, wide }: { label: string; value: ReactNode; wide?: b
   return <div className={wide ? "sm:col-span-2" : ""}><dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">{label}</dt><dd className="mt-1 whitespace-pre-line">{value}</dd></div>;
 }
 
-export function BriefingAnswersView({ a, options, files, onEdit }: { a: BriefingAnswers; options: VisualOption[]; files: BriefingFile[]; onEdit?: (step: number) => void }) {
+export function BriefingAnswersView({ a, options, files, onEdit }: { a: BriefingAnswers; options: VisualOption[]; files: BriefingFile[]; onEdit?: ((step: number) => void) | undefined }) {
   const names = (ids?: string[]) => list((ids ?? []).map((id) => options.find((o) => o.id === id)?.name ?? "").filter(Boolean));
   return (
     <div className="space-y-4">
