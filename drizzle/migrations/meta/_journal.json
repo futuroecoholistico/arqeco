@@ -29,6 +29,13 @@
       "when": 1791208692561,
       "tag": "0003_briefing_system",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791208711998,
+      "tag": "0004_briefing_storage_policies",
+      "breakpoints": true
     }
   ]
 }
