@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
 import { SlotManager } from "@/components/SlotManager";
+import { BriefingsAdmin, VisualLibraryAdmin } from "@/components/briefing/BriefingAdmin";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Administração — ARQECO" }, { name: "description", content: "Gerencie contratos, solicitações de construção, parceiros, produtos e planos ARQECO." }, { property: "og:title", content: "Administração — ARQECO" }, { property: "og:description", content: "Gestão da operação, dos serviços e dos parceiros ARQECO." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
@@ -13,15 +14,17 @@ export const Route = createFileRoute("/_authenticated/admin")({
 
 function AdminPage() {
   const isAdmin = useQuery({ queryKey: ["is-admin"], queryFn: async () => (await supabase.rpc("is_admin")).data === true });
-  const [tab, setTab] = useState<"contratos" | "construcao" | "planos" | "horarios" | "depoimentos" | "parceiros" | "produtos" | "vendas">("contratos");
+  const [tab, setTab] = useState<"contratos" | "briefings" | "biblioteca" | "construcao" | "planos" | "horarios" | "depoimentos" | "parceiros" | "produtos" | "vendas">("contratos");
   return (
     <PartnerShell eyebrow="Administração" title="Curadoria e parceiros">
       {isAdmin.isLoading ? <p className="text-sm text-muted-foreground">Carregando…</p> : !isAdmin.data ? <p className="text-sm text-muted-foreground">Esta área é exclusiva da equipe ARQECO.</p> : (
         <>
           <div className="mb-6 flex flex-wrap gap-2">
-            {(["contratos", "construcao", "planos", "horarios", "depoimentos", "parceiros", "produtos", "vendas"] as const).map((t) => <Button key={t} variant={tab === t ? "editorial" : "paper"} size="sm" onClick={() => setTab(t)} className="capitalize">{t === "horarios" ? "horários" : t === "construcao" ? "construção" : t === "parceiros" ? "parceiros e arquitetos" : t}</Button>)}
+            {(["contratos", "briefings", "biblioteca", "construcao", "planos", "horarios", "depoimentos", "parceiros", "produtos", "vendas"] as const).map((t) => <Button key={t} variant={tab === t ? "editorial" : "paper"} size="sm" onClick={() => setTab(t)} className="capitalize">{t === "horarios" ? "horários" : t === "construcao" ? "construção" : t === "parceiros" ? "parceiros e arquitetos" : t === "biblioteca" ? "biblioteca visual" : t}</Button>)}
           </div>
           {tab === "contratos" && <Contracts />}
+          {tab === "briefings" && <BriefingsAdmin />}
+          {tab === "biblioteca" && <VisualLibraryAdmin />}
           {tab === "construcao" && <ConstructionInquiries />}
           {tab === "horarios" && <Slots />}
           {tab === "depoimentos" && <Testimonials />}
