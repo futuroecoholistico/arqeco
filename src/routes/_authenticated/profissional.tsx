@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -51,12 +51,33 @@ function ProfessionalPage() {
               </div>
             ))}
           </div>
+          <MyBriefings userId={user.id} />
           <MySchedule userId={user.id} />
           </div>
           <div className="rounded-lg border border-border bg-card p-4"><ZoeChat userName={app.data?.display_name ?? "profissional"} context="Painel profissional ArqEco" /></div>
         </div>
       )}
     </PartnerShell>
+  );
+}
+
+function MyBriefings({ userId }: { userId: string }) {
+  const rows = useQuery({
+    queryKey: ["pro-briefings"],
+    queryFn: async () => (await supabase.from("projects").select("id,name,briefings(status,aesthetic_profile)").eq("professional_id", userId).order("created_at", { ascending: false })).data ?? [],
+  });
+  if (!(rows.data ?? []).length) return null;
+  return (
+    <section>
+      <h2 className="font-display text-2xl font-semibold">Briefings dos clientes</h2>
+      <div className="mt-4 divide-y divide-border rounded-lg border border-border bg-card">
+        {(rows.data ?? []).map((p) => { const b = Array.isArray(p.briefings) ? p.briefings[0] : p.briefings; return (
+          <div key={p.id} className="flex flex-wrap items-center gap-3 p-4 text-sm">
+            <div className="flex-1"><p className="font-semibold">{p.name}</p><p className="text-xs text-muted-foreground">{b?.status === "draft" || !b ? "Cliente ainda respondendo" : b.aesthetic_profile ?? "Briefing enviado"}</p></div>
+            <Button asChild size="sm" variant="paper"><Link to="/briefing/$projectId" params={{ projectId: p.id }}>Ver briefing</Link></Button>
+          </div>); })}
+      </div>
+    </section>
   );
 }
 
