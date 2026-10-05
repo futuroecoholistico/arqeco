@@ -94,12 +94,18 @@ function BookingPage() {
     },
   });
 
-  const slots = useQuery({
+  const pros = useQuery({
+    queryKey: ["professionals"],
+    queryFn: async () => (await supabase.rpc("list_professionals")).data ?? [],
+  });
+  const [selectedPro, setSelectedPro] = useState<string>("");
+
+  const allSlots = useQuery({
     queryKey: ["appointment-slots"],
     queryFn: async () => {
       const { data, error: queryError } = await supabase
         .from("appointment_slots")
-        .select("id,starts_at,ends_at")
+        .select("id,starts_at,ends_at,professional_id")
         .eq("is_available", true)
         .gt("starts_at", new Date().toISOString())
         .order("starts_at");
@@ -107,6 +113,10 @@ function BookingPage() {
       return data ?? [];
     },
   });
+  const slotsByPro = useMemo(() => (allSlots.data ?? []).filter((s) => (s.professional_id ?? "") === selectedPro), [allSlots.data, selectedPro]);
+  const slots = { data: slotsByPro };
+  const hasTeamSlots = (allSlots.data ?? []).some((s) => !s.professional_id);
+  const proOptions = (pros.data ?? []).filter((p) => (allSlots.data ?? []).some((s) => s.professional_id === p.user_id));
 
   const availableDays = useMemo(() => new Set((slots.data ?? []).map((slot) => new Date(slot.starts_at).toDateString())), [slots.data]);
   const daySlots = useMemo(() => selectedDay ? (slots.data ?? []).filter((slot) => new Date(slot.starts_at).toDateString() === selectedDay.toDateString()) : [], [selectedDay, slots.data]);
