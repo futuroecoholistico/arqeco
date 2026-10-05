@@ -208,7 +208,7 @@ function Contracts() {
 
 function Slots() {
   const qc = useQueryClient();
-  const q = useQuery({ queryKey: ["admin-slots"], queryFn: async () => (await supabase.from("appointment_slots").select("id,starts_at,ends_at,is_available").gte("starts_at", new Date().toISOString()).order("starts_at")).data ?? [] });
+  const q = useQuery({ queryKey: ["admin-slots"], queryFn: async () => (await supabase.from("appointment_slots").select("id,starts_at,ends_at,is_available").is("professional_id", null).gte("starts_at", new Date().toISOString()).order("starts_at")).data ?? [] });
   const [date, setDate] = useState(""); const [time, setTime] = useState("");  const [minutes, setMinutes] = useState("60");
   const [err, setErr] = useState<string | null>(null);
   async function add() {

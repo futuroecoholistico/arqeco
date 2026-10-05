@@ -15,6 +15,13 @@
       "when": 1790944281865,
       "tag": "0001_retire_single_extra_room_booking_function",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791200837076,
+      "tag": "0002_professional_schedules",
+      "breakpoints": true
     }
   ]
 }
