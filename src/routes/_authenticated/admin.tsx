@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
+import { SlotManager } from "@/components/SlotManager";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Administração — ARQECO" }, { name: "description", content: "Gerencie contratos, solicitações de construção, parceiros, produtos e planos ARQECO." }, { property: "og:title", content: "Administração — ARQECO" }, { property: "og:description", content: "Gestão da operação, dos serviços e dos parceiros ARQECO." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
@@ -207,42 +208,7 @@ function Contracts() {
 }
 
 function Slots() {
-  const qc = useQueryClient();
-  const q = useQuery({ queryKey: ["admin-slots"], queryFn: async () => (await supabase.from("appointment_slots").select("id,starts_at,ends_at,is_available").is("professional_id", null).gte("starts_at", new Date().toISOString()).order("starts_at")).data ?? [] });
-  const [date, setDate] = useState(""); const [time, setTime] = useState("");  const [minutes, setMinutes] = useState("60");
-  const [err, setErr] = useState<string | null>(null);
-  async function add() {
-    const start = new Date(`${date}T${time}`);
-    const dur = Number(minutes);
-    if (!date || !time || Number.isNaN(start.getTime()) || start <= new Date() || !(dur >= 15 && dur <= 480)) { setErr("Informe data e hora futuras e duração entre 15 e 480 minutos."); return; }
-    setErr(null);
-    await supabase.from("appointment_slots").insert({ starts_at: start.toISOString(), ends_at: new Date(start.getTime() + dur * 60000).toISOString() });
-    qc.invalidateQueries({ queryKey: ["admin-slots"] });
-  }
-  async function toggle(id: string, is_available: boolean) { await supabase.from("appointment_slots").update({ is_available }).eq("id", id); qc.invalidateQueries({ queryKey: ["admin-slots"] }); }
-  async function remove(id: string) { const { error } = await supabase.from("appointment_slots").delete().eq("id", id); if (error) alert("Este horário já tem contratação; bloqueie em vez de excluir."); qc.invalidateQueries({ queryKey: ["admin-slots"] }); }
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-card p-5">
-        <label className="text-xs font-semibold text-muted-foreground">Data<input type="date" className={`${fieldClass} mt-1`} value={date} onChange={(e) => setDate(e.target.value)} /></label>
-        <label className="text-xs font-semibold text-muted-foreground">Hora<input type="time" className={`${fieldClass} mt-1`} value={time} onChange={(e) => setTime(e.target.value)} /></label>
-        <label className="text-xs font-semibold text-muted-foreground">Duração (min)<input type="number" className={`${fieldClass} mt-1 w-28`} value={minutes} onChange={(e) => setMinutes(e.target.value)} /></label>
-        <Button variant="editorial" size="sm" onClick={add}>Adicionar horário</Button>
-        {err && <p className="w-full text-sm text-destructive">{err}</p>}
-      </div>
-      <div className="divide-y divide-border rounded-lg border border-border bg-card">
-        {(q.data ?? []).length === 0 && <p className="p-5 text-sm text-muted-foreground">Nenhum horário futuro.</p>}
-        {(q.data ?? []).map((s) => (
-          <div key={s.id} className="flex flex-wrap items-center gap-3 p-3 text-sm">
-            <span className="flex-1">{new Date(s.starts_at).toLocaleString("pt-BR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
-            <span className={s.is_available ? "text-primary" : "text-muted-foreground"}>{s.is_available ? "Disponível" : "Bloqueado"}</span>
-            <Button size="sm" variant="paper" onClick={() => toggle(s.id, !s.is_available)}>{s.is_available ? "Bloquear" : "Liberar"}</Button>
-            <Button size="sm" variant="ghost" onClick={() => remove(s.id)}>Excluir</Button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  return <SlotManager professionalId={null} />;
 }
 
 function Testimonials() {
