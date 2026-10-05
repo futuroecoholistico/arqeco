@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
+import { PartnerShell, StatusPill, brl } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
 import { SlotManager } from "@/components/SlotManager";
 import { ZoeChat } from "@/components/ZoeChat";
