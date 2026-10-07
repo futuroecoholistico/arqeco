@@ -281,7 +281,7 @@ function Home() {
       <section className="architectural-grid bg-sidebar text-sidebar-foreground">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 lg:grid-cols-[1fr_auto] lg:items-center">
           <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Bônus em todos os pacotes</p><h2 className="mt-3 font-display text-3xl font-semibold md:text-4xl">Dossiê Eco-Holístico gratuito</h2><p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-75">Todos os pacotes de projeto ARQECO incluem um Dossiê Eco-Holístico para ampliar o olhar sobre bem-estar, sustentabilidade e a relação com seus ambientes.</p></div>
-          <Button asChild variant="editorial" size="lg"><a href="https://holistic-echo-care.lovable.app/" target="_blank" rel="noreferrer">Conhecer o Dossiê <ArrowRight /></a></Button>
+          <Button asChild variant="editorial" size="lg"><a href="https://ecoholistico.lovable.app" target="_blank" rel="noreferrer">Conhecer o Dossiê <ArrowRight /></a></Button>
         </div>
       </section>
 
@@ -414,7 +414,7 @@ function Home() {
           <h3 className="font-display text-3xl font-semibold">Um olhar complementar para cada projeto.</h3>
           <p className="mt-4 text-sm opacity-90">O <strong>Índice Eco-Holístico™</strong> ajuda a interpretar materiais e produtos. O Dossiê oferecido como bônus reúne orientações para ampliar a relação entre bem-estar, escolhas conscientes e o espaço vivido.</p>
           <div className="mt-6 flex flex-wrap gap-2">{["Bem-estar", "Materiais conscientes", "Conforto", "Relação pessoa-espaço"].map((t) => <span key={t} className="rounded-full border border-primary-foreground/30 px-3 py-1 text-xs">{t}</span>)}</div>
-          <Button asChild variant="editorial" className="mt-7"><a href="https://holistic-echo-care.lovable.app/" target="_blank" rel="noreferrer">Acessar Dossiê <ArrowRight /></a></Button>
+          <Button asChild variant="editorial" className="mt-7"><a href="https://ecoholistico.lovable.app" target="_blank" rel="noreferrer">Acessar Dossiê <ArrowRight /></a></Button>
         </div>
       </section>
 
