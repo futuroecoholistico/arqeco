@@ -90,7 +90,7 @@ function AuthPage() {
           <input className={fieldClass} type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} aria-label="Senha" />
           <Button type="submit" variant="editorial" className="w-full" disabled={busy}>{mode === "in" ? "Entrar" : "Criar conta"}</Button>
         </form>
-        <p className="mt-3 text-xs text-muted-foreground">Ao continuar, você concorda com o tratamento dos seus dados conforme a nossa <Link to="/privacidade" className="text-primary underline">Política de Privacidade</Link>.</p>
+        <p className="mt-3 text-xs text-muted-foreground">Ao continuar, você concorda com os <Link to="/termos" className="text-primary underline">Termos de Uso</Link> e a <Link to="/privacidade" className="text-primary underline">Política de Privacidade</Link>.</p>
         {msg && <p className="mt-4 text-sm text-muted-foreground" role="status">{msg}</p>}
         <button type="button" onClick={() => setMode(mode === "in" ? "up" : "in")} className="mt-6 text-sm text-primary underline-offset-4 hover:underline">
           {mode === "in" ? "Ainda não tem conta? Criar conta" : "Já tem conta? Entrar"}

@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAfiliadoRouteImport } from './routes/_authenticated/afiliado'
 import { Route as AuthenticatedConstruirRouteImport } from './routes/_authenticated/construir'
@@ -41,9 +43,19 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -118,7 +130,9 @@ const ApiPublicPaymentsWebhookRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/cookies': typeof CookiesRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
   '/construir': typeof AuthenticatedConstruirRoute
@@ -136,7 +150,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/cookies': typeof CookiesRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
   '/construir': typeof AuthenticatedConstruirRoute
@@ -156,7 +172,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/cookies': typeof CookiesRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/termos': typeof TermosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/afiliado': typeof AuthenticatedAfiliadoRoute
   '/_authenticated/construir': typeof AuthenticatedConstruirRoute
@@ -176,7 +194,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/cookies'
     | '/privacidade'
+    | '/termos'
     | '/admin'
     | '/afiliado'
     | '/construir'
@@ -194,7 +214,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/cookies'
     | '/privacidade'
+    | '/termos'
     | '/admin'
     | '/afiliado'
     | '/construir'
@@ -213,7 +235,9 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/cookies'
     | '/privacidade'
+    | '/termos'
     | '/_authenticated/admin'
     | '/_authenticated/afiliado'
     | '/_authenticated/construir'
@@ -233,7 +257,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CookiesRoute: typeof CookiesRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  TermosRoute: typeof TermosRoute
   ApiZoeRoute: typeof ApiZoeRoute
   RCodeRoute: typeof RCodeRoute
   ApiPublicConversionsRoute: typeof ApiPublicConversionsRoute
@@ -263,11 +289,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacidade': {
       id: '/privacidade'
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -395,7 +435,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  CookiesRoute: CookiesRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  TermosRoute: TermosRoute,
   ApiZoeRoute: ApiZoeRoute,
   RCodeRoute: RCodeRoute,
   ApiPublicConversionsRoute: ApiPublicConversionsRoute,
