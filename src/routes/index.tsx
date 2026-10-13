@@ -560,7 +560,7 @@ function Home() {
           <FooterCol title="Para clientes" links={[["Começar projeto", "/#planos"], ["Ver planos", "/#planos"], ["Meus projetos", "/painel"]]} />
           <FooterCol title="Para profissionais" links={[["ArqEco Pro", "/auth"], ["Curadoria", "/#curadoria"]]} />
           <FooterCol title="Para empresas" links={[["Seja fornecedor", "/auth?perfil=fornecedor"], ["Seja afiliado", "/auth?perfil=afiliado"]]} />
-          <FooterCol title="Legal" links={[["Termos de uso", "#"], ["Privacidade", "#"], ["Cookies", "#"], ["Política de indicações", "#"]]} />
+          <FooterCol title="Legal" links={[["Política de Privacidade (LGPD)", "/privacidade"], ["Fale com o encarregado", "mailto:contato.arquiteturaecologica@gmail.com"]]} />
         </div>
       </footer>
     </div>
