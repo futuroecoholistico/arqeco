@@ -300,9 +300,26 @@ function Home() {
           </div>
         )}
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <div className="mt-10 grid gap-6 lg:grid-cols-3">
           {plans.isLoading && [0, 1].map((i) => <div key={i} className="h-[560px] animate-pulse bg-card" />)}
           {plans.isError && <p className="text-sm text-muted-foreground">Não foi possível carregar os planos agora.</p>}
+          <article className="relative flex flex-col border border-border bg-card p-7">
+            <span className="absolute -top-3 left-7 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary-foreground">Gratuito</span>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 01</p>
+            <h3 className="mt-2 font-display text-3xl font-semibold">Projeto Start</h3>
+            <p className="mt-3 text-sm font-semibold">Dossiê Eco-Holístico — o primeiro passo para entender o seu espaço.</p>
+            <LiveViewers count={viewers} />
+            <PlanDetails
+              description="Um olhar eco-holístico sobre o seu ambiente: bem-estar, sustentabilidade e a relação entre você e o espaço em que vive. Ideal para começar a jornada antes de um projeto de interiores."
+              deliverables={["Dossiê Eco-Holístico completo do seu ambiente", "Orientações de bem-estar e harmonização", "Leitura da relação pessoa-espaço", "Caminho sugerido para os próximos passos"]}
+            />
+            <div className="mt-8 border-t border-border pt-5">
+              <p className="text-xs text-muted-foreground">Para qualquer ambiente</p>
+              <p className="font-display text-3xl font-semibold">Gratuito</p>
+              <Button asChild variant="paper" className="mt-4 w-full"><a href="https://ecoholistico.lovable.app" target="_blank" rel="noreferrer">Começar pelo Dossiê <ArrowRight /></a></Button>
+              <p className="mt-3 text-[11px] font-semibold text-forest-soft">Também incluso como bônus em todos os projetos pagos.</p>
+            </div>
+          </article>
           {plans.data?.map((p, idx) => {
             const perRoom = p.service_plan_options.some((o) => o.price_per_room);
             const priced = p.service_plan_options.find((o) => o.price_cents != null);
@@ -314,7 +331,7 @@ function Home() {
             return (
               <article key={p.id} className={`relative flex flex-col border p-7 ${featured ? "border-primary bg-card shadow-editorial" : "border-border bg-card"}`}>
                 {p.badge && <span className="absolute -top-3 left-7 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary-foreground">{p.badge}</span>}
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 0{idx + 1}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 0{idx + 2}</p>
                 <h3 className="mt-2 font-display text-3xl font-semibold">{p.name}</h3>
                 <p className="mt-3 text-sm font-semibold">{p.tagline}</p>
                 <LiveViewers count={viewers} />
