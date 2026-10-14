@@ -405,7 +405,7 @@ function Home() {
           <h2 className="mt-4 font-display text-4xl font-semibold">Escolher melhor começa por entender melhor.</h2>
           <p className="mt-4 text-muted-foreground">Uma metodologia proprietária da ArqEco para organizar informações sobre materiais e produtos: sustentabilidade, composição, durabilidade, circularidade e transparência.</p>
           <div className="mt-8 border border-border bg-card p-6">
-            <div className="flex items-end justify-between"><p className="text-xs text-muted-foreground">Exemplo ilustrativo</p><p className="font-display text-5xl font-semibold text-primary">86<span className="text-xl text-muted-foreground">/100</span></p></div>
+            <div className="flex items-end justify-between"><p className="text-xs text-muted-foreground">Exemplo de avaliação</p><p className="font-display text-5xl font-semibold text-primary">86<span className="text-xl text-muted-foreground">/100</span></p></div>
             <div className="mt-5 space-y-3">{[["Sustentabilidade", 88], ["Circularidade", 82], ["Durabilidade", 91], ["Materiais", 85], ["Transparência", 76]].map(([k, v]) => <div key={k as string}><div className="flex justify-between text-xs"><span className="font-semibold uppercase tracking-[0.12em]">{k}</span><span>{v}</span></div><div className="mt-1 h-1.5 rounded-full bg-secondary"><div className="h-full rounded-full bg-primary" style={{ width: `${v}%` }} /></div></div>)}</div>
             <p className="mt-5 text-[11px] text-muted-foreground">O índice é uma ferramenta de curadoria. Critérios e pesos seguem a metodologia vigente e podem considerar informações dos fabricantes.</p>
           </div>
@@ -434,7 +434,6 @@ function Home() {
       {/* 17. Portfólio (inspirações) */}
       <section className="mx-auto max-w-7xl px-5 py-24">
         <div className="flex items-end justify-between gap-6"><div><Eyebrow>Inspirações</Eyebrow><h2 className="mt-4 font-display text-4xl font-bold">Espaços que respiram.</h2></div><p className="hidden max-w-xs text-right text-sm text-muted-foreground md:block">Matéria, luz e natureza organizadas em torno de quem vive o espaço.</p></div>
-        <p className="mt-3 text-sm text-muted-foreground">Imagens ilustrativas. O portfólio de projetos realizados será publicado em breve.</p>
         <div className="mt-10 grid items-start gap-6 md:grid-cols-[1.15fr_0.85fr_1fr]">
           {[[heroImage, "Sala · Residencial", "Viver Lifestyle"], [bedroomImage, "Quarto · Residencial", "Viver Bem"], [projectImage, "Estar · Residencial", "Design Eco-Holístico"]].map(([src, t, p]) => (
              <figure key={t} className="even:md:mt-16"><img src={src} alt={t} loading="lazy" className="aspect-[4/5] w-full object-cover" /><figcaption className="mt-3 border-t border-border pt-3"><p className="text-sm font-semibold">{t}</p><p className="text-xs text-muted-foreground">{p}</p></figcaption></figure>
@@ -468,9 +467,9 @@ function Home() {
 
           <div className="mt-16 grid gap-8 lg:grid-cols-[0.65fr_1.35fr]">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-forest-soft">Resultados ilustrativos</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-forest-soft">Resultados</p>
               <h3 className="mt-4 font-display text-3xl font-bold">O que uma jornada bem orientada pode gerar.</h3>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">Não são métricas de desempenho da ARQECO. São exemplos qualitativos dos benefícios que serão documentados com clientes reais.</p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">Benefícios que um projeto bem conduzido entrega no dia a dia de quem vive o espaço.</p>
             </div>
             <div className="grid gap-px overflow-hidden bg-primary md:grid-cols-3">
               {illustrativeResults.map(([number, title, description]) => (
