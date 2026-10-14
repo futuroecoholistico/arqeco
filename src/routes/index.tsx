@@ -8,6 +8,7 @@ import bedroomImage from "@/assets/portfolio-quarto.jpg";
 import projectImage from "@/assets/arqeco-project.jpg";
 import projectBeforeImage from "@/assets/arqeco-project-before.jpg";
 import compactLogoAsset from "@/assets/arqeco-logo-branco.png.asset.json";
+import startPlanImageAsset from "@/assets/planos/plano-start-dossie.jpeg.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/components/PartnerShell";
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/")({
 });
 
 const nav = [["Serviços", "#servicos"], ["Projetos", "#planos"], ["Como funciona", "#como-funciona"], ["Curadoria", "#curadoria"], ["Sobre", "#sobre"]];
+const startPlanImage = startPlanImageAsset.url;
 
 const comparison: [string, string, string][] = [
   ["Formato", "Projeto sustentável", "Projeto sustentável ampliado"], ["Projeto de interiores", "✓", "✓"], ["Layout", "✓", "✓"], ["Estilo e estética", "✓", "✓"],
@@ -70,7 +72,7 @@ function usePlans() {
   return useQuery({
     queryKey: ["plans"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("service_plans").select("id,slug,name,tagline,description,badge,cta_label,deliverables,footnote,sort_order,service_plan_options(id,rooms_label,description,price_cents,compare_at_price_cents,price_per_room,is_starting_price,installments,sort_order)").eq("is_active", true).order("sort_order");
+      const { data, error } = await supabase.from("service_plans").select("id,slug,name,tagline,description,badge,cta_label,deliverables,footnote,image_url,sort_order,service_plan_options(id,rooms_label,description,price_cents,compare_at_price_cents,price_per_room,is_starting_price,installments,sort_order)").eq("is_active", true).order("sort_order");
       if (error) throw error;
       return (data ?? []).map((p) => ({ ...p, service_plan_options: [...p.service_plan_options].sort((a, b) => a.sort_order - b.sort_order) }));
     },
@@ -305,6 +307,7 @@ function Home() {
           {plans.isError && <p className="text-sm text-muted-foreground">Não foi possível carregar os planos agora.</p>}
           <article className="relative flex flex-col border border-border bg-card p-7">
             <span className="absolute -top-3 left-7 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary-foreground">Gratuito</span>
+            <img src={startPlanImage} alt="Canto de meditação com almofada de chão, pedras e plantas, no estilo do Dossiê Eco-Holístico" loading="lazy" decoding="async" className="-mx-7 -mt-7 mb-6 aspect-[4/3] w-full object-cover" />
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 01</p>
             <h3 className="mt-2 font-display text-3xl font-semibold">Projeto Start</h3>
             <p className="mt-3 text-sm font-semibold">Dossiê Eco-Holístico — o primeiro passo para entender o seu espaço.</p>
@@ -331,6 +334,7 @@ function Home() {
             return (
               <article key={p.id} className={`relative flex flex-col border p-7 ${featured ? "border-primary bg-card shadow-editorial" : "border-border bg-card"}`}>
                 {p.badge && <span className="absolute -top-3 left-7 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary-foreground">{p.badge}</span>}
+                {p.image_url && <img src={p.image_url} alt={`Ambiente de design de interiores do projeto ${p.name}`} loading="lazy" decoding="async" className="-mx-7 -mt-7 mb-6 aspect-[4/3] w-full object-cover" />}
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 0{idx + 2}</p>
                 <h3 className="mt-2 font-display text-3xl font-semibold">{p.name}</h3>
                 <p className="mt-3 text-sm font-semibold">{p.tagline}</p>
