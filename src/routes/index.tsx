@@ -1,3 +1,4 @@
+import heroVideoAsset from "@/assets/video/interiores-hero.mp4.asset.json";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
