@@ -38,6 +38,15 @@ const comparison: [string, string, string][] = [
   ["Biofilia", "—", "✓"], ["Neuroarquitetura", "—", "✓"], ["Dossiê Eco-Holístico", "Bônus", "Bônus"],
 ];
 
+const apoiadores = [
+  "Sebrae",
+  "Inovativa Brasil",
+  "Think Beyond Plastic",
+  "The Climate Reality Project",
+  "Movimento Nacional ODS São Paulo",
+  "Parque Tech São Caetano",
+];
+
 const faq: [string, string][] = [
   ["O que é a ArqEco?", "Uma plataforma de projetos de interiores que conecta clientes, profissionais, tecnologia e curadoria de materiais."],
   ["O projeto é online?", "Sim. O processo é estruturado digitalmente, do briefing à entrega, de acordo com o plano contratado."],
@@ -558,7 +567,22 @@ function Home() {
         </div></div>
       </section>
 
-      {/* 26. FAQ */}
+      {/* 26. Quem nos apoia */}
+      <section id="apoiadores" className="border-y border-border bg-forest text-primary-foreground">
+        <div className="mx-auto max-w-7xl px-5 py-14">
+          <p className="text-center font-display text-2xl italic text-accent md:text-3xl">Quem nos apoia:</p>
+          <p className="mx-auto mt-2 max-w-xl text-center text-xs leading-relaxed opacity-70">Instituições e iniciativas que caminham com a ARQECO.</p>
+          <ul className="mt-9 grid gap-px overflow-hidden bg-primary-foreground/15 sm:grid-cols-2 lg:grid-cols-3">
+            {apoiadores.map((nome) => (
+              <li key={nome} className="flex min-h-[5.5rem] items-center justify-center bg-forest px-6 py-5 text-center transition-opacity hover:opacity-100">
+                <span className="text-xs font-semibold uppercase leading-relaxed tracking-[0.14em] opacity-75 hover:opacity-100">{nome}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 27. FAQ */}
       <section className="border-t border-border bg-card">
         <div className="mx-auto max-w-3xl px-5 py-20">
           <h2 className="font-display text-4xl font-semibold">Ainda ficou com alguma dúvida?</h2>
