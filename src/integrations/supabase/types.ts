@@ -947,6 +947,7 @@ export type Database = {
           rooms_label: string
           sort_order: number
           updated_at: string
+          urgent_fee_cents: number
         }
         Insert: {
           compare_at_price_cents?: number | null
@@ -968,6 +969,7 @@ export type Database = {
           rooms_label: string
           sort_order?: number
           updated_at?: string
+          urgent_fee_cents?: number
         }
         Update: {
           compare_at_price_cents?: number | null
@@ -989,6 +991,7 @@ export type Database = {
           rooms_label?: string
           sort_order?: number
           updated_at?: string
+          urgent_fee_cents?: number
         }
         Relationships: [
           {
