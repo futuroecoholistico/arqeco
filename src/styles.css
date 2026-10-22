@@ -187,6 +187,8 @@
 .arqeco-home :is(h1, h2, h3, h4) { font-weight: 400; }
 .arqeco-home :is(p, a, button, th, span) { letter-spacing: 0; }
 .arqeco-home section { scroll-margin-top: 5rem; }
+.arqeco-home section.bg-forest .text-forest-soft { color: var(--accent); }
+.arqeco-home section.bg-forest .bg-forest-soft { background-color: var(--accent); }
 .arqeco-home .plan-card { border-radius: var(--radius); }
 .arqeco-home .plan-card img { transition: transform 700ms ease; }
 .arqeco-home .plan-card:hover img { transform: scale(1.025); }

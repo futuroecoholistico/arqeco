@@ -1,6 +1,6 @@
 # ARQECO roadmap
 
-- [ ] Renovar a estética inspirada nos sites Arquitetura Ecológica e Eco-Holístico, preservando conteúdo e contratação.
+- [x] Renovar a estética inspirada nos sites Arquitetura Ecológica e Eco-Holístico, preservando conteúdo e contratação; conferir fotos, planos, menu e ausência de sobreposição em desktop/celular.
 
 - [x] Painel central, estética editorial, fontes, ecossistema, desktop/celular.
 - [x] Zoe real no painel com a persona do plugin.
