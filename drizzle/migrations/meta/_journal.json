@@ -43,6 +43,13 @@
       "when": 1791991183735,
       "tag": "0005_add_plan_image_url",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792677287061,
+      "tag": "0006_urgent_fee_250",
+      "breakpoints": true
     }
   ]
 }
