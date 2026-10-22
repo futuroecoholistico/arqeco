@@ -17,7 +17,7 @@
 - [x] Direção Sophisticated Eco-Futurism aplicada: Playfair Display + Montserrat, preto/bege dominantes e ações no verde do logo.
 - [x] Comparador interativo de antes e depois na visualização do projeto 3D.
 - [x] Fluxo “Começar agora”: agenda disponível → dados pessoais → endereço do imóvel → revisão → pagamento preparado.
-- [x] Adicionais na contratação: quantidade livre de ambientes extras pelo valor unitário configurado e taxa de urgência de R$ 190,00.
+- [x] Adicionais na contratação: quantidade livre de ambientes extras pelo valor unitário configurado e taxa de urgência de R$ 250,00 (valor guardado no banco, por plano).
 - [x] Pagamento real (cartão e Pix) nos planos, confirmado automaticamente; painel admin de contratos, horários, depoimentos e preços; cadastro de arquitetos com aprovação e atribuição.
 - [ ] Bloqueado (usuário): concluir a ativação do recebimento real na aba de pagamentos; definir o primeiro admin.
 - [ ] Zoe: ler materiais de referência.
