@@ -109,7 +109,8 @@
   --clay: oklch(0.62 0.075 55);
   --warm-line: oklch(0.81 0.025 78);
   --shadow-editorial: 0 8px 24px color-mix(in oklab, var(--foreground) 7%, transparent);
-  --cover-overlay: linear-gradient(90deg, color-mix(in oklab, var(--forest) 82%, transparent) 0%, color-mix(in oklab, var(--forest) 56%, transparent) 42%, color-mix(in oklab, var(--forest) 8%, transparent) 100%);
+  --overlay-ink: oklch(0 0 0);
+  --cover-overlay: linear-gradient(90deg, color-mix(in oklab, var(--overlay-ink) 72%, transparent) 0%, color-mix(in oklab, var(--overlay-ink) 50%, transparent) 45%, color-mix(in oklab, var(--overlay-ink) 20%, transparent) 100%);
 }
 
 .dark {

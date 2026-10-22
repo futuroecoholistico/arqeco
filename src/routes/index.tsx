@@ -210,7 +210,7 @@ function Home() {
 
       {/* 2. Hero */}
       <section className="home-cover relative isolate overflow-hidden bg-sidebar text-sidebar-foreground">
-        <img src={heroImage} alt="Sala de interiores com vegetação, luz natural e materiais acolhedores" width={1600} height={1200} fetchPriority="high" className="absolute inset-0 -z-20 size-full object-cover" />
+        <video src={heroVideoAsset.url} poster={heroImage} autoPlay muted loop playsInline preload="auto" aria-label="Ambientes de interiores com vegetação, luz natural e materiais acolhedores" className="absolute inset-0 -z-20 size-full object-cover" />
         <div className="cover-shade absolute inset-0 -z-10" />
         <div className="mx-auto flex min-h-[620px] max-w-7xl items-center px-5 py-16 lg:min-h-[660px] lg:px-10">
           <div className="max-w-2xl gentle-rise">
