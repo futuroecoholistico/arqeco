@@ -1,0 +1,2 @@
+ALTER TABLE public.service_bookings DROP CONSTRAINT IF EXISTS service_bookings_urgent_fee_cents_check;
+ALTER TABLE public.service_bookings ADD CONSTRAINT service_bookings_urgent_fee_cents_check CHECK (urgent_fee_cents >= 0);

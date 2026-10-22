@@ -50,6 +50,13 @@
       "when": 1792677287061,
       "tag": "0006_urgent_fee_250",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792677498245,
+      "tag": "0007_urgent_fee_check_allows_250",
+      "breakpoints": true
     }
   ]
 }
