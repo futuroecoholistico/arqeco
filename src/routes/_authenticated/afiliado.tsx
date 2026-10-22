@@ -8,7 +8,7 @@ import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerS
 import { PartnerApplication } from "@/components/PartnerApplication";
 
 export const Route = createFileRoute("/_authenticated/afiliado")({
-  head: () => ({ meta: [{ title: "Área do afiliado — ARQECO" }, { name: "description", content: "Gere links da Curadoria ARQECO por projeto e acompanhe cliques, vendas e comissões." }] }),
+  head: () => ({ meta: [{ title: "Área do afiliado — ARQECO" }, { name: "description", content: "Gere links da Curadoria ARQECO por projeto e acompanhe cliques, vendas e comissões." }, { property: "og:title", content: "Área do afiliado — ARQECO" }, { property: "og:description", content: "Acompanhe seus links, vendas e comissões na rede ARQECO." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: AffiliatePage,
 });
 
