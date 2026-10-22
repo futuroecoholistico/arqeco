@@ -38,6 +38,15 @@ const comparison: [string, string, string][] = [
   ["Biofilia", "—", "✓"], ["Neuroarquitetura", "—", "✓"], ["Dossiê Eco-Holístico", "Bônus", "Bônus"],
 ];
 
+const apoiadores = [
+  "Sebrae",
+  "Inovativa Brasil",
+  "Think Beyond Plastic",
+  "The Climate Reality Project",
+  "Movimento Nacional ODS São Paulo",
+  "Parque Tech São Caetano",
+];
+
 const faq: [string, string][] = [
   ["O que é a ArqEco?", "Uma plataforma de projetos de interiores que conecta clientes, profissionais, tecnologia e curadoria de materiais."],
   ["O projeto é online?", "Sim. O processo é estruturado digitalmente, do briefing à entrega, de acordo com o plano contratado."],
