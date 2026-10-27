@@ -14,13 +14,13 @@ export const Route = createFileRoute("/_authenticated/admin")({
 
 function AdminPage() {
   const isAdmin = useQuery({ queryKey: ["is-admin"], queryFn: async () => (await supabase.rpc("is_admin")).data === true });
-  const [tab, setTab] = useState<"contratos" | "briefings" | "biblioteca" | "construcao" | "planos" | "horarios" | "depoimentos" | "parceiros" | "produtos" | "vendas">("contratos");
+  const [tab, setTab] = useState<"contratos" | "briefings" | "biblioteca" | "construcao" | "planos" | "horarios" | "depoimentos" | "parceiros" | "produtos" | "vendas" | "indicacoes">("contratos");
   return (
     <PartnerShell eyebrow="Administração" title="Curadoria e parceiros">
       {isAdmin.isLoading ? <p className="text-sm text-muted-foreground">Carregando…</p> : !isAdmin.data ? <p className="text-sm text-muted-foreground">Esta área é exclusiva da equipe ARQECO.</p> : (
         <>
           <div className="mb-6 flex flex-wrap gap-2">
-            {(["contratos", "briefings", "biblioteca", "construcao", "planos", "horarios", "depoimentos", "parceiros", "produtos", "vendas"] as const).map((t) => <Button key={t} variant={tab === t ? "editorial" : "paper"} size="sm" onClick={() => setTab(t)} className="capitalize">{t === "horarios" ? "horários" : t === "construcao" ? "construção" : t === "parceiros" ? "parceiros e arquitetos" : t === "biblioteca" ? "biblioteca visual" : t}</Button>)}
+            {(["contratos", "briefings", "biblioteca", "construcao", "planos", "horarios", "depoimentos", "parceiros", "produtos", "vendas", "indicacoes"] as const).map((t) => <Button key={t} variant={tab === t ? "editorial" : "paper"} size="sm" onClick={() => setTab(t)} className="capitalize">{t === "horarios" ? "horários" : t === "construcao" ? "construção" : t === "parceiros" ? "parceiros e arquitetos" : t === "biblioteca" ? "biblioteca visual" : t === "indicacoes" ? "indicações de planos" : t}</Button>)}
           </div>
           {tab === "contratos" && <Contracts />}
           {tab === "briefings" && <BriefingsAdmin />}
@@ -32,6 +32,7 @@ function AdminPage() {
           {tab === "produtos" && <Submissions />}
           {tab === "planos" && <Plans />}
           {tab === "vendas" && <Sales />}
+          {tab === "indicacoes" && <ReferralPayouts />}
         </>
       )}
     </PartnerShell>
@@ -71,6 +72,36 @@ function ConstructionInquiries() {
   );
 }
 
+async function openKyc(path: string) {
+  const { data } = await supabase.storage.from("partner-kyc").createSignedUrl(path, 120);
+  if (data?.signedUrl) window.open(data.signedUrl, "_blank", "noopener");
+}
+
+function ReferralPayouts() {
+  const qc = useQueryClient();
+  const q = useQuery({ queryKey: ["admin-referrals"], queryFn: async () => (await supabase.from("referral_commissions").select("*").order("payout_date")).data ?? [] });
+  const names = useQuery({ queryKey: ["admin-aff-names"], queryFn: async () => (await supabase.from("partner_applications").select("user_id,display_name").eq("kind", "affiliate")).data ?? [] });
+  const nameOf = (id: string) => names.data?.find((n) => n.user_id === id)?.display_name ?? "Afiliado";
+  async function markPaid(id: string) {
+    await supabase.from("referral_commissions").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", id);
+    qc.invalidateQueries({ queryKey: ["admin-referrals"] });
+  }
+  return (
+    <div className="divide-y divide-border rounded-lg border border-border bg-card">
+      {(q.data ?? []).length === 0 && <p className="p-5 text-sm text-muted-foreground">Nenhuma comissão de indicação ainda.</p>}
+      {(q.data ?? []).map((c) => (
+        <div key={c.id} className="flex flex-wrap items-center gap-4 p-4 text-sm">
+          <span className="flex-1"><b>{nameOf(c.affiliate_id)}</b> · {c.plan_name} · venda {brl(c.sale_cents)}</span>
+          <span className="font-semibold text-primary">{brl(c.commission_cents)}</span>
+          <span className="text-xs">pagar em {new Date(`${c.payout_date}T12:00:00`).toLocaleDateString("pt-BR")}</span>
+          <StatusPill status={c.status} />
+          {c.status === "pending" && <Button size="sm" variant="editorial" onClick={() => markPaid(c.id)}>Marcar como pago</Button>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Applications() {
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ["admin-apps"], queryFn: async () => (await supabase.from("partner_applications").select("*").order("created_at", { ascending: false })).data ?? [] });
@@ -85,7 +116,7 @@ function Applications() {
       {(q.data ?? []).map((a) => (
         <div key={a.id} className="flex flex-wrap items-center gap-4 p-4 text-sm">
           <span className="rounded bg-secondary px-2 py-0.5 text-[11px] font-semibold">{a.kind === "supplier" ? "Fornecedor" : a.kind === "professional" ? "Arquiteto/designer" : "Afiliado"}</span>
-          <div className="flex-1"><p className="font-semibold">{a.display_name}</p><p className="text-xs text-muted-foreground">{[a.document, a.category, a.city, a.website].filter(Boolean).join(" · ")}</p>{a.message && <p className="mt-1 text-xs">{a.message}</p>}</div>
+          <div className="flex-1"><p className="font-semibold">{a.display_name}</p><p className="text-xs text-muted-foreground">{[a.cpf && `CPF ${a.cpf}`, a.phone, a.document, a.category, a.city, a.website].filter(Boolean).join(" · ")}</p>{a.message && <p className="mt-1 text-xs">{a.message}</p>}<div className="mt-1 flex gap-3 text-xs">{a.document_path && <button type="button" className="underline" onClick={() => openKyc(a.document_path!)}>Ver documento</button>}{a.selfie_path && <button type="button" className="underline" onClick={() => openKyc(a.selfie_path!)}>Ver selfie</button>}</div></div>
           <StatusPill status={a.status} />
           {a.status === "pending" && <><Button size="sm" variant="editorial" onClick={() => review(a.id, true)}>Aprovar</Button><Button size="sm" variant="paper" onClick={() => review(a.id, false)}>Recusar</Button></>}
         </div>
