@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ArrowRight, Building2, Check, ChevronDown, Eye, Hammer, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
-import institutionalHero from "@/assets/arqeco-institutional-hero.jpg";
+import karinaKoch from "@/assets/karina-koch.jpg.asset.json";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
 import projectImage from "@/assets/arqeco-project.jpg";
 import projectBeforeImage from "@/assets/arqeco-project-before.jpg";
@@ -559,7 +559,7 @@ function Home() {
 
       {/* 25. Sobre */}
       <section id="sobre" className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-[0.75fr_1.25fr]">
-        <div><Eyebrow>Sobre a ArqEco</Eyebrow><img src={institutionalHero} alt="Arquiteta em contato com materiais naturais durante o desenvolvimento de um projeto" loading="lazy" className="mt-7 aspect-[4/5] w-full object-cover" /><p className="mt-8 font-display text-7xl font-bold text-primary">12</p><p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">anos de trajetória</p></div>
+        <div><Eyebrow>Sobre a ArqEco</Eyebrow><img src={karinaKoch.url} alt="Karina Koch, arquiteta especialista em Design Sustentável e CEO da ArqEco" loading="lazy" className="mt-7 aspect-[4/5] w-full object-cover object-[20%_center]" /><p className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Karina Koch</p><p className="mt-1 text-xs leading-relaxed text-muted-foreground">Arquiteta especialista em Design Sustentável e CEO da ArqEco</p><p className="mt-8 font-display text-7xl font-bold text-primary">12</p><p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">anos de trajetória</p></div>
         <div><h2 className="font-display text-4xl font-bold">Projetando espaços que cuidam das pessoas e do planeta.</h2>
         <p className="mt-5 max-w-3xl leading-relaxed text-muted-foreground">A ArqEco nasceu da trajetória da Arquitetura Ecológica. Em 2025, ficou entre as <strong className="text-foreground">TOP startups do Prêmio Sebrae</strong>. Desde o início, prezamos por projetos que promovam bem-estar e sustentabilidade, conectando profissionais, materiais, tecnologia e conhecimento para transformar espaços de forma mais consciente.</p>
         <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-3 lg:grid-cols-6">
