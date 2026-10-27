@@ -149,7 +149,7 @@ function PlanReferrals({ userId, origin }: { userId: string; origin: string }) {
     <section className="space-y-6">
       <div>
         <h2 className="font-display text-2xl font-semibold">Indique os planos ARQECO</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Projeto Start rende 10 ecos por pessoa que criar a conta pelo seu link. Viver Bem e Viver Lifestyle rendem 10% do valor que o cliente fechar, liberados quando o pagamento é confirmado e pagos no dia 15 do mês seguinte.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Projeto Start rende 20 ecos por pessoa que criar a conta pelo seu link e gerar o Dossiê Eco-Holístico. Viver Bem e Viver Lifestyle rendem 10% do valor que o cliente fechar, liberados quando o pagamento é confirmado e pagos no dia 15 do mês seguinte. Seus ecos valem desconto: 100 ecos = R$ 100,00 nos planos de projetos de interiores.</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-4">
         {[["Ecos acumulados", `${ecoTotal} ecos`], ["A receber", brl(toReceive)], ["Recebido", brl(received)], ["Próximo pagamento", next ? new Date(`${next}T12:00:00`).toLocaleDateString("pt-BR") : "—"]].map(([k, v]) => (
@@ -189,7 +189,7 @@ function PlanReferrals({ userId, origin }: { userId: string; origin: string }) {
           </div>
         ))}
       </div>
-      {(ecos.data ?? []).length > 0 && <p className="text-xs text-muted-foreground">Seus ecos poderão ser trocados por cursos, descontos em produtos e serviços ARQECO.</p>}
+      {(ecos.data ?? []).length > 0 && <p className="text-xs text-muted-foreground">Seus ecos valem desconto nos planos de projetos de interiores (100 ecos = R$ 100,00) e poderão ser trocados por cursos, produtos e serviços ARQECO.</p>}
     </section>
   );
 }

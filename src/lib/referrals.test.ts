@@ -1,6 +1,6 @@
 // @ts-ignore bun test runner types are not installed
 import { describe, expect, test } from "bun:test";
-import { commissionCents, payoutDate, START_REFERRAL_ECOS } from "./referrals";
+import { commissionCents, payoutDate, START_REFERRAL_ECOS, ECO_VALUE_CENTS } from "./referrals";
 
 describe("referral rules", () => {
   test("paid plans pay 10% of the closed total", () => {
