@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
+import { REFERRAL_PLANS, type ReferralPlanSlug } from "@/lib/referrals";
 
 export const Route = createFileRoute("/_authenticated/afiliado")({
   head: () => ({ meta: [{ title: "Área do afiliado — ARQECO" }, { name: "description", content: "Gere links da Curadoria ARQECO por projeto e acompanhe cliques, vendas e comissões." }, { property: "og:title", content: "Área do afiliado — ARQECO" }, { property: "og:description", content: "Acompanhe seus links, vendas e comissões na rede ARQECO." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
@@ -62,6 +63,8 @@ function AffiliateDashboard({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-10">
+      <PlanReferrals userId={userId} origin={origin} />
+      <h2 className="font-display text-2xl font-semibold">Produtos da Curadoria</h2>
       <div className="grid gap-4 sm:grid-cols-4">
         {[["Cliques", String(totals.clicks)], ["Vendas", String(totals.sales)], ["A receber", brl(totals.pending)], ["Recebido", brl(totals.paid)]].map(([k, v]) => (
           <div key={k} className="rounded-lg border border-border bg-card p-5"><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">{k}</p><p className="mt-2 font-display text-3xl font-semibold">{v}</p></div>
@@ -118,5 +121,75 @@ function AffiliateDashboard({ userId }: { userId: string }) {
         </div>
       </section>
     </div>
+  );
+}
+
+function PlanReferrals({ userId, origin }: { userId: string; origin: string }) {
+  const qc = useQueryClient();
+  const links = useQuery({ queryKey: ["ref-links", userId], queryFn: async () => (await supabase.from("referral_links").select("id,code,plan_slug").eq("affiliate_id", userId)).data ?? [] });
+  const refs = useQuery({ queryKey: ["ref-attr", userId], queryFn: async () => (await supabase.from("referral_attributions").select("link_id")).data ?? [] });
+  const comms = useQuery({ queryKey: ["ref-comms", userId], queryFn: async () => (await supabase.from("referral_commissions").select("*").order("created_at", { ascending: false })).data ?? [] });
+  const ecos = useQuery({ queryKey: ["ecos", userId], queryFn: async () => (await supabase.from("eco_ledger").select("id,amount,reason,created_at").eq("user_id", userId).order("created_at", { ascending: false })).data ?? [] });
+  const [err, setErr] = useState<string | null>(null);
+  const list = comms.data ?? [];
+  const valid = list.filter((c) => c.status !== "cancelled");
+  const ecoTotal = (ecos.data ?? []).reduce((a, e) => a + e.amount, 0);
+  const toReceive = valid.filter((c) => c.status === "pending").reduce((a, c) => a + c.commission_cents, 0);
+  const received = valid.filter((c) => c.status === "paid").reduce((a, c) => a + c.commission_cents, 0);
+  const next = valid.filter((c) => c.status === "pending").map((c) => c.payout_date).sort()[0];
+
+  async function generate(slug: ReferralPlanSlug) {
+    setErr(null);
+    const { error } = await supabase.from("referral_links").insert({ affiliate_id: userId, plan_slug: slug });
+    if (error) setErr("Não foi possível gerar o link.");
+    qc.invalidateQueries({ queryKey: ["ref-links", userId] });
+  }
+
+  return (
+    <section className="space-y-6">
+      <div>
+        <h2 className="font-display text-2xl font-semibold">Indique os planos ARQECO</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Projeto Start rende 10 ecos por pessoa que criar a conta pelo seu link. Viver Bem e Viver Lifestyle rendem 10% do valor que o cliente fechar, liberados quando o pagamento é confirmado e pagos no dia 15 do mês seguinte.</p>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-4">
+        {[["Ecos acumulados", `${ecoTotal} ecos`], ["A receber", brl(toReceive)], ["Recebido", brl(received)], ["Próximo pagamento", next ? new Date(`${next}T12:00:00`).toLocaleDateString("pt-BR") : "—"]].map(([k, v]) => (
+          <div key={k} className="rounded-lg border border-border bg-card p-5"><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">{k}</p><p className="mt-2 font-display text-3xl font-semibold">{v}</p></div>
+        ))}
+      </div>
+      <div className="grid gap-4 md:grid-cols-3">
+        {REFERRAL_PLANS.map((p) => {
+          const link = (links.data ?? []).find((l) => l.plan_slug === p.slug);
+          const url = link ? `${origin}/indicacao/${link.code}` : "";
+          const count = link ? (refs.data ?? []).filter((r) => r.link_id === link.id).length : 0;
+          return (
+            <div key={p.slug} className="rounded-lg border border-border bg-card p-5">
+              <h3 className="font-display text-xl font-semibold">{p.name}</h3>
+              <p className="text-xs font-semibold text-primary">{p.reward}</p>
+              {link ? (
+                <>
+                  <p className="mt-3 truncate text-xs text-muted-foreground">{url}</p>
+                  <p className="mt-1 text-xs">{count} pessoa(s) indicada(s)</p>
+                  <Button className="mt-3 w-full" variant="paper" size="sm" onClick={() => navigator.clipboard.writeText(url)}><Copy /> Copiar link</Button>
+                </>
+              ) : <Button className="mt-4 w-full" variant="editorial" size="sm" onClick={() => generate(p.slug)}>Gerar meu link</Button>}
+            </div>
+          );
+        })}
+      </div>
+      {err && <p className="text-sm text-destructive">{err}</p>}
+      <div className="divide-y divide-border rounded-lg border border-border bg-card">
+        {list.length === 0 && <p className="p-5 text-sm text-muted-foreground">Nenhuma comissão de plano ainda. Ela aparece aqui assim que o cliente indicado pagar.</p>}
+        {list.map((c) => (
+          <div key={c.id} className="flex flex-wrap items-center gap-4 p-4 text-sm">
+            <span className="flex-1">{new Date(c.created_at).toLocaleDateString("pt-BR")} · {c.plan_name}</span>
+            <span>{brl(c.sale_cents)}</span>
+            <span className="font-semibold text-primary">+{brl(c.commission_cents)} (10%)</span>
+            <span className="text-xs">pagamento em {new Date(`${c.payout_date}T12:00:00`).toLocaleDateString("pt-BR")}</span>
+            <StatusPill status={c.status} />
+          </div>
+        ))}
+      </div>
+      {(ecos.data ?? []).length > 0 && <p className="text-xs text-muted-foreground">Seus ecos poderão ser trocados por cursos, descontos em produtos e serviços ARQECO.</p>}
+    </section>
   );
 }
