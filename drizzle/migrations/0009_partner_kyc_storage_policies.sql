@@ -1,0 +1,2 @@
+CREATE POLICY "kyc owner upload" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'partner-kyc' AND (storage.foldername(name))[1] = auth.uid()::text);
+CREATE POLICY "kyc owner or admin read" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'partner-kyc' AND ((storage.foldername(name))[1] = auth.uid()::text OR public.is_admin()));

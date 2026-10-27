@@ -28,3 +28,4 @@
 
 - Each approved professional manages own `appointment_slots` (professional_id); slots without professional are the central ARQECO team agenda; booking a professional slot assigns the booking to that professional inside `reserve_service_booking`.
 - Briefings: one per project (created when a plan payment is confirmed); answers live in briefings.answers jsonb with question catalogue in src/lib/briefing/config.ts; submit_briefing normalizes rooms/people and advances the project — keeps the form flexible while filters and future AI read structured data. Visual options (styles/palettes/materials/moodboards) are rows in briefing_visual_options so the team swaps images without code.
+- Plan referrals: referral_links/attributions/commissions + eco_ledger; commission is written only by the signed payment webhook using rules in src/lib/referrals.ts — affiliates can never write their own earnings.

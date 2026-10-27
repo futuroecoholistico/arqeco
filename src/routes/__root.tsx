@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CookieNotice } from "@/components/CookieNotice";
+import { ReferralClaimer } from "@/components/ReferralClaimer";
 
 function NotFoundComponent() {
   return (
@@ -126,6 +127,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <CookieNotice />
+      <ReferralClaimer />
     </QueryClientProvider>
   );
 }
