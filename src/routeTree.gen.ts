@@ -24,6 +24,7 @@ import { Route as AuthenticatedPagamentoRouteImport } from './routes/_authentica
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedProfissionalRouteImport } from './routes/_authenticated/profissional'
 import { Route as ApiZoeRouteImport } from './routes/api/zoe'
+import { Route as IndicacaoCodeRouteImport } from './routes/indicacao.$code'
 import { Route as RCodeRouteImport } from './routes/r.$code'
 import { Route as AuthenticatedBriefingProjectIdRouteImport } from './routes/_authenticated/briefing.$projectId'
 import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
@@ -104,6 +105,11 @@ const ApiZoeRoute = ApiZoeRouteImport.update({
   path: '/api/zoe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndicacaoCodeRoute = IndicacaoCodeRouteImport.update({
+  id: '/indicacao/$code',
+  path: '/indicacao/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RCodeRoute = RCodeRouteImport.update({
   id: '/r/$code',
   path: '/r/$code',
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
+  '/indicacao/$code': typeof IndicacaoCodeRoute
   '/r/$code': typeof RCodeRoute
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
+  '/indicacao/$code': typeof IndicacaoCodeRoute
   '/r/$code': typeof RCodeRoute
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
@@ -184,6 +192,7 @@ export interface FileRoutesById {
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/profissional': typeof AuthenticatedProfissionalRoute
   '/api/zoe': typeof ApiZoeRoute
+  '/indicacao/$code': typeof IndicacaoCodeRoute
   '/r/$code': typeof RCodeRoute
   '/_authenticated/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
@@ -206,6 +215,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/profissional'
     | '/api/zoe'
+    | '/indicacao/$code'
     | '/r/$code'
     | '/briefing/$projectId'
     | '/api/public/conversions'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/profissional'
     | '/api/zoe'
+    | '/indicacao/$code'
     | '/r/$code'
     | '/briefing/$projectId'
     | '/api/public/conversions'
@@ -247,6 +258,7 @@ export interface FileRouteTypes {
     | '/_authenticated/painel'
     | '/_authenticated/profissional'
     | '/api/zoe'
+    | '/indicacao/$code'
     | '/r/$code'
     | '/_authenticated/briefing/$projectId'
     | '/api/public/conversions'
@@ -261,6 +273,7 @@ export interface RootRouteChildren {
   PrivacidadeRoute: typeof PrivacidadeRoute
   TermosRoute: typeof TermosRoute
   ApiZoeRoute: typeof ApiZoeRoute
+  IndicacaoCodeRoute: typeof IndicacaoCodeRoute
   RCodeRoute: typeof RCodeRoute
   ApiPublicConversionsRoute: typeof ApiPublicConversionsRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -373,6 +386,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiZoeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/indicacao/$code': {
+      id: '/indicacao/$code'
+      path: '/indicacao/$code'
+      fullPath: '/indicacao/$code'
+      preLoaderRoute: typeof IndicacaoCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/r/$code': {
       id: '/r/$code'
       path: '/r/$code'
@@ -439,6 +459,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacidadeRoute: PrivacidadeRoute,
   TermosRoute: TermosRoute,
   ApiZoeRoute: ApiZoeRoute,
+  IndicacaoCodeRoute: IndicacaoCodeRoute,
   RCodeRoute: RCodeRoute,
   ApiPublicConversionsRoute: ApiPublicConversionsRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
