@@ -1,5 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { type StripeEnv, verifyWebhook } from "@/lib/stripe.server";
+import { commissionCents, payoutDate, PAID_PLAN_COMMISSION_RATE } from "@/lib/referrals";
+
+// 10% of the closed total for referred clients, payable on the 15th of the next month (idempotent per booking).
+async function recordReferralCommission(admin: any, bookingId: string, clientId: string) {
+  const { data: attr } = await admin.from("referral_attributions").select("link_id,affiliate_id").eq("referred_user_id", clientId).maybeSingle();
+  if (!attr) return;
+  const { data: b } = await admin.from("service_bookings").select("total_cents,paid_at,service_plans(name,slug)").eq("id", bookingId).maybeSingle();
+  const total = b?.total_cents ?? 0;
+  if (!b || total <= 0) return;
+  await admin.from("referral_commissions").upsert({
+    affiliate_id: attr.affiliate_id, link_id: attr.link_id, booking_id: bookingId,
+    plan_name: b.service_plans?.name ?? "Projeto ARQECO", sale_cents: total,
+    commission_rate: PAID_PLAN_COMMISSION_RATE, commission_cents: commissionCents(total),
+    payout_date: payoutDate(new Date(b.paid_at ?? Date.now())),
+  }, { onConflict: "booking_id", ignoreDuplicates: true });
+}
 
 // Creates the client's project + empty briefing once a booking is paid (idempotent via projects.booking_id unique).
 async function ensureProject(admin: any, bookingId: string, b: any) {
@@ -32,6 +48,7 @@ async function updateBooking(session: any, kind: "paid" | "pending" | "failed") 
       await supabaseAdmin.from("appointment_slots").update({ is_available: false }).eq("id", data.appointment_slot_id);
     }
     if (data) await ensureProject(supabaseAdmin, bookingId, data);
+    if (data) await recordReferralCommission(supabaseAdmin, bookingId, data.client_id);
   } else if (kind === "pending") {
     await supabaseAdmin.from("service_bookings").update({ status: "payment_processing", payment_status: "pending" }).eq("id", bookingId).neq("payment_status", "paid");
   } else {
