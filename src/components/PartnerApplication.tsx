@@ -51,7 +51,7 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
     const up = async (f: File, name: string) => {
       const ext = (f.name.split(".").pop() ?? "jpg").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 5) || "jpg";
       const path = `${userId}/${kind}-${name}-${Date.now()}.${ext}`;
-      const { error } = await supabase.storage.from("partner-kyc").upload(path, f, { contentType: f.type || undefined });
+      const { error } = await supabase.storage.from("partner-kyc").upload(path, f, f.type ? { contentType: f.type } : {});
       if (error) throw error;
       return path;
     };

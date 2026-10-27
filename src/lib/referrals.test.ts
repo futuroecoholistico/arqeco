@@ -1,3 +1,4 @@
+// @ts-ignore bun test runner types are not installed
 import { describe, expect, test } from "bun:test";
 import { commissionCents, payoutDate, START_REFERRAL_ECOS } from "./referrals";
 
