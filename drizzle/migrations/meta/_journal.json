@@ -64,6 +64,13 @@
       "when": 1793121060544,
       "tag": "0008_plan_referrals_ecos_kyc",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793121080281,
+      "tag": "0009_partner_kyc_storage_policies",
+      "breakpoints": true
     }
   ]
 }
