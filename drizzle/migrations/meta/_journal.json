@@ -57,6 +57,13 @@
       "when": 1792677498245,
       "tag": "0007_urgent_fee_check_allows_250",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793121060544,
+      "tag": "0008_plan_referrals_ecos_kyc",
+      "breakpoints": true
     }
   ]
 }

@@ -529,19 +529,50 @@ export type Database = {
           },
         ]
       }
+      eco_ledger: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          reason: string
+          ref: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          reason: string
+          ref: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          reason?: string
+          ref?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       partner_applications: {
         Row: {
           category: string | null
           city: string | null
+          cpf: string | null
           created_at: string
           display_name: string
           document: string | null
+          document_path: string | null
           id: string
           kind: Database["public"]["Enums"]["partner_kind"]
           message: string | null
+          phone: string | null
           review_note: string | null
           reviewed_at: string | null
           reviewed_by: string | null
+          selfie_path: string | null
           status: Database["public"]["Enums"]["review_status"]
           supplier_id: string | null
           updated_at: string
@@ -551,15 +582,19 @@ export type Database = {
         Insert: {
           category?: string | null
           city?: string | null
+          cpf?: string | null
           created_at?: string
           display_name: string
           document?: string | null
+          document_path?: string | null
           id?: string
           kind: Database["public"]["Enums"]["partner_kind"]
           message?: string | null
+          phone?: string | null
           review_note?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          selfie_path?: string | null
           status?: Database["public"]["Enums"]["review_status"]
           supplier_id?: string | null
           updated_at?: string
@@ -569,15 +604,19 @@ export type Database = {
         Update: {
           category?: string | null
           city?: string | null
+          cpf?: string | null
           created_at?: string
           display_name?: string
           document?: string | null
+          document_path?: string | null
           id?: string
           kind?: Database["public"]["Enums"]["partner_kind"]
           message?: string | null
+          phone?: string | null
           review_note?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          selfie_path?: string | null
           status?: Database["public"]["Enums"]["review_status"]
           supplier_id?: string | null
           updated_at?: string
@@ -798,6 +837,122 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      referral_attributions: {
+        Row: {
+          affiliate_id: string
+          created_at: string
+          id: string
+          link_id: string
+          referred_user_id: string
+        }
+        Insert: {
+          affiliate_id: string
+          created_at?: string
+          id?: string
+          link_id: string
+          referred_user_id: string
+        }
+        Update: {
+          affiliate_id?: string
+          created_at?: string
+          id?: string
+          link_id?: string
+          referred_user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_attributions_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "referral_links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referral_commissions: {
+        Row: {
+          affiliate_id: string
+          booking_id: string
+          commission_cents: number
+          commission_rate: number
+          created_at: string
+          id: string
+          link_id: string
+          paid_at: string | null
+          payout_date: string
+          plan_name: string
+          sale_cents: number
+          status: string
+        }
+        Insert: {
+          affiliate_id: string
+          booking_id: string
+          commission_cents: number
+          commission_rate: number
+          created_at?: string
+          id?: string
+          link_id: string
+          paid_at?: string | null
+          payout_date: string
+          plan_name: string
+          sale_cents: number
+          status?: string
+        }
+        Update: {
+          affiliate_id?: string
+          booking_id?: string
+          commission_cents?: number
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          link_id?: string
+          paid_at?: string | null
+          payout_date?: string
+          plan_name?: string
+          sale_cents?: number
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_commissions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "service_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_commissions_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "referral_links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referral_links: {
+        Row: {
+          affiliate_id: string
+          code: string
+          created_at: string
+          id: string
+          plan_slug: string
+        }
+        Insert: {
+          affiliate_id: string
+          code?: string
+          created_at?: string
+          id?: string
+          plan_slug: string
+        }
+        Update: {
+          affiliate_id?: string
+          code?: string
+          created_at?: string
+          id?: string
+          plan_slug?: string
+        }
+        Relationships: []
       }
       service_bookings: {
         Row: {
@@ -1182,6 +1337,7 @@ export type Database = {
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
+      is_approved_affiliate: { Args: { _uid: string }; Returns: boolean }
       list_professionals: {
         Args: never
         Returns: {
