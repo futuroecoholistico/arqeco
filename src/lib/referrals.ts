@@ -24,3 +24,9 @@ export function payoutDate(paidAt: Date): string {
 }
 
 export const REF_STORAGE_KEY = "arqeco-ref";
+
+export const DOSSIE_APP_URL = "https://ecoholistico.lovable.app";
+/** Dossiê link, carrying the affiliate code as ?ref= so the Eco-Holístico app can report it back. */
+export function dossieUrl(code?: string | null): string {
+  return code && /^[a-f0-9]{6,20}$/.test(code) ? `${DOSSIE_APP_URL}/?ref=${code}` : DOSSIE_APP_URL;
+}

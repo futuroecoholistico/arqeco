@@ -29,6 +29,7 @@ import { Route as RCodeRouteImport } from './routes/r.$code'
 import { Route as AuthenticatedBriefingProjectIdRouteImport } from './routes/_authenticated/briefing.$projectId'
 import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicReferralsDossieRouteImport } from './routes/api/public/referrals/dossie'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -132,6 +133,12 @@ const ApiPublicPaymentsWebhookRoute =
     path: '/api/public/payments/webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicReferralsDossieRoute =
+  ApiPublicReferralsDossieRouteImport.update({
+    id: '/api/public/referrals/dossie',
+    path: '/api/public/referrals/dossie',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/referrals/dossie': typeof ApiPublicReferralsDossieRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -174,6 +182,7 @@ export interface FileRoutesByTo {
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/referrals/dossie': typeof ApiPublicReferralsDossieRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -197,6 +206,7 @@ export interface FileRoutesById {
   '/_authenticated/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/referrals/dossie': typeof ApiPublicReferralsDossieRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/briefing/$projectId'
     | '/api/public/conversions'
     | '/api/public/payments/webhook'
+    | '/api/public/referrals/dossie'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/briefing/$projectId'
     | '/api/public/conversions'
     | '/api/public/payments/webhook'
+    | '/api/public/referrals/dossie'
   id:
     | '__root__'
     | '/'
@@ -263,6 +275,7 @@ export interface FileRouteTypes {
     | '/_authenticated/briefing/$projectId'
     | '/api/public/conversions'
     | '/api/public/payments/webhook'
+    | '/api/public/referrals/dossie'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -277,6 +290,7 @@ export interface RootRouteChildren {
   RCodeRoute: typeof RCodeRoute
   ApiPublicConversionsRoute: typeof ApiPublicConversionsRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
+  ApiPublicReferralsDossieRoute: typeof ApiPublicReferralsDossieRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -421,6 +435,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/referrals/dossie': {
+      id: '/api/public/referrals/dossie'
+      path: '/api/public/referrals/dossie'
+      fullPath: '/api/public/referrals/dossie'
+      preLoaderRoute: typeof ApiPublicReferralsDossieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -463,6 +484,7 @@ const rootRouteChildren: RootRouteChildren = {
   RCodeRoute: RCodeRoute,
   ApiPublicConversionsRoute: ApiPublicConversionsRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
+  ApiPublicReferralsDossieRoute: ApiPublicReferralsDossieRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
