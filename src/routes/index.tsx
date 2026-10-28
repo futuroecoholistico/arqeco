@@ -13,6 +13,12 @@ import startPlanImageAsset from "@/assets/planos/plano-start-dossie.jpeg.asset.j
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/components/PartnerShell";
+import { DOSSIE_APP_URL, REF_STORAGE_KEY, dossieUrl } from "@/lib/referrals";
+
+// Carry a pending affiliate code to the Dossiê app so the Start referral can earn ecos there.
+const withRef = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  e.currentTarget.href = dossieUrl(localStorage.getItem(REF_STORAGE_KEY));
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
