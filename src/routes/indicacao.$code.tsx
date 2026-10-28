@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { REF_STORAGE_KEY } from "@/lib/referrals";
+import { REF_STORAGE_KEY, dossieUrl } from "@/lib/referrals";
+import { getReferralPlan } from "@/lib/referrals.functions";
 
 export const Route = createFileRoute("/indicacao/$code")({
   head: () => ({ meta: [
@@ -19,8 +20,15 @@ function ReferralLanding() {
   const { code } = Route.useParams();
   const navigate = useNavigate();
   useEffect(() => {
-    if (/^[a-f0-9]{6,20}$/.test(code)) localStorage.setItem(REF_STORAGE_KEY, code);
-    navigate({ to: "/", hash: "planos", replace: true });
+    if (!/^[a-f0-9]{6,20}$/.test(code)) { navigate({ to: "/", hash: "planos", replace: true }); return; }
+    localStorage.setItem(REF_STORAGE_KEY, code);
+    getReferralPlan({ data: { code } })
+      .then(({ plan }) => {
+        // Start = Dossiê, which lives in the Eco-Holístico app: carry the code there.
+        if (plan === "start") window.location.replace(dossieUrl(code));
+        else navigate({ to: "/", hash: "planos", replace: true });
+      })
+      .catch(() => navigate({ to: "/", hash: "planos", replace: true }));
   }, [code, navigate]);
   return <p className="p-10 text-center text-sm text-muted-foreground">Abrindo a ARQECO…</p>;
 }
