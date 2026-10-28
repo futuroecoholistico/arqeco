@@ -15,7 +15,7 @@ export const Route = createFileRoute("/api/public/referrals/dossie")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const secret = process.env.DOSSIE_REFERRAL_SECRET;
+        const secret = process.env["DOSSIE_REFERRAL_SECRET"];
         if (!secret) return Response.json({ error: "not configured" }, { status: 503 });
         const body = await request.text();
         const sig = Buffer.from(request.headers.get("x-arqeco-signature") ?? "");
