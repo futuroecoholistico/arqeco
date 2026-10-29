@@ -8,7 +8,7 @@
     {"capability":"authorization","source":"roles and owner policies","outcome":"unified ARQECO roles","status":"in_progress","next_action":"enforce owner and category boundaries"},
     {"capability":"uploaded file bytes","source":"source storage","outcome":"preserve","status":"pending","next_action":"request uploaded files export with metadata"},
     {"capability":"AI analysis and image generation","source":"Lovable AI","outcome":"preserve","status":"in_progress","next_action":"adapt services and verify"},
-    {"capability":"payments and webhooks","source":"source optional contributions","outcome":"preserve separately from paid ARQECO plans","status":"pending","next_action":"inspect providers and callbacks"},
+    {"capability":"payments and webhooks","source":"source R$49.90 seven-day unlock","outcome":"user explicitly chose fully free integrated Dossier; retain historical payments, no new unlock checkout; source site remains unchanged","status":"accepted_change","next_action":"remove integrated paywall and import historical access records after export"},
     {"capability":"cutover and verification","source":"ecoholistico.lovable.app","outcome":"internal ARQECO Dossier","status":"pending","next_action":"verify integrated flow; old site unchanged until explicit cutover"}
   ]
 }

@@ -23,7 +23,7 @@ Incorporar o APP ECO HOLISTICO à ARQECO, com uma conta por pessoa, uma única b
 - Substituir os links externos do Start por acesso interno ao Dossiê, mantendo o código de indicação ao longo do cadastro.
 - Creditar **20 ecos** somente após a geração bem-sucedida do Dossiê por uma pessoa indicada, uma única vez por pessoa, sem autoindicação.
 - Manter as comissões dos planos pagos em **10% do valor fechado**, após confirmação do pagamento, com recebimento no dia 15 do mês seguinte.
-- O Start permanece gratuito. O aplicativo de origem também contém um desbloqueio do relatório completo por **R$ 49,90 / 7 dias**; esse recurso será preservado separadamente, sem alterar os preços dos planos ARQECO. Se a intenção for tornar também esse conteúdo integralmente gratuito, ajustar esse ponto antes da implementação.
+- O Projeto Start e o relatório completo serão **inteiramente gratuitos**, conforme sua escolha. Remover a cobrança de R$ 49,90 e o bloqueio por sete dias da experiência incorporada, sem alterar os planos pagos de interiores. Preservar os registros de pagamentos antigos para histórico, sem oferecer novas cobranças do Dossiê.
 
 ## 4. Administração unificada
 - Criar a área **Cadastros** com todos os inscritos, inclusive clientes e pessoas que ainda não enviaram um pedido de parceria.
@@ -34,7 +34,7 @@ Incorporar o APP ECO HOLISTICO à ARQECO, com uma conta por pessoa, uma única b
 ## 5. Dados existentes e transição
 - Novos cadastros e dossiês passam a usar o Lovable Cloud da ARQECO.
 - O código do outro projeto está disponível, mas seus registros e usuários não vieram junto. Construir e testar a integração sem inventar ou copiar registros privados.
-- Depois da prévia, solicitar no chat do **APP ECO HOLISTICO** a exportação dos usuários, dossiês, feedbacks, acessos pagos e arquivos com seus vínculos, para importação aqui.
+- Depois da prévia, solicitar no chat do **APP ECO HOLISTICO** a exportação dos usuários, dossiês, feedbacks, histórico de acessos pagos e arquivos com seus vínculos, para importação aqui.
 - Preservar os identificadores de origem e relacionar os registros às contas corretas somente após confirmação segura do e-mail. Não mesclar contas apenas por um nome informado.
 - Usuários migrados manterão seus perfis e dados; no primeiro acesso, verificarão o e-mail e escolherão uma nova senha. Senhas e sessões antigas não são transferidas.
 - O site Eco-Holístico atual não será apagado nem alterado por esta integração. A publicação e a troca definitiva do acesso serão tratadas depois da verificação.
@@ -44,8 +44,8 @@ Incorporar o APP ECO HOLISTICO à ARQECO, com uma conta por pessoa, uma única b
 - Criar esquema aditivo para dossiês, feedbacks, acessos e mapeamento de identidades, com permissões explícitas e acesso por proprietário/administrador.
 - Manter papéis em `user_roles`, separados dos dados de perfil; não usar categoria selecionada pelo usuário como autorização.
 - Separar fotos de perfil de documentos de identidade, com armazenamento privado e acesso controlado.
-- Preservar Lovable AI, localização e pagamentos compatíveis; verificar configurações disponíveis antes de solicitar qualquer chave por formulário seguro.
-- Preservar callbacks e avisos de pagamento do Dossiê sem colidir com os pagamentos dos planos ARQECO.
+- Preservar Lovable AI e localização; verificar configurações disponíveis antes de solicitar qualquer chave por formulário seguro.
+- Manter os avisos assinados dos planos ARQECO. Não oferecer novas cobranças de Dossiê; manter o aplicativo de origem e seus avisos antigos intactos até a transição, para não perder pagamentos em andamento.
 - Fazer o crédito interno de ecos de forma atômica e idempotente, dispensando a comunicação entre os dois aplicativos para novos dossiês.
 
 ## Verificação e entrega
