@@ -1,0 +1,14 @@
+{
+  "source": "APP ECO HOLISTICO",
+  "capabilities": [
+    {"capability":"code and diagnostic journey","source":"workspace snapshot","outcome":"integrate into ARQECO","status":"in_progress","next_action":"adapt pages and services"},
+    {"capability":"schema","source":"source migrations","outcome":"migrate to current Lovable Cloud","status":"in_progress","next_action":"create additive schema"},
+    {"capability":"existing application records","source":"separate project database","outcome":"migrate","status":"pending","next_action":"request CSV/JSON export from source project chat"},
+    {"capability":"auth identities and ownership","source":"separate project auth","outcome":"migrate with verified email and password setup","status":"pending","next_action":"request original user ID and email export; preserve identity mapping"},
+    {"capability":"authorization","source":"roles and owner policies","outcome":"unified ARQECO roles","status":"in_progress","next_action":"enforce owner and category boundaries"},
+    {"capability":"uploaded file bytes","source":"source storage","outcome":"preserve","status":"pending","next_action":"request uploaded files export with metadata"},
+    {"capability":"AI analysis and image generation","source":"Lovable AI","outcome":"preserve","status":"in_progress","next_action":"adapt services and verify"},
+    {"capability":"payments and webhooks","source":"source optional contributions","outcome":"preserve separately from paid ARQECO plans","status":"pending","next_action":"inspect providers and callbacks"},
+    {"capability":"cutover and verification","source":"ecoholistico.lovable.app","outcome":"internal ARQECO Dossier","status":"pending","next_action":"verify integrated flow; old site unchanged until explicit cutover"}
+  ]
+}

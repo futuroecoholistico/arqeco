@@ -1,5 +1,9 @@
 # ARQECO roadmap
 
+- [ ] Incorporar o Dossiê Eco-Holístico à ARQECO com contas e dados unificados; preservar questionário, análise, imagens, histórico e feedback.
+- [ ] Cadastro por categoria, dados e foto; painéis isolados e lista de todos os inscritos no admin.
+- [ ] Importar registros, usuários e arquivos existentes do APP ECO HOLISTICO (aguarda exportação no chat do projeto de origem).
+
 - [x] Renovar a estética inspirada nos sites Arquitetura Ecológica e Eco-Holístico, preservando conteúdo e contratação; conferir fotos, planos, menu e ausência de sobreposição em desktop/celular.
 
 - [x] Painel central, estética editorial, fontes, ecossistema, desktop/celular.
