@@ -23,3 +23,11 @@ export const saveAccount = createServerFn({ method: "POST" }).middleware([requir
     if (error) throw new Error("Não foi possível salvar seu cadastro.");
     return { ok: true };
   });
+
+export const deleteMyDossiers = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
+  const { error: feedbackError } = await context.supabase.from("feedbacks").delete().eq("user_id", context.userId);
+  if (feedbackError) throw new Error("Não foi possível excluir os feedbacks.");
+  const { error } = await context.supabase.from("diagnosticos").delete().eq("user_id", context.userId);
+  if (error) throw new Error("Não foi possível excluir os dossiês.");
+  return { ok: true };
+});
