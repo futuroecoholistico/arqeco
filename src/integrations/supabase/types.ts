@@ -529,6 +529,116 @@ export type Database = {
           },
         ]
       }
+      diagnosticos: {
+        Row: {
+          created_at: string
+          id: string
+          imagem_original_url: string | null
+          imagem_transformada_url: string | null
+          indice_regeneracao: number | null
+          nivel: number | null
+          project_id: string | null
+          respostas: Json
+          resultado: Json | null
+          status: string
+          tipo_ambiente: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          imagem_original_url?: string | null
+          imagem_transformada_url?: string | null
+          indice_regeneracao?: number | null
+          nivel?: number | null
+          project_id?: string | null
+          respostas?: Json
+          resultado?: Json | null
+          status?: string
+          tipo_ambiente: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          imagem_original_url?: string | null
+          imagem_transformada_url?: string | null
+          indice_regeneracao?: number | null
+          nivel?: number | null
+          project_id?: string | null
+          respostas?: Json
+          resultado?: Json | null
+          status?: string
+          tipo_ambiente?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "diagnosticos_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      eco_historical_access: {
+        Row: {
+          ambiente: string | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          source_user_id: string
+          stripe_session_id: string | null
+        }
+        Insert: {
+          ambiente?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          source_user_id: string
+          stripe_session_id?: string | null
+        }
+        Update: {
+          ambiente?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          source_user_id?: string
+          stripe_session_id?: string | null
+        }
+        Relationships: []
+      }
+      eco_import_identities: {
+        Row: {
+          auth_user_id: string | null
+          created_at: string
+          email: string
+          id: string
+          source_user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          auth_user_id?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          source_user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          auth_user_id?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          source_user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
       eco_ledger: {
         Row: {
           amount: number
@@ -555,6 +665,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      feedbacks: {
+        Row: {
+          created_at: string
+          diagnostico_id: string | null
+          id: string
+          mensagem: string
+          nota: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          diagnostico_id?: string | null
+          id?: string
+          mensagem: string
+          nota?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          diagnostico_id?: string | null
+          id?: string
+          mensagem?: string
+          nota?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedbacks_diagnostico_id_fkey"
+            columns: ["diagnostico_id"]
+            isOneToOne: false
+            referencedRelation: "diagnosticos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       partner_applications: {
         Row: {
@@ -714,34 +859,40 @@ export type Database = {
       profiles: {
         Row: {
           account_type: Database["public"]["Enums"]["app_role"]
+          avatar_path: string | null
           avatar_url: string | null
           city: string | null
           created_at: string
           full_name: string
           id: string
           phone: string | null
+          registration_category: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
           account_type?: Database["public"]["Enums"]["app_role"]
+          avatar_path?: string | null
           avatar_url?: string | null
           city?: string | null
           created_at?: string
           full_name: string
           id?: string
           phone?: string | null
+          registration_category?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
           account_type?: Database["public"]["Enums"]["app_role"]
+          avatar_path?: string | null
           avatar_url?: string | null
           city?: string | null
           created_at?: string
           full_name?: string
           id?: string
           phone?: string | null
+          registration_category?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -1336,6 +1487,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_list_registrants: {
+        Args: never
+        Returns: {
+          application_status: string
+          avatar_path: string
+          category: string
+          city: string
+          created_at: string
+          email: string
+          email_confirmed: boolean
+          full_name: string
+          phone: string
+          user_id: string
+        }[]
+      }
       is_admin: { Args: never; Returns: boolean }
       is_approved_affiliate: { Args: { _uid: string }; Returns: boolean }
       list_professionals: {
