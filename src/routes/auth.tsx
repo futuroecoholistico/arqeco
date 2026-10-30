@@ -5,97 +5,24 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { fieldClass } from "@/components/PartnerShell";
-
-const search = z.object({ next: z.string().optional(), perfil: z.enum(["fornecedor", "afiliado", "profissional"]).optional() });
+import { CATEGORIES, categoryHome, safeDestination, type Category } from "@/lib/account";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: search,
-  head: () => ({
-    meta: [
-      { title: "Entrar — ARQECO" },
-      { name: "description", content: "Entre ou crie sua conta ARQECO como cliente, fornecedor ou afiliado." },
-      { property: "og:title", content: "Entrar — ARQECO" },
-      { property: "og:description", content: "Acesse sua conta ARQECO." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
-  component: AuthPage,
+ validateSearch: z.object({ next: z.string().optional(), perfil: z.enum(["cliente","fornecedor","afiliado","profissional"]).optional() }),
+ head: () => ({ meta: [{title:"Cadastro e entrada — ARQECO"},{name:"description",content:"Entre na ARQECO como cliente, arquiteto, designer, fornecedor ou afiliado."},{property:"og:title",content:"Cadastro e entrada — ARQECO"},{property:"og:description",content:"Uma conta para seus projetos e Dossiês Eco-Holísticos."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}] }),
+ component: AuthPage,
 });
-
-function safeNext(next?: string, perfil?: string) {
-  if (next && next.startsWith("/") && !next.startsWith("//")) return next;
-  if (perfil === "fornecedor") return "/fornecedor";
-  if (perfil === "afiliado") return "/afiliado";
-  if (perfil === "profissional") return "/profissional";
-  return "/painel";
-}
-
 function AuthPage() {
-  const { next, perfil } = Route.useSearch();
-  const navigate = useNavigate();
-  const [mode, setMode] = useState<"in" | "up">(perfil ? "up" : "in");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [msg, setMsg] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
-  const target = safeNext(next, perfil);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => { if (data.session) navigate({ to: target }); });
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" && session) navigate({ to: target });
-    });
-    return () => data.subscription.unsubscribe();
-  }, [navigate, target]);
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setMsg(null);
-    const parsed = z.object({ email: z.string().trim().email(), password: z.string().min(8) }).safeParse({ email, password });
-    if (!parsed.success) { setMsg("Informe um e-mail válido e uma senha com pelo menos 8 caracteres."); return; }
-    setBusy(true);
-    if (mode === "in") {
-      const { error } = await supabase.auth.signInWithPassword(parsed.data);
-      if (error) setMsg("E-mail ou senha incorretos.");
-    } else {
-      const { error } = await supabase.auth.signUp({
-        ...parsed.data,
-        options: { emailRedirectTo: `${window.location.origin}/auth?next=${encodeURIComponent(target)}`, data: { full_name: name.trim().slice(0, 120) } },
-      });
-      setMsg(error ? error.message : "Enviamos um link de confirmação para o seu e-mail.");
-    }
-    setBusy(false);
-  }
-
-  async function google() {
-    const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: `${window.location.origin}/auth?next=${encodeURIComponent(target)}` });
-    if (r.error) setMsg("Não foi possível entrar com Google.");
-  }
-
-  const label = perfil === "fornecedor" ? "Seja fornecedor ARQECO" : perfil === "afiliado" ? "Seja afiliado ARQECO" : perfil === "profissional" ? "Seja ArqEco Pro" : mode === "in" ? "Bem-vindo de volta" : "Crie sua conta";
-
-  return (
-    <div className="grid min-h-screen place-items-center bg-background px-5">
-      <div className="w-full max-w-sm">
-        <Link to="/" className="font-display text-2xl font-semibold text-primary">ARQECO</Link>
-        <h1 className="mt-8 font-display text-3xl font-semibold">{label}</h1>
-        {perfil && <p className="mt-2 text-sm text-muted-foreground">Crie sua conta e envie seu cadastro. A equipe ARQECO avalia antes de liberar o acesso.</p>}
-        <Button variant="paper" className="mt-8 w-full" onClick={google}>Continuar com Google</Button>
-        <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-widest text-muted-foreground"><span className="h-px flex-1 bg-border" />ou<span className="h-px flex-1 bg-border" /></div>
-        <form onSubmit={submit} className="space-y-3">
-          {mode === "up" && <input className={fieldClass} placeholder="Seu nome" value={name} onChange={(e) => setName(e.target.value)} aria-label="Nome" />}
-          <input className={fieldClass} type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} aria-label="E-mail" />
-          <input className={fieldClass} type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} aria-label="Senha" />
-          <Button type="submit" variant="editorial" className="w-full" disabled={busy}>{mode === "in" ? "Entrar" : "Criar conta"}</Button>
-        </form>
-        <p className="mt-3 text-xs text-muted-foreground">Ao continuar, você concorda com os <Link to="/termos" className="text-primary underline">Termos de Uso</Link> e a <Link to="/privacidade" className="text-primary underline">Política de Privacidade</Link>.</p>
-        {msg && <p className="mt-4 text-sm text-muted-foreground" role="status">{msg}</p>}
-        <button type="button" onClick={() => setMode(mode === "in" ? "up" : "in")} className="mt-6 text-sm text-primary underline-offset-4 hover:underline">
-          {mode === "in" ? "Ainda não tem conta? Criar conta" : "Já tem conta? Entrar"}
-        </button>
-      </div>
-    </div>
-  );
+ const { next, perfil } = Route.useSearch();
+ const initial = perfil === "cliente" ? "client" : perfil === "profissional" ? "professional" : perfil === "fornecedor" ? "supplier" : perfil === "afiliado" ? "affiliate" : null;
+ const [category,setCategory] = useState<Category | null>(initial);
+ const [mode,setMode] = useState<"choose"|"in"|"up">(initial ? "up" : "choose");
+ const [email,setEmail] = useState(""); const [password,setPassword] = useState(""); const [name,setName] = useState(""); const [phone,setPhone] = useState(""); const [city,setCity] = useState("");
+ const [msg,setMsg] = useState(""); const [busy,setBusy] = useState(false); const navigate=useNavigate();
+ useEffect(() => { let active=true; const finish=async () => { const {data}=await supabase.auth.getUser(); if(!data.user || !active) return; const {data:p}=await supabase.from("profiles").select("registration_category").eq("user_id",data.user.id).maybeSingle(); if(!p?.registration_category) { navigate({to:"/minha-conta"}); return; } navigate({to:safeDestination(next) ?? categoryHome(p.registration_category)}); }; void finish(); const {data}=supabase.auth.onAuthStateChange(event=>{if(event==="SIGNED_IN") setTimeout(()=>void finish(),0);}); return()=>{active=false;data.subscription.unsubscribe();}; },[next,navigate]);
+ async function submit(e:React.FormEvent) {e.preventDefault();setMsg(""); const parsed=z.object({email:z.string().trim().email(),password:z.string().min(8)}).safeParse({email,password});if(!parsed.success){setMsg("Informe e-mail válido e senha com pelo menos 8 caracteres.");return;}setBusy(true);try{if(mode==="in"){const {error}=await supabase.auth.signInWithPassword(parsed.data);if(error)setMsg("Confira seu e-mail e senha, e confirme seu e-mail antes de entrar.");}else{if(!category||name.trim().length<2||phone.trim().length<10||city.trim().length<2){setMsg("Preencha nome, telefone com DDD e cidade.");return;} const {error}=await supabase.auth.signUp({...parsed.data,options:{emailRedirectTo:`${window.location.origin}/auth${next?`?next=${encodeURIComponent(next)}`:""}`,data:{full_name:name.trim(),phone:phone.trim(),city:city.trim(),registration_category:category}}});setMsg(error?"Não foi possível criar sua conta. Confira os dados ou tente entrar.":"Enviamos um link de confirmação para seu e-mail.");}}finally{setBusy(false);}}
+ async function google(){const r=await lovable.auth.signInWithOAuth("google",{redirect_uri:`${window.location.origin}/auth${next?`?next=${encodeURIComponent(next)}`:""}`});if(r.error)setMsg("Não foi possível entrar com Google.");}
+ return <div className="min-h-screen bg-background px-5 py-12"><div className="mx-auto w-full max-w-lg"><Link to="/" className="font-display text-2xl text-primary">ARQECO</Link><h1 className="mt-10 font-display text-4xl">{mode==="choose"?"Qual é o seu perfil?":mode==="in"?"Bem-vindo de volta":"Crie sua conta"}</h1>
+ {mode==="choose"?<><div className="mt-8 grid gap-3 sm:grid-cols-2">{CATEGORIES.map(c=><Button key={c.id} variant="paper" className="h-24 whitespace-normal text-base" onClick={()=>{setCategory(c.id);setMode("up");}}>{c.label}</Button>)}</div><Button variant="ghost" className="mt-6" onClick={()=>setMode("in")}>Já tenho conta · Entrar</Button></>:<><p className="mt-3 text-sm text-muted-foreground">{mode==="up"?CATEGORIES.find(c=>c.id===category)?.label:"Acesse seu painel e seus projetos."}</p><Button variant="paper" className="mt-6 w-full" onClick={google}>Continuar com Google</Button><div className="my-5 text-center text-xs text-muted-foreground">ou</div><form onSubmit={submit} className="space-y-3">{mode==="up"&&<><input required className={fieldClass} placeholder="Nome completo" aria-label="Nome completo" value={name} onChange={e=>setName(e.target.value)}/><input required className={fieldClass} placeholder="Telefone com DDD" aria-label="Telefone" value={phone} onChange={e=>setPhone(e.target.value)}/><input required className={fieldClass} placeholder="Cidade" aria-label="Cidade" value={city} onChange={e=>setCity(e.target.value)}/></>}<input required type="email" className={fieldClass} placeholder="E-mail" aria-label="E-mail" value={email} onChange={e=>setEmail(e.target.value)}/><input required minLength={8} type="password" className={fieldClass} placeholder="Senha" aria-label="Senha" value={password} onChange={e=>setPassword(e.target.value)}/><Button disabled={busy} type="submit" variant="editorial" className="w-full">{busy?"Aguarde…":mode==="in"?"Entrar":"Criar conta"}</Button></form><Button variant="ghost" className="mt-5" onClick={()=>{setMode(mode==="in"?"choose":"in");setMsg("");}}>{mode==="in"?"Criar uma conta":"Já tenho conta · Entrar"}</Button>{mode==="up"&&<Button variant="ghost" onClick={()=>setMode("choose")}>Trocar categoria</Button>}</>}
+ {msg&&<p role="status" className="mt-5 text-sm text-primary">{msg}</p>}<p className="mt-8 text-xs text-muted-foreground">Ao continuar, você concorda com os <Link to="/termos" className="underline">Termos de Uso</Link> e a <Link to="/privacidade" className="underline">Política de Privacidade</Link>.</p></div></div>;
 }

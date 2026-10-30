@@ -21,6 +21,7 @@ import { Route as AuthenticatedConstruirRouteImport } from './routes/_authentica
 import { Route as AuthenticatedContratarRouteImport } from './routes/_authenticated/contratar'
 import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authenticated/fornecedor'
 import { Route as AuthenticatedMeusDiagnosticosRouteImport } from './routes/_authenticated/meus-diagnosticos'
+import { Route as AuthenticatedMinhaContaRouteImport } from './routes/_authenticated/minha-conta'
 import { Route as AuthenticatedPagamentoRouteImport } from './routes/_authenticated/pagamento'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedProfissionalRouteImport } from './routes/_authenticated/profissional'
@@ -94,6 +95,11 @@ const AuthenticatedMeusDiagnosticosRoute =
     path: '/meus-diagnosticos',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMinhaContaRoute = AuthenticatedMinhaContaRouteImport.update({
+  id: '/minha-conta',
+  path: '/minha-conta',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPagamentoRoute = AuthenticatedPagamentoRouteImport.update({
   id: '/pagamento',
   path: '/pagamento',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/meus-diagnosticos': typeof AuthenticatedMeusDiagnosticosRoute
+  '/minha-conta': typeof AuthenticatedMinhaContaRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
   '/meus-diagnosticos': typeof AuthenticatedMeusDiagnosticosRoute
+  '/minha-conta': typeof AuthenticatedMinhaContaRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
@@ -225,6 +233,7 @@ export interface FileRoutesById {
   '/_authenticated/contratar': typeof AuthenticatedContratarRoute
   '/_authenticated/fornecedor': typeof AuthenticatedFornecedorRoute
   '/_authenticated/meus-diagnosticos': typeof AuthenticatedMeusDiagnosticosRoute
+  '/_authenticated/minha-conta': typeof AuthenticatedMinhaContaRoute
   '/_authenticated/pagamento': typeof AuthenticatedPagamentoRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/profissional': typeof AuthenticatedProfissionalRoute
@@ -252,6 +261,7 @@ export interface FileRouteTypes {
     | '/contratar'
     | '/fornecedor'
     | '/meus-diagnosticos'
+    | '/minha-conta'
     | '/pagamento'
     | '/painel'
     | '/profissional'
@@ -277,6 +287,7 @@ export interface FileRouteTypes {
     | '/contratar'
     | '/fornecedor'
     | '/meus-diagnosticos'
+    | '/minha-conta'
     | '/pagamento'
     | '/painel'
     | '/profissional'
@@ -303,6 +314,7 @@ export interface FileRouteTypes {
     | '/_authenticated/contratar'
     | '/_authenticated/fornecedor'
     | '/_authenticated/meus-diagnosticos'
+    | '/_authenticated/minha-conta'
     | '/_authenticated/pagamento'
     | '/_authenticated/painel'
     | '/_authenticated/profissional'
@@ -418,6 +430,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMeusDiagnosticosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/minha-conta': {
+      id: '/_authenticated/minha-conta'
+      path: '/minha-conta'
+      fullPath: '/minha-conta'
+      preLoaderRoute: typeof AuthenticatedMinhaContaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pagamento': {
       id: '/_authenticated/pagamento'
       path: '/pagamento'
@@ -512,6 +531,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedContratarRoute: typeof AuthenticatedContratarRoute
   AuthenticatedFornecedorRoute: typeof AuthenticatedFornecedorRoute
   AuthenticatedMeusDiagnosticosRoute: typeof AuthenticatedMeusDiagnosticosRoute
+  AuthenticatedMinhaContaRoute: typeof AuthenticatedMinhaContaRoute
   AuthenticatedPagamentoRoute: typeof AuthenticatedPagamentoRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedProfissionalRoute: typeof AuthenticatedProfissionalRoute
@@ -527,6 +547,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedContratarRoute: AuthenticatedContratarRoute,
   AuthenticatedFornecedorRoute: AuthenticatedFornecedorRoute,
   AuthenticatedMeusDiagnosticosRoute: AuthenticatedMeusDiagnosticosRoute,
+  AuthenticatedMinhaContaRoute: AuthenticatedMinhaContaRoute,
   AuthenticatedPagamentoRoute: AuthenticatedPagamentoRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedProfissionalRoute: AuthenticatedProfissionalRoute,
