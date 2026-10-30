@@ -9,7 +9,7 @@ for (const fonte of fontes) {
     const numero = bloco.match(/^TABELA (\d+)/)?.[1];
     if (!numero) continue;
     const linhas = bloco.split("\n").filter(linha => linha.startsWith("|")).map(linha => linha.split("|").slice(1, -1).map(celula => celula.trim()));
-    secoes.set(Number(numero), linhas.filter(linha => !["Elemento", "Ambiente", "Geometria"].includes(linha[0])));
+    secoes.set(Number(numero), linhas.filter(linha => !["Elemento", "Ambiente", "Geometria"].includes(linha[0] ?? "")));
   }
 }
 
@@ -22,9 +22,9 @@ function conteudo(numero: number, contexto: string): string {
   const texto = normalizar(contexto);
   const elemento = elementos.find(item => new RegExp(`\\b${item}\\b`).test(texto));
   const porElemento = [2, 5, 7, 8].includes(numero) && elemento
-    ? linhas.filter(linha => normalizar(numero === 8 ? linha[3] : linha[0]) === elemento)
+    ? linhas.filter(linha => normalizar((numero === 8 ? linha[3] : linha[0]) ?? "") === elemento)
     : [];
-  const porItem = linhas.filter(linha => texto.includes(normalizar(linha[0])));
+  const porItem = linhas.filter(linha => texto.includes(normalizar(linha[0] ?? "")));
   const selecionadas = porElemento.length ? porElemento : porItem.length ? porItem : linhas;
   return selecionadas.map(linha => {
     switch (numero) {

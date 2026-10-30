@@ -33,7 +33,7 @@ export class LovableImageGenerator implements IImageGenerator {
       }),
     });
     if (!response.ok) throw new Error(`Especificação visual indisponível (${response.status})`);
-    const json = await response.json() as { choices?: { message?: { content?: string } }[] };
+    const json = await response.json() as { choices?: { message?: { content?: string } }[] } | undefined;
     return parseEspecificacoesImagem(json.choices?.[0]?.message?.content ?? "");
   }
 
@@ -81,11 +81,11 @@ export class LovableImageGenerator implements IImageGenerator {
       throw new Error(`Falha na geração de imagem (${res.status}): ${body.slice(0, 200)}`);
     }
     const json = (await res.json()) as {
-      choices?: { message?: { images?: { image_url?: { url?: string } }[] } }[];
+      choices?: { message?: { images?: { image_url?: { url?: string } }[] } }[] | undefined;
     };
     const url = json.choices?.[0]?.message?.images?.[0]?.image_url?.url ?? "";
     const match = url.match(/^data:(image\/[\w+.-]+);base64,(.+)$/);
-    if (!match) throw new Error("Resposta de imagem sem payload base64");
+    if (!match?.[1] || !match[2]) throw new Error("Resposta de imagem sem payload base64");
     return { mimeType: match[1], base64: match[2] };
   }
 }

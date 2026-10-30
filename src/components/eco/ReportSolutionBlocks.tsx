@@ -6,7 +6,7 @@ const icons = { iluminacao: Sun, ventilacao: Wind, cores: Palette, aromas: Flowe
 
 export function ReportSolutionBlocks({ resultado }: { resultado: ResultadoDiagnostico }) {
   return <section aria-label="Soluções por campo" className="border-y border-border py-8">
-    <h3 className="text-serif mb-6 text-2xl md:text-3xl">Soluções para o seu ambiente</h3>
+    <h3 className="font-display mb-6 text-2xl md:text-3xl">Soluções para o seu ambiente</h3>
     <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
       {organizarBlocosDossie(resultado).map(campo => {
         const Icon = icons[campo.id];

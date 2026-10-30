@@ -12,7 +12,7 @@ export function ReportMoodboard({ resultado }: { resultado: ResultadoDiagnostico
   return (
     <section className="border-y border-border py-8">
       <p className="text-xs uppercase tracking-[0.25em] text-primary">Moodboard</p>
-      <h3 className="text-serif mt-1 text-2xl md:text-3xl">Elementos a incorporar</h3>
+      <h3 className="font-display mt-1 text-2xl md:text-3xl">Elementos a incorporar</h3>
       {paleta.length > 0 && (
         <div className="mt-6">
           <div className="text-xs uppercase text-muted-foreground">Paleta de cores</div>
@@ -37,7 +37,7 @@ export function ReportMoodboard({ resultado }: { resultado: ResultadoDiagnostico
                   <Icone className="h-10 w-10" style={{ color: item.cor }} strokeWidth={1.4} aria-hidden />
                 </div>
                 <figcaption className="mt-3">
-                  <div className="text-serif text-base">{item.nome}</div>
+                  <div className="font-display text-base">{item.nome}</div>
                   <p className="mt-1 text-xs text-muted-foreground">{item.aplicacao}</p>
                 </figcaption>
               </figure>

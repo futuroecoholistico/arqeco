@@ -16,7 +16,7 @@ export interface AnalisarAmbienteInput {
   tipoAmbiente: TipoAmbiente;
   imagemUrl: string | null;
   respostas: import("@/domain/ports").RespostasMap;
-  documentoMarca?: DocumentoMarca | null;
+  documentoMarca?: DocumentoMarca | null | undefined;
 }
 
 export class AnalisarAmbienteUseCase {
@@ -40,7 +40,7 @@ export class AnalisarAmbienteUseCase {
         consultaLocalizacao,
       });
       resultado.consultaLocalizacao = consultaLocalizacao;
-      const direcao = input.respostas.orientacaoJanela;
+      const direcao = input.respostas['orientacaoJanela'];
       if (typeof direcao === "string" && direcao !== "Não sei informar") resultado.orientacaoJanelaInformada = direcao;
     } catch (err) {
       await this.repo.atualizarResultado(input.diagnosticoId, input.userId, {

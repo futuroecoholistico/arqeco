@@ -17,8 +17,8 @@ export interface AnaliseInput {
   tipoAmbiente: TipoAmbiente;
   imagemUrl: string | null;
   respostas: RespostasMap;
-  documentoMarca?: DocumentoMarca | null;
-  consultaLocalizacao?: import("@/lib/localizacao-ambiente").ConsultaLocalizacao;
+  documentoMarca?: DocumentoMarca | null | undefined;
+  consultaLocalizacao?: import("@/lib/localizacao-ambiente").ConsultaLocalizacao | undefined;
 }
 
 export interface ILocalizacaoAdapter {
@@ -42,7 +42,7 @@ export interface IImageGenerator {
 
 export interface IStorageAdapter {
   uploadImagem(userId: string, buffer: Buffer, mimeType: string): Promise<string>;
-  signedUrl(path: string, expiresIn?: number): Promise<string>;
+  signedUrl(path: string, expiresIn?: number): Promise<string> | undefined;
 }
 
 export interface IDiagnosticoRepository {
@@ -58,11 +58,11 @@ export interface IDiagnosticoRepository {
     userId: string,
     dados: {
       resultado: ResultadoDiagnostico;
-      imagemTransformadaUrl?: string | null;
+      imagemTransformadaUrl?: string | null | undefined;
       status: "concluido" | "erro";
     },
   ): Promise<void>;
 
   buscarPorId(id: string, userId: string): Promise<DiagnosticoEntity | null>;
-  listarPorUsuario(userId: string, limit?: number): Promise<DiagnosticoEntity[]>;
+  listarPorUsuario(userId: string, limit?: number): Promise<DiagnosticoEntity[]> | undefined;
 }

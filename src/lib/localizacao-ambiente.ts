@@ -10,9 +10,9 @@ export const localizacaoInputSchema = z.object({
 
 export function dadosLocalizacao(respostas: Record<string, unknown>) {
   return localizacaoInputSchema.parse({
-    endereco: respostas.enderecoImovel ?? "",
-    ruaJanela: respostas.ruaJanela ?? "",
-    consultar: respostas.consultaLocalizacao === "Sim, autorizo a consulta",
+    endereco: respostas['enderecoImovel'] ?? "",
+    ruaJanela: respostas['ruaJanela'] ?? "",
+    consultar: respostas['consultaLocalizacao'] === "Sim, autorizo a consulta",
   });
 }
 
@@ -26,10 +26,10 @@ export const confortoAmbientalSchema = z.object({
 
 export interface ConsultaLocalizacao {
   status: "localizado" | "inconclusivo" | "indisponivel" | "nao_autorizado";
-  latitude?: number;
-  longitude?: number;
-  ruaJanelaLocalizada?: boolean;
-  fonte?: string;
-  consultadoEm?: string;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
+  ruaJanelaLocalizada?: boolean | undefined;
+  fonte?: string | undefined;
+  consultadoEm?: string | undefined;
   limitacao: string;
 }

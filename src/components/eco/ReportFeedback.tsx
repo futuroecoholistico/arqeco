@@ -45,7 +45,7 @@ export function ReportFeedback() {
             <HeartHandshake className="h-5 w-5" aria-hidden />
             <span className="text-xs uppercase tracking-[0.2em]">Contribua com o projeto</span>
           </div>
-          <h3 className="text-serif mt-3 text-2xl">O Dossiê Eco Holístico® é gratuito</h3>
+          <h3 className="font-display mt-3 text-2xl">O Dossiê Eco Holístico® é gratuito</h3>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             Nosso objetivo é trazer bem-estar e equilíbrio para todos que necessitam. Se esta leitura
             fez diferença para você, sua contribuição ajuda o projeto a evoluir e a alcançar mais pessoas.
@@ -76,7 +76,7 @@ export function ReportFeedback() {
             <MessageCircleHeart className="h-5 w-5" aria-hidden />
             <span className="text-xs uppercase tracking-[0.2em]">Deixe sua contribuição</span>
           </div>
-          <h3 className="text-serif mt-3 text-2xl">Como foi sua experiência?</h3>
+          <h3 className="font-display mt-3 text-2xl">Como foi sua experiência?</h3>
           <p className="mt-2 text-sm text-muted-foreground">
             Sua opinião nos ajuda a melhorar o Dossiê e a servir mais pessoas.
           </p>

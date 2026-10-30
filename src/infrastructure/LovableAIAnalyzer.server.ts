@@ -56,7 +56,7 @@ export class LovableAIAnalyzer implements IAIAnalyzer {
       if (res.status === 402) throw new Error("Créditos de IA esgotados. Adicione créditos para continuar.");
       throw new Error(`Falha na análise IA (${res.status}): ${body.slice(0, 200)}`);
     }
-    const json = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+    const json = (await res.json()) as { choices?: { message?: { content?: string } }[] } | undefined;
     const text = json.choices?.[0]?.message?.content ?? "";
     const resultado = extractJson(text) as ResultadoDiagnostico;
     // Provenance belongs to the server, never to model-authored JSON.

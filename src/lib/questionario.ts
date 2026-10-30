@@ -10,18 +10,18 @@ export interface Pergunta {
   id: string;
   label: string;
   tipo: PerguntaTipo;
-  opcoes?: string[];
-  obrigatoria?: boolean;
-  placeholder?: string;
-  secao?: string;
+  opcoes?: string[] | undefined;
+  obrigatoria?: boolean | undefined;
+  placeholder?: string | undefined;
+  secao?: string | undefined;
   /** Itens avaliados numa pergunta de escala; cada item vira a chave `${id}::${item}`. */
-  itens?: string[];
+  itens?: string[] | undefined;
   /** Limite de opções numa múltipla escolha. */
-  max?: number;
-  ajuda?: string;
-  elemento?: string;
+  max?: number | undefined;
+  ajuda?: string | undefined;
+  elemento?: string | undefined;
   /** Mostra a pergunta só quando a resposta de outra começa com o prefixo. */
-  mostrarSe?: { id: string; prefixo: string };
+  mostrarSe?: { id: string | undefined; prefixo: string };
 }
 
 export const ORIENTACAO_ANAMNESE = "Este questionário nos ajuda a compreender como você utiliza seu ambiente, quais características fazem parte da sua rotina e como percebe esse espaço no dia a dia. Suas respostas serão analisadas em conjunto com as imagens para gerar um Dossiê Eco Holístico® personalizado. Não existem respostas certas ou erradas: responda de acordo com sua experiência real.";
@@ -78,7 +78,7 @@ export const MOMENTO_VIDA_RESIDENCIAL: Pergunta[] = [
 /** Never submit sensitive answers if consent was skipped or withdrawn. */
 export function prepararRespostasQuestionario(tipo: TipoAmbiente, respostas: Record<string, string | number | boolean | string[] | null>) {
   const preparadas = { ...respostas };
-  if (tipo !== "residencial" || !String(respostas.consentimentoMomentoVida ?? "").startsWith("Sim")) {
+  if (tipo !== "residencial" || !String(respostas['consentimentoMomentoVida'] ?? "").startsWith("Sim")) {
     for (const p of MOMENTO_VIDA_RESIDENCIAL) if (p.id !== "consentimentoMomentoVida") delete preparadas[p.id];
   }
   return preparadas;

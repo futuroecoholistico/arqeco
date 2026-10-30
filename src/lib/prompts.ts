@@ -145,7 +145,7 @@ export function buildImagePrompt(tipo: TipoAmbiente, resultado: {
 }, respostas: Record<string, unknown> = {}): string {
   const topActions = resultado.recomendacoesPrioritarias.slice(0, 3).map(r => r.oQueFazer).join("; ");
   const marca = trilhaDe(tipo) === "empresarial"
-    ? ` Integrar sutilmente a identidade da marca${respostas.identidadeVisual ? ` (paleta/elementos: ${String(respostas.identidadeVisual).slice(0, 200)})` : ""}, com posicionamento "${String(respostas.posicionamento ?? "")}".`
+    ? ` Integrar sutilmente a identidade da marca${respostas['identidadeVisual'] ? ` (paleta/elementos: ${String(respostas['identidadeVisual']).slice(0, 200)})` : ""}, com posicionamento "${String(respostas['posicionamento'] ?? "")}".`
     : "";
   return `Fotografia realista de um ambiente ${tipo} redesenhado segundo o Design Eco Holístico® com estética sofisticada — biofilia, luz natural suave, materiais naturais e regenerativos (madeira de reflorestamento, linho, argila, pedra), plantas vivas em pontos estratégicos, cromoterapia coerente com o elemento predominante, iluminação quente indireta e circadiana, cristais discretos, um símbolo sutil de geometria sagrada (Flor da Vida, mandala ou espiral de Fibonacci), organização visual serena. Perfil "${resultado.perfil.nome}".${marca} Aplicar: ${topActions}. Composição elegante e sofisticada, alta qualidade, sem textos, sem logotipos, sem pessoas.`;
 }

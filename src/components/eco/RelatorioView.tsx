@@ -10,12 +10,12 @@ import { ReportEnvironmentalComfort } from "./ReportEnvironmentalComfort";
 
 function ChapterHeading({ title, chapter }: { title: string; chapter: "overview" | "profile" | "strategy" | "dimensions" | "recommendations" | "plan" | "transformation" }) {
   return <div className="mb-6 flex flex-col-reverse items-start justify-between gap-4 border-b border-border/60 pb-5 sm:flex-row sm:items-center">
-    <h3 className="text-serif text-2xl md:text-3xl">{title}</h3>
+    <h3 className="font-display text-2xl md:text-3xl">{title}</h3>
     <ChapterArt chapter={chapter} />
   </div>;
 }
 
-export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoAmbiente, bloqueado, dossieId }: { resultado: ResultadoDiagnostico; imagemOriginal: string | null; tipoAmbiente?: TipoAmbiente; bloqueado?: boolean; dossieId?: string }) {
+export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoAmbiente, bloqueado, dossieId }: { resultado: ResultadoDiagnostico; imagemOriginal: string | null; tipoAmbiente?: TipoAmbiente | undefined; bloqueado?: boolean | undefined; dossieId?: string }) {
   const resultado = prepararSolucoesDossie(resultadoSalvo);
   const isEmpresarial = tipoAmbiente === "corporativo" || tipoAmbiente === "comercial";
   if (bloqueado) return <RelatorioGratuito resultado={resultado} dossieId={dossieId} />;
@@ -30,7 +30,7 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
       {/* Perfil */}
       <section className="border-y border-border py-8">
         <ChapterHeading chapter="profile" title="Seu perfil Eco Holístico" />
-        <h3 className="text-serif mt-1 text-3xl">{resultado.perfil.nome}</h3>
+        <h3 className="font-display mt-1 text-3xl">{resultado.perfil.nome}</h3>
         <p className="mt-1 italic text-muted-foreground">"{resultado.perfil.fraseIdentidade}"</p>
         <p className="mt-4 leading-relaxed">{resultado.perfil.descricao}</p>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
@@ -48,11 +48,11 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
           <ChapterHeading chapter="strategy" title="Leitura estratégica" />
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h3 className="text-serif mt-1 text-3xl">{resultado.leituraEspecifica.titulo}</h3>
+              <h3 className="font-display mt-1 text-3xl">{resultado.leituraEspecifica.titulo}</h3>
             </div>
             <div className="text-right">
               <div className="text-xs uppercase text-muted-foreground">Índice</div>
-              <div className="text-serif text-5xl text-primary">{resultado.leituraEspecifica.indice}<span className="text-base text-muted-foreground">/100</span></div>
+              <div className="font-display text-5xl text-primary">{resultado.leituraEspecifica.indice}<span className="text-base text-muted-foreground">/100</span></div>
             </div>
           </div>
           {resultado.leituraEspecifica.sintese && <p className="mt-3 max-w-3xl text-muted-foreground">{resultado.leituraEspecifica.sintese}</p>}
@@ -60,7 +60,7 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
             {resultado.leituraEspecifica.eixos.map((e, i) => (
               <div key={i} className="rounded-lg border border-border/60 bg-background/40 p-5">
                 <div className="flex items-center justify-between">
-                  <div className="text-serif text-xl">{e.nome}</div>
+                  <div className="font-display text-xl">{e.nome}</div>
                   <div className="text-primary">{e.pontuacao}<span className="text-xs text-muted-foreground">/100</span></div>
                 </div>
                 <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
@@ -87,7 +87,7 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
               return (
                 <div key={d.key} className="rounded-lg border border-border/60 bg-background/40 p-4">
                   <div className="flex items-center justify-between">
-                    <div className="text-serif text-lg">{d.label}</div>
+                    <div className="font-display text-lg">{d.label}</div>
                     <div className="text-primary">{val?.pontuacao ?? 0}<span className="text-xs text-muted-foreground">/100</span></div>
                   </div>
                   <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
@@ -109,14 +109,14 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
       {/* Elementos */}
       <section className="border-y border-border py-8">
         <div className="mb-6 border-b border-border/60 pb-5">
-          <h3 className="text-serif text-2xl md:text-3xl">Leitura Elemental</h3>
+          <h3 className="font-display text-2xl md:text-3xl">Leitura Elemental</h3>
         </div>
         {resultado.leituraElemental && resultado.leituraElemental.length > 0 && (
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {resultado.leituraElemental.map((le, i) => (
               <div key={i} className="rounded-lg border border-border/60 bg-background/40 p-4">
                 <div className="flex justify-start [&_svg]:mx-0"><ElementArt element={ELEMENTOS_META.find(el => el.label.toLowerCase() === le.elemento.toLowerCase())?.key ?? "eter"} /></div>
-                <div className="text-serif text-lg">{le.elemento} — {le.pontuacao}</div>
+                <div className="font-display text-lg">{le.elemento} — {le.pontuacao}</div>
                 <p className="mt-1 text-sm">{le.interpretacao}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{le.impacto}</p>
                 {le.sugestoesEquilibrio?.length > 0 && (
@@ -145,7 +145,7 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
                   <span className="rounded-full border border-border px-2 py-0.5 text-xs">{r.prazo}</span>
                   <span className="text-xs text-muted-foreground">{r.tipoIntervencao}</span>
                 </div>
-                <div className="mt-2 text-serif text-lg">{r.principio}</div>
+                <div className="mt-2 font-display text-lg">{r.principio}</div>
                 <p className="mt-1 text-sm text-muted-foreground">{r.observacao}</p>
                 <p className="mt-2 text-sm"><strong>Por quê importa:</strong> {r.porqueImporta}</p>
                 <p className="mt-1 text-sm"><strong>O que fazer:</strong> {r.oQueFazer}</p>
@@ -181,7 +181,7 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
 
       {/* Frase final */}
       <section className="border-t border-border py-8 text-center">
-        <p className="text-serif text-2xl italic text-primary md:text-3xl">"{resultado.fraseFinal}"</p>
+        <p className="font-display text-2xl italic text-primary md:text-3xl">"{resultado.fraseFinal}"</p>
       </section>
 
       {/* Feedback e contribuição */}
@@ -195,11 +195,11 @@ function RelatorioGratuito({ resultado, dossieId }: { resultado: ResultadoDiagno
     <div className="report-view report-light space-y-8 bg-background p-5 text-foreground md:p-8">
       <header>
         <p className="text-xs uppercase tracking-[0.25em] text-primary">Versão gratuita</p>
-        <h2 className="text-serif mt-1 text-3xl md:text-4xl">Dossiê Eco Holístico®</h2>
+        <h2 className="font-display mt-1 text-3xl md:text-4xl">Dossiê Eco Holístico®</h2>
       </header>
       <section className="border-y border-border py-8">
         <ChapterHeading chapter="profile" title="Seu perfil Eco Holístico" />
-        <h3 className="text-serif mt-1 text-3xl">{resultado.perfil.nome}</h3>
+        <h3 className="font-display mt-1 text-3xl">{resultado.perfil.nome}</h3>
         {resultado.perfil.fraseIdentidade && <p className="mt-1 italic text-muted-foreground">"{resultado.perfil.fraseIdentidade}"</p>}
         <p className="mt-4 leading-relaxed">{resultado.perfil.descricao}</p>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
@@ -239,12 +239,12 @@ function RelatorioCorporativo({ leitura }: { leitura: NonNullable<ResultadoDiagn
       <div className="flex flex-wrap items-end justify-between gap-5">
         <div>
           <p className="text-xs uppercase tracking-[0.25em] text-primary">Resumo executivo</p>
-          <h3 className="text-serif mt-1 text-3xl">Marca, impacto e pessoas</h3>
+          <h3 className="font-display mt-1 text-3xl">Marca, impacto e pessoas</h3>
           <p className="mt-3 max-w-3xl leading-relaxed text-muted-foreground">{leitura.sintese}</p>
         </div>
         <div className="min-w-32 border-l border-primary/40 pl-5">
           <div className="text-xs uppercase text-muted-foreground">Índice estratégico</div>
-          <div className="text-serif mt-1 text-5xl text-primary">{leitura.indice}<span className="text-base text-muted-foreground">/100</span></div>
+          <div className="font-display mt-1 text-5xl text-primary">{leitura.indice}<span className="text-base text-muted-foreground">/100</span></div>
         </div>
       </div>
 
@@ -265,8 +265,8 @@ function EixoCorporativo({ numero, nome, eixo }: { numero: string; nome: string;
     <article className="grid gap-5 py-7 md:grid-cols-[180px_1fr]">
       <div>
         <div className="text-xs text-primary">{numero}</div>
-        <h4 className="text-serif mt-1 text-2xl">{nome}</h4>
-        {eixo && <div className="text-serif mt-3 text-4xl text-primary">{eixo.pontuacao}<span className="text-sm text-muted-foreground">/100</span></div>}
+        <h4 className="font-display mt-1 text-2xl">{nome}</h4>
+        {eixo && <div className="font-display mt-3 text-4xl text-primary">{eixo.pontuacao}<span className="text-sm text-muted-foreground">/100</span></div>}
       </div>
       {eixo ? (
         <div>
@@ -339,7 +339,7 @@ function RadarDimensoes({ dimensoes }: { dimensoes: ResultadoDiagnostico["dimens
         const ly = cy + Math.sin(v.angle) * (r + 20);
         return (
           <text key={i} x={lx} y={ly} textAnchor="middle" dominantBaseline="middle"
-            className="text-serif" fontSize="11" fill="var(--foreground)">{v.label}</text>
+            className="font-display" fontSize="11" fill="var(--foreground)">{v.label}</text>
         );
       })}
     </svg>
