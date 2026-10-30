@@ -185,7 +185,7 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
       </section>
 
       {/* Feedback e contribuição */}
-      <ReportFeedback />
+      <ReportFeedback dossieId={dossieId} />
     </div>
   );
 }

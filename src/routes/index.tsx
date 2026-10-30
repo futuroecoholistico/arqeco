@@ -13,6 +13,7 @@ import startPlanImageAsset from "@/assets/planos/plano-start-dossie.jpeg.asset.j
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/components/PartnerShell";
+import { categoryHome } from "@/lib/account";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -134,6 +135,8 @@ function Price({ opt }: { opt: PlanOpt | undefined }) {
 
 function PlanDetails({ description, deliverables }: { description: string | null; deliverables: string[] | null }) {
   const [open, setOpen] = useState(false);
+  const [accountPath, setAccountPath] = useState<ReturnType<typeof categoryHome> | null>(null);
+  useEffect(() => { let live=true; const refresh=async () => { const {data}=await supabase.auth.getSession(); if(!data.session){if(live)setAccountPath(null);return;}const {data:p}=await supabase.from("profiles").select("registration_category").eq("user_id",data.session.user.id).maybeSingle();if(live)setAccountPath(categoryHome(p?.registration_category));};void refresh();const {data}=supabase.auth.onAuthStateChange(()=>setTimeout(()=>void refresh(),0));return()=>{live=false;data.subscription.unsubscribe();};},[]);
   const items = deliverables ?? [];
   if (!description && items.length === 0) return <div className="flex-1" />;
   return (
@@ -192,6 +195,8 @@ function BeforeAfter() {
 
 function Home() {
   const [open, setOpen] = useState(false);
+  const [accountPath, setAccountPath] = useState<ReturnType<typeof categoryHome> | null>(null);
+  useEffect(() => { let live=true; const refresh=async () => { const {data}=await supabase.auth.getSession(); if(!data.session){if(live)setAccountPath(null);return;}const {data:p}=await supabase.from("profiles").select("registration_category").eq("user_id",data.session.user.id).maybeSingle();if(live)setAccountPath(categoryHome(p?.registration_category));};void refresh();const {data}=supabase.auth.onAuthStateChange(()=>setTimeout(()=>void refresh(),0));return()=>{live=false;data.subscription.unsubscribe();};},[]);
   const plans = usePlans();
   const testimonials = useTestimonials().data ?? [];
   const [rooms, setRooms] = useState(1);
@@ -209,12 +214,12 @@ function Home() {
           </Link>
           <nav className="hidden gap-7 text-xs font-medium lg:flex">{nav.map(([l, h]) => <a key={l} href={h} className="opacity-65 transition-opacity hover:opacity-100">{l}</a>)}</nav>
           <div className="hidden items-center gap-3 lg:flex">
-             <Link to="/auth" className="text-sm font-medium opacity-75 hover:opacity-100">Entrar</Link>
+             <Link to={accountPath ?? "/auth"} className="text-sm font-medium opacity-75 hover:opacity-100">{accountPath ? "Meu painel" : "Entrar"}</Link>
              <Button asChild variant="editorial"><a href="#servicos">Começar meu projeto</a></Button>
           </div>
           <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button>
         </div>
-        {open && <div className="space-y-1 border-t border-sidebar-border px-5 py-4 lg:hidden">{nav.map(([l, h]) => <a key={l} href={h} onClick={() => setOpen(false)} className="block py-2 text-sm">{l}</a>)}<Link to="/auth" className="block py-2 text-sm font-semibold">Entrar</Link></div>}
+        {open && <div className="space-y-1 border-t border-sidebar-border px-5 py-4 lg:hidden">{nav.map(([l, h]) => <a key={l} href={h} onClick={() => setOpen(false)} className="block py-2 text-sm">{l}</a>)}<Link to={accountPath ?? "/auth"} className="block py-2 text-sm font-semibold">{accountPath ? "Meu painel" : "Entrar"}</Link></div>}
       </header>
 
       {/* 2. Hero */}
