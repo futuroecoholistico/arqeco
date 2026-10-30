@@ -85,6 +85,13 @@
       "when": 1793373649466,
       "tag": "0011_protect_dossier_completion_and_category",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1793375688063,
+      "tag": "0012_allow_owner_feedback_erasure",
+      "breakpoints": true
     }
   ]
 }
