@@ -23,7 +23,7 @@ export function buildContainer(adminClient: SupabaseClient): Container {
   const imageGen = new LovableImageGenerator(apiKey);
   const storage = new SupabaseStorageAdapter(adminClient);
   const repo = new SupabaseDiagnosticoRepository(adminClient);
-  const localizacao = new GoogleMapsLocalizacao(apiKey, process.env['GOOGLE_MAPS_API_KEY']);
+  const localizacao = new GoogleMapsLocalizacao(apiKey, process.env['GOOGLE_MAPS_API_KEY'] ?? "");
   const analisar = new AnalisarAmbienteUseCase(analyzer, imageGen, storage, repo, localizacao);
 
   return { analisar, storage, repo };
