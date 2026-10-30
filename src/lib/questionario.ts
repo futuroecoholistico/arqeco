@@ -10,18 +10,18 @@ export interface Pergunta {
   id: string;
   label: string;
   tipo: PerguntaTipo;
-  opcoes?: string[] | undefined;
-  obrigatoria?: boolean | undefined;
-  placeholder?: string | undefined;
-  secao?: string | undefined;
+  opcoes?: string[];
+  obrigatoria?: boolean;
+  placeholder?: string;
+  secao?: string;
   /** Itens avaliados numa pergunta de escala; cada item vira a chave `${id}::${item}`. */
-  itens?: string[] | undefined;
+  itens?: string[];
   /** Limite de opções numa múltipla escolha. */
-  max?: number | undefined;
-  ajuda?: string | undefined;
-  elemento?: string | undefined;
+  max?: number;
+  ajuda?: string;
+  elemento?: string;
   /** Mostra a pergunta só quando a resposta de outra começa com o prefixo. */
-  mostrarSe?: { id: string | undefined; prefixo: string };
+  mostrarSe?: { id: string; prefixo: string };
 }
 
 export const ORIENTACAO_ANAMNESE = "Este questionário nos ajuda a compreender como você utiliza seu ambiente, quais características fazem parte da sua rotina e como percebe esse espaço no dia a dia. Suas respostas serão analisadas em conjunto com as imagens para gerar um Dossiê Eco Holístico® personalizado. Não existem respostas certas ou erradas: responda de acordo com sua experiência real.";

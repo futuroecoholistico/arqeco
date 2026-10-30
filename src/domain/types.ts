@@ -122,12 +122,12 @@ export interface ResultadoDiagnostico {
   planoAcao: PlanoAcaoEcoHolistico;
   fraseFinal: string;
   leituraEspecifica?: LeituraEspecifica | undefined;
-  confortoAmbiental?: { iluminacaoNatural: string | undefined; ventilacaoNatural: string; confortoTermico: string; orientacoesInternas: string[]; limitacoes: string[] };
+  confortoAmbiental?: { iluminacaoNatural: string; ventilacaoNatural: string; confortoTermico: string; orientacoesInternas: string[]; limitacoes: string[] };
   consultaLocalizacao?: import("@/lib/localizacao-ambiente").ConsultaLocalizacao | undefined;
   orientacaoJanelaInformada?: string | undefined;
   imagemTransformadaUrl?: string | undefined;
-  especificacoesImagem?: { item: string | undefined; cor: string; material: string; localizacao: string; observacao: string }[];
-  camposAmbiente?: { campo: "iluminacao" | "ventilacao" | "cores" | "aromas" | "cristais" | "frequencias" | "biofilia" | "rituais" | undefined; necessidade: string; orientacoes: string[] }[];
+  especificacoesImagem?: { item: string; cor: string; material: string; localizacao: string; observacao: string }[];
+  camposAmbiente?: { campo: "iluminacao" | "ventilacao" | "cores" | "aromas" | "cristais" | "frequencias" | "biofilia" | "rituais"; necessidade: string; orientacoes: string[] }[];
 }
 
 export interface DiagnosticoEntity {

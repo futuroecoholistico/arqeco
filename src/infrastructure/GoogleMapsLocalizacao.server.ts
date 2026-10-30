@@ -2,10 +2,10 @@ import type { ILocalizacaoAdapter } from "@/domain/ports";
 import type { ConsultaLocalizacao } from "@/lib/localizacao-ambiente";
 import { dadosLocalizacao } from "@/lib/localizacao-ambiente";
 
-type Geocode = { status?: string | undefined; results?: { partial_match?: boolean | undefined; address_components?: { long_name: string | undefined; types: string[] }[]; geometry?: { location_type?: string | undefined; location?: { lat: number | undefined; lng: number } } }[] };
+type Geocode = { status?: string; results?: { partial_match?: boolean; address_components?: { long_name: string; types: string[] }[]; geometry?: { location_type?: string; location?: { lat: number; lng: number } } }[] };
 
 export class GoogleMapsLocalizacao implements ILocalizacaoAdapter {
-  constructor(private readonly apiKey: string, private readonly connectionKey: string | undefined) {}
+  constructor(private readonly apiKey: string, private readonly connectionKey: string) {}
 
   async consultar(respostas: Record<string, unknown>): Promise<ConsultaLocalizacao> {
     const dados = dadosLocalizacao(respostas);

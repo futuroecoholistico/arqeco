@@ -42,7 +42,7 @@ export interface IImageGenerator {
 
 export interface IStorageAdapter {
   uploadImagem(userId: string, buffer: Buffer, mimeType: string): Promise<string>;
-  signedUrl(path: string, expiresIn?: number): Promise<string> | undefined;
+  signedUrl(path: string, expiresIn?: number): Promise<string>;
 }
 
 export interface IDiagnosticoRepository {
@@ -64,5 +64,5 @@ export interface IDiagnosticoRepository {
   ): Promise<void>;
 
   buscarPorId(id: string, userId: string): Promise<DiagnosticoEntity | null>;
-  listarPorUsuario(userId: string, limit?: number): Promise<DiagnosticoEntity[]> | undefined;
+  listarPorUsuario(userId: string, limit?: number): Promise<DiagnosticoEntity[]>;
 }

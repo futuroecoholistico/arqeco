@@ -8,7 +8,7 @@ const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 
 function extractJson(text: string): unknown {
   const fence = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  const candidate = (fence ? fence[1] : text).trim();
+  const candidate = (fence?.[1] ?? text).trim();
   const start = candidate.indexOf("{");
   const end = candidate.lastIndexOf("}");
   if (start === -1 || end === -1) throw new Error("AI response did not contain JSON");
@@ -56,7 +56,7 @@ export class LovableAIAnalyzer implements IAIAnalyzer {
       if (res.status === 402) throw new Error("Créditos de IA esgotados. Adicione créditos para continuar.");
       throw new Error(`Falha na análise IA (${res.status}): ${body.slice(0, 200)}`);
     }
-    const json = (await res.json()) as { choices?: { message?: { content?: string } }[] } | undefined;
+    const json = (await res.json()) as { choices?: { message?: { content?: string } }[] };
     const text = json.choices?.[0]?.message?.content ?? "";
     const resultado = extractJson(text) as ResultadoDiagnostico;
     // Provenance belongs to the server, never to model-authored JSON.

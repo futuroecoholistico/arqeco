@@ -14,8 +14,8 @@ describe("Campos de soluções do dossiê", () => {
   });
   test("cristais e aromas preservam a aplicação concreta registrada", () => {
     const leitura = { ...resultado, leituraElemental: [{ elemento: "Éter", pontuacao: 30, interpretacao: "", impacto: "", sugestoesEquilibrio: ["Colocar ametista na prateleira do canto de meditação.", "Aroma de lavanda no quarto, se tolerado."] }] };
-    assert.equal(organizarBlocosDossie(leitura).find(c => c.id === "cristais")?.itens[0].texto, "Colocar ametista na prateleira do canto de meditação.");
-    assert.equal(organizarBlocosDossie(leitura).find(c => c.id === "aromas")?.itens[0].texto, "Aroma de lavanda no quarto, se tolerado.");
+    assert.equal(organizarBlocosDossie(leitura).find(c => c.id === "cristais")?.itens[0]?.texto, "Colocar ametista na prateleira do canto de meditação.");
+    assert.equal(organizarBlocosDossie(leitura).find(c => c.id === "aromas")?.itens[0]?.texto, "Aroma de lavanda no quarto, se tolerado.");
   });
   test("não inventa recomendações para campo sem dados e não modifica a análise", () => {
     const copia = JSON.stringify(resultado);

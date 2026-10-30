@@ -58,7 +58,7 @@ export class AnalisarAmbienteUseCase {
       const buffer = Buffer.from(img.base64, "base64");
       const path = await this.storage.uploadImagem(input.userId, buffer, img.mimeType);
       imagemTransformadaUrl = await this.storage.signedUrl(path);
-      resultado.imagemTransformadaUrl = imagemTransformadaUrl;
+      resultado.imagemTransformadaUrl = imagemTransformadaUrl ?? undefined;
       // Inspect the produced image, not the requested design, before naming inserted items.
       if (input.imagemUrl && this.imageGen.especificarTransformacao) {
         try {

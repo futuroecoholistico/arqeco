@@ -33,7 +33,7 @@ export class LovableImageGenerator implements IImageGenerator {
       }),
     });
     if (!response.ok) throw new Error(`Especificação visual indisponível (${response.status})`);
-    const json = await response.json() as { choices?: { message?: { content?: string } }[] } | undefined;
+    const json = await response.json() as { choices?: { message?: { content?: string } }[] };
     return parseEspecificacoesImagem(json.choices?.[0]?.message?.content ?? "");
   }
 
@@ -81,7 +81,7 @@ export class LovableImageGenerator implements IImageGenerator {
       throw new Error(`Falha na geração de imagem (${res.status}): ${body.slice(0, 200)}`);
     }
     const json = (await res.json()) as {
-      choices?: { message?: { images?: { image_url?: { url?: string } }[] } }[] | undefined;
+      choices?: { message?: { images?: { image_url?: { url?: string } }[] } }[];
     };
     const url = json.choices?.[0]?.message?.images?.[0]?.image_url?.url ?? "";
     const match = url.match(/^data:(image\/[\w+.-]+);base64,(.+)$/);

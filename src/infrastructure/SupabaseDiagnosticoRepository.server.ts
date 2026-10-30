@@ -66,7 +66,7 @@ export class SupabaseDiagnosticoRepository implements IDiagnosticoRepository {
     userId: string,
     dados: {
       resultado: ResultadoDiagnostico;
-      imagemTransformadaUrl?: string | null | undefined;
+      imagemTransformadaUrl?: string | null;
       status: "concluido" | "erro";
     },
   ): Promise<void> {

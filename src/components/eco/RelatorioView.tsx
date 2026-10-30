@@ -15,10 +15,10 @@ function ChapterHeading({ title, chapter }: { title: string; chapter: "overview"
   </div>;
 }
 
-export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoAmbiente, bloqueado, dossieId }: { resultado: ResultadoDiagnostico; imagemOriginal: string | null; tipoAmbiente?: TipoAmbiente | undefined; bloqueado?: boolean | undefined; dossieId?: string }) {
+export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoAmbiente, bloqueado, dossieId }: { resultado: ResultadoDiagnostico; imagemOriginal: string | null; tipoAmbiente?: TipoAmbiente | undefined; bloqueado?: boolean | undefined; dossieId?: string | undefined }) {
   const resultado = prepararSolucoesDossie(resultadoSalvo);
   const isEmpresarial = tipoAmbiente === "corporativo" || tipoAmbiente === "comercial";
-  if (bloqueado) return <RelatorioGratuito resultado={resultado} dossieId={dossieId} />;
+
   return (
     <div className="report-view report-light space-y-8 bg-background p-5 text-foreground md:p-8">
       <ReportVisualSummary resultado={resultado} imagemOriginal={imagemOriginal} empresarial={isEmpresarial} />
@@ -190,7 +190,7 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
   );
 }
 
-function RelatorioGratuito({ resultado, dossieId }: { resultado: ResultadoDiagnostico; dossieId?: string }) {
+function RelatorioGratuito({ resultado, dossieId }: { resultado: ResultadoDiagnostico; dossieId?: string | undefined }) {
   return (
     <div className="report-view report-light space-y-8 bg-background p-5 text-foreground md:p-8">
       <header>
@@ -260,7 +260,7 @@ function RelatorioCorporativo({ leitura }: { leitura: NonNullable<ResultadoDiagn
   );
 }
 
-function EixoCorporativo({ numero, nome, eixo }: { numero: string; nome: string; eixo?: EixoEstrategico }) {
+function EixoCorporativo({ numero, nome, eixo }: { numero: string; nome: string; eixo?: EixoEstrategico | undefined }) {
   return (
     <article className="grid gap-5 py-7 md:grid-cols-[180px_1fr]">
       <div>
