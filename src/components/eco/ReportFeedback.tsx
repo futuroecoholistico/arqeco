@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 const NOTAS = [1, 2, 3, 4, 5];
 
-export function ReportFeedback() {
+export function ReportFeedback({ dossieId }: { dossieId?: string | undefined }) {
   const enviar = useServerFn(enviarFeedback);
   const [mensagem, setMensagem] = useState("");
   const [nota, setNota] = useState<number | null>(null);
@@ -16,7 +16,7 @@ export function ReportFeedback() {
 
   const mut = useMutation({
     mutationFn: () =>
-      enviar({ data: { mensagem, nota, diagnosticoId: null } }),
+      enviar({ data: { mensagem, nota, diagnosticoId: dossieId ?? null } }),
   });
 
   const copiarPix = async () => {

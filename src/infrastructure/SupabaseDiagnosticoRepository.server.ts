@@ -40,6 +40,23 @@ function mapRow(r: Row): DiagnosticoEntity {
 export class SupabaseDiagnosticoRepository implements IDiagnosticoRepository {
   constructor(private readonly client: SupabaseClient) {}
 
+  private async refreshImage(url: string | null): Promise<string | null> {
+    if (!url) return null;
+    const marker = "/storage/v1/object/sign/ambientes/";
+    const start = url.indexOf(marker);
+    if (start < 0) return url;
+    const path = decodeURIComponent(url.slice(start + marker.length).split("?")[0] ?? "");
+    const { data } = await this.client.storage.from("ambientes").createSignedUrl(path, 3600);
+    return data?.signedUrl ?? null;
+  }
+  private async hydrate(row: Row): Promise<DiagnosticoEntity> {
+    const entity = mapRow(row);
+    entity.imagemOriginalUrl = await this.refreshImage(entity.imagemOriginalUrl);
+    entity.imagemTransformadaUrl = await this.refreshImage(entity.imagemTransformadaUrl);
+    if (entity.resultado) entity.resultado.imagemTransformadaUrl = entity.imagemTransformadaUrl ?? undefined;
+    return entity;
+  }
+
   async criar(input: {
     userId: string;
     tipoAmbiente: TipoAmbiente;
@@ -92,7 +109,7 @@ export class SupabaseDiagnosticoRepository implements IDiagnosticoRepository {
       .eq("user_id", userId)
       .maybeSingle();
     if (error) throw new Error(error.message);
-    return data ? mapRow(data as Row) : null;
+    return data ? this.hydrate(data as Row) : null;
   }
 
   async listarPorUsuario(userId: string, limit = 50): Promise<DiagnosticoEntity[]> {
@@ -103,6 +120,6 @@ export class SupabaseDiagnosticoRepository implements IDiagnosticoRepository {
       .order("created_at", { ascending: false })
       .limit(limit);
     if (error) throw new Error(error.message);
-    return (data ?? []).map((r) => mapRow(r as Row));
+    return Promise.all((data ?? []).map((r) => this.hydrate(r as Row)));
   }
 }

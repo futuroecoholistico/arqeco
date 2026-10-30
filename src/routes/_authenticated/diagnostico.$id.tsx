@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { buscarDiagnostico } from "@/lib/diagnostico.functions";
 import { RelatorioView } from "@/components/eco/RelatorioView";
+import { PartnerShell } from "@/components/PartnerShell";
 
 export const Route = createFileRoute("/_authenticated/diagnostico/$id")({
   head: () => ({
@@ -29,7 +30,7 @@ function DiagnosticoDetalhe() {
   });
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
+    <PartnerShell eyebrow="Projeto Start" title="Dossiê Eco-Holístico"><div className="mx-auto max-w-5xl py-6">
       <Link to="/meus-diagnosticos" className="text-sm text-muted-foreground hover:text-foreground no-print">← Voltar ao histórico</Link>
       <div className="mt-4 flex flex-wrap items-center justify-between gap-2 no-print">
         <h1 className="font-display text-3xl">Dossiê Eco Holístico®</h1>
@@ -54,6 +55,6 @@ function DiagnosticoDetalhe() {
           <RelatorioView resultado={data.resultado} imagemOriginal={data.imagemOriginalUrl} tipoAmbiente={data.tipoAmbiente} bloqueado={data.bloqueado} dossieId={data.id} />
         )}
       </div>
-    </div>
+    </div></PartnerShell>
   );
 }

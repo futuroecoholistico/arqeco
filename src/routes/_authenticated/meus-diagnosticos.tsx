@@ -3,6 +3,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { listarMeusDiagnosticos } from "@/lib/diagnostico.functions";
 import { NIVEIS_LABELS, TIPOS_AMBIENTE } from "@/domain/types";
+import { PartnerShell } from "@/components/PartnerShell";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/meus-diagnosticos")({
   head: () => ({
@@ -27,13 +29,13 @@ function MeusDiagnosticos() {
   });
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
+    <PartnerShell eyebrow="Projeto Start" title="Meus dossiês"><div className="mx-auto max-w-5xl py-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-4xl">Meus dossiês</h1>
           <p className="mt-1 text-muted-foreground">Histórico das suas análises Eco Holísticas.</p>
         </div>
-        <Link to="/diagnostico" className="rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground">Novo dossiê</Link>
+        <Button asChild variant="editorial"><Link to="/diagnostico">Novo dossiê</Link></Button>
       </div>
 
       <div className="mt-8">
@@ -74,6 +76,6 @@ function MeusDiagnosticos() {
           })}
         </div>
       </div>
-    </div>
+    </div></PartnerShell>
   );
 }
