@@ -5,7 +5,7 @@ import { useState } from "react";
 import { UserRound, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PartnerShell, fieldClass } from "@/components/PartnerShell";
-import { getAccount, saveAccount } from "@/lib/account.functions";
+import { getAccount, saveAccount, deleteMyDossiers } from "@/lib/account.functions";
 import { CATEGORIES, categoryHome, type Category } from "@/lib/account";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -29,6 +29,7 @@ function AccountForm({ account }: { account: Awaited<ReturnType<typeof getAccoun
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const save = useServerFn(saveAccount);
+  const removeDossiers = useServerFn(deleteMyDossiers);
   const qc = useQueryClient();
   const navigate = useNavigate();
   async function submit(e: React.FormEvent) {
@@ -56,5 +57,6 @@ function AccountForm({ account }: { account: Awaited<ReturnType<typeof getAccoun
     <label className="block text-sm">Cidade<input required minLength={2} className={`${fieldClass} mt-1`} value={city} onChange={e => setCity(e.target.value)} /></label>
     <label className="block text-sm">Categoria<select disabled={Boolean(p.registration_category)} className={`${fieldClass} mt-1`} value={category} onChange={e => setCategory(e.target.value as Category)}>{CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}</select></label>
     {msg && <p role="status" className="text-sm text-primary">{msg}</p>}<Button type="submit" variant="editorial" disabled={busy}>{busy ? "Salvando…" : "Salvar dados"}</Button>
+    <div className="border-t border-border pt-6"><Button type="button" variant="outline" disabled={busy} onClick={async () => { if (!window.confirm("Excluir todos os seus dossiês e feedbacks? Esta ação não pode ser desfeita.")) return; setBusy(true); try { await removeDossiers(); await qc.invalidateQueries({ queryKey: ["diagnosticos"] }); setMsg("Dossiês e feedbacks excluídos."); } catch { setMsg("Não foi possível excluir agora."); } finally { setBusy(false); } }}>Excluir meus dossiês e feedbacks</Button></div>
   </form>;
 }
