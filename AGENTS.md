@@ -14,6 +14,10 @@
 - Keep ARQECO centered on the project journey; people, Zoe, curation, certification, suppliers, and affiliates connect through projects.
 - Use Lovable Cloud with row-level access for persistent platform data because ARQECO requires real accounts, workflows, and relationships.
 - Keep roles in `user_roles`, separate from profiles, to prevent account holders from escalating their own access.
+- Registration category is onboarding data on profiles, never an authorization role; partner privileges still require audited approval.
+- Integrated Eco-Holístico diagnostics use domain/application/infrastructure modules with owner-scoped server functions and the ARQECO Cloud; no separate auth or external app is used for new dossiers.
+- Credit internal Start referrals through the diagnostic completion trigger, using the same normalized-email ledger key as the legacy signed callback to prevent duplicate rewards across both paths.
+- Keep imported identity mappings and historical payment rows service-role-only until verified account linking is available; never assign imported ownership from client-supplied IDs or email alone.
 - Keep the public home presentation scoped under arqeco-home, with semantic global tokens and shared Button variants; this allows editorial refinements without changing project workflows.
 - Affiliate sales arrive via signed webhook `/api/public/conversions` (HMAC per supplier secret); commission = sale × product commission_rate, stored on the conversion row — keeps payouts auditable.
 - Partner approval and product review run through admin-checked SECURITY DEFINER SQL functions — atomic creation of supplier/catalog rows without exposing admin keys.

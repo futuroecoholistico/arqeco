@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { REF_STORAGE_KEY, dossieUrl } from "@/lib/referrals";
+import { REF_STORAGE_KEY } from "@/lib/referrals";
 import { getReferralPlan } from "@/lib/referrals.functions";
 
 export const Route = createFileRoute("/indicacao/$code")({
@@ -25,7 +25,7 @@ function ReferralLanding() {
     getReferralPlan({ data: { code } })
       .then(({ plan }) => {
         // Start = Dossiê, which lives in the Eco-Holístico app: carry the code there.
-        if (plan === "start") window.location.replace(dossieUrl(code));
+        if (plan === "start") navigate({ to: "/diagnostico", replace: true });
         else navigate({ to: "/", hash: "planos", replace: true });
       })
       .catch(() => navigate({ to: "/", hash: "planos", replace: true }));

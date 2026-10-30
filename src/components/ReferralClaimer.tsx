@@ -11,8 +11,7 @@ export function ReferralClaimer() {
       if (!code) return;
       const { data } = await supabase.auth.getSession();
       if (!data.session) return;
-      try { await claimReferral({ data: { code } }); } catch { /* ignore */ }
-      localStorage.removeItem(REF_STORAGE_KEY);
+      try { await claimReferral({ data: { code } }); } catch { /* keep code for retry */ }
     };
     void tryClaim();
     const { data: sub } = supabase.auth.onAuthStateChange((event) => { if (event === "SIGNED_IN") void tryClaim(); });

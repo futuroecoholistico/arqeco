@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, Check, ClipboardList, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PartnerShell, CategoryBoundary } from "@/components/PartnerShell";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/painel")({
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/_authenticated/painel")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: ClientDashboard,
+  component: () => <CategoryBoundary category="client"><ClientDashboard /></CategoryBoundary>,
 });
 
 const STAGES = ["Briefing", "Reunião", "Desenvolvimento", "Apresentação", "Ajustes", "Entrega"];
@@ -32,17 +33,12 @@ function ClientDashboard() {
   const firstName = (user.user_metadata?.["full_name"] as string | undefined)?.split(" ")[0];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border bg-sidebar text-sidebar-foreground">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-5">
-          <Link to="/" className="font-display text-xl font-semibold tracking-wide">ARQECO</Link>
-          <Button variant="ghost" size="icon" className="text-sidebar-foreground" aria-label="Sair" onClick={async () => { await supabase.auth.signOut(); qc.clear(); navigate({ to: "/" }); }}><LogOut /></Button>
-        </div>
-      </header>
+    <PartnerShell eyebrow="Cliente" title="Meus projetos">
       <main className="mx-auto max-w-5xl px-5 py-10 lg:py-14">
         <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary">Meus projetos</p>
         <h1 className="mt-2 font-display text-4xl font-semibold md:text-5xl">Olá{firstName ? `, ${firstName}` : ""}.</h1>
 
+        <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial"><Link to="/diagnostico">Criar Dossiê gratuito <ArrowRight /></Link></Button><Button asChild variant="paper"><Link to="/meus-diagnosticos">Meus dossiês</Link></Button></div>
         {projects.isLoading && <p className="mt-8 text-sm text-muted-foreground">Carregando…</p>}
         {!projects.isLoading && (projects.data ?? []).length === 0 && (
           <div className="mt-10 border border-border bg-card p-8">
@@ -89,6 +85,6 @@ function ClientDashboard() {
           })}
         </div>
       </main>
-    </div>
+    </PartnerShell>
   );
 }

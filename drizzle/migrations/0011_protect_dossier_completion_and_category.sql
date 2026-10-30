@@ -1,0 +1,3 @@
+REVOKE INSERT,UPDATE ON public.diagnosticos FROM authenticated;
+CREATE OR REPLACE FUNCTION public.guard_registration_category() RETURNS trigger LANGUAGE plpgsql SET search_path=public AS $$ BEGIN IF OLD.registration_category IS NOT NULL AND NEW.registration_category IS DISTINCT FROM OLD.registration_category AND auth.uid() IS NOT NULL AND NOT public.is_admin() THEN RAISE EXCEPTION 'Registration category is managed by ARQECO'; END IF; RETURN NEW; END; $$;
+CREATE TRIGGER guard_registration_category BEFORE UPDATE OF registration_category ON public.profiles FOR EACH ROW EXECUTE FUNCTION public.guard_registration_category();
