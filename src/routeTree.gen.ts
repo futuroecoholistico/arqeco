@@ -20,6 +20,7 @@ import { Route as AuthenticatedAfiliadoRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedConstruirRouteImport } from './routes/_authenticated/construir'
 import { Route as AuthenticatedContratarRouteImport } from './routes/_authenticated/contratar'
 import { Route as AuthenticatedFornecedorRouteImport } from './routes/_authenticated/fornecedor'
+import { Route as AuthenticatedMeusDiagnosticosRouteImport } from './routes/_authenticated/meus-diagnosticos'
 import { Route as AuthenticatedPagamentoRouteImport } from './routes/_authenticated/pagamento'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedProfissionalRouteImport } from './routes/_authenticated/profissional'
@@ -27,6 +28,8 @@ import { Route as ApiZoeRouteImport } from './routes/api/zoe'
 import { Route as IndicacaoCodeRouteImport } from './routes/indicacao.$code'
 import { Route as RCodeRouteImport } from './routes/r.$code'
 import { Route as AuthenticatedBriefingProjectIdRouteImport } from './routes/_authenticated/briefing.$projectId'
+import { Route as AuthenticatedDiagnosticoIndexRouteImport } from './routes/_authenticated/diagnostico.index'
+import { Route as AuthenticatedDiagnosticoIdRouteImport } from './routes/_authenticated/diagnostico.$id'
 import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicReferralsDossieRouteImport } from './routes/api/public/referrals/dossie'
@@ -85,6 +88,12 @@ const AuthenticatedFornecedorRoute = AuthenticatedFornecedorRouteImport.update({
   path: '/fornecedor',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMeusDiagnosticosRoute =
+  AuthenticatedMeusDiagnosticosRouteImport.update({
+    id: '/meus-diagnosticos',
+    path: '/meus-diagnosticos',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPagamentoRoute = AuthenticatedPagamentoRouteImport.update({
   id: '/pagamento',
   path: '/pagamento',
@@ -122,6 +131,18 @@ const AuthenticatedBriefingProjectIdRoute =
     path: '/briefing/$projectId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDiagnosticoIndexRoute =
+  AuthenticatedDiagnosticoIndexRouteImport.update({
+    id: '/diagnostico/',
+    path: '/diagnostico/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDiagnosticoIdRoute =
+  AuthenticatedDiagnosticoIdRouteImport.update({
+    id: '/diagnostico/$id',
+    path: '/diagnostico/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiPublicConversionsRoute = ApiPublicConversionsRouteImport.update({
   id: '/api/public/conversions',
   path: '/api/public/conversions',
@@ -151,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/construir': typeof AuthenticatedConstruirRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
+  '/meus-diagnosticos': typeof AuthenticatedMeusDiagnosticosRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
@@ -158,7 +180,9 @@ export interface FileRoutesByFullPath {
   '/indicacao/$code': typeof IndicacaoCodeRoute
   '/r/$code': typeof RCodeRoute
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
+  '/diagnostico/$id': typeof AuthenticatedDiagnosticoIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
+  '/diagnostico/': typeof AuthenticatedDiagnosticoIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/referrals/dossie': typeof ApiPublicReferralsDossieRoute
 }
@@ -173,6 +197,7 @@ export interface FileRoutesByTo {
   '/construir': typeof AuthenticatedConstruirRoute
   '/contratar': typeof AuthenticatedContratarRoute
   '/fornecedor': typeof AuthenticatedFornecedorRoute
+  '/meus-diagnosticos': typeof AuthenticatedMeusDiagnosticosRoute
   '/pagamento': typeof AuthenticatedPagamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/profissional': typeof AuthenticatedProfissionalRoute
@@ -180,7 +205,9 @@ export interface FileRoutesByTo {
   '/indicacao/$code': typeof IndicacaoCodeRoute
   '/r/$code': typeof RCodeRoute
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
+  '/diagnostico/$id': typeof AuthenticatedDiagnosticoIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
+  '/diagnostico': typeof AuthenticatedDiagnosticoIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/referrals/dossie': typeof ApiPublicReferralsDossieRoute
 }
@@ -197,6 +224,7 @@ export interface FileRoutesById {
   '/_authenticated/construir': typeof AuthenticatedConstruirRoute
   '/_authenticated/contratar': typeof AuthenticatedContratarRoute
   '/_authenticated/fornecedor': typeof AuthenticatedFornecedorRoute
+  '/_authenticated/meus-diagnosticos': typeof AuthenticatedMeusDiagnosticosRoute
   '/_authenticated/pagamento': typeof AuthenticatedPagamentoRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/profissional': typeof AuthenticatedProfissionalRoute
@@ -204,7 +232,9 @@ export interface FileRoutesById {
   '/indicacao/$code': typeof IndicacaoCodeRoute
   '/r/$code': typeof RCodeRoute
   '/_authenticated/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
+  '/_authenticated/diagnostico/$id': typeof AuthenticatedDiagnosticoIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
+  '/_authenticated/diagnostico/': typeof AuthenticatedDiagnosticoIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/referrals/dossie': typeof ApiPublicReferralsDossieRoute
 }
@@ -221,6 +251,7 @@ export interface FileRouteTypes {
     | '/construir'
     | '/contratar'
     | '/fornecedor'
+    | '/meus-diagnosticos'
     | '/pagamento'
     | '/painel'
     | '/profissional'
@@ -228,7 +259,9 @@ export interface FileRouteTypes {
     | '/indicacao/$code'
     | '/r/$code'
     | '/briefing/$projectId'
+    | '/diagnostico/$id'
     | '/api/public/conversions'
+    | '/diagnostico/'
     | '/api/public/payments/webhook'
     | '/api/public/referrals/dossie'
   fileRoutesByTo: FileRoutesByTo
@@ -243,6 +276,7 @@ export interface FileRouteTypes {
     | '/construir'
     | '/contratar'
     | '/fornecedor'
+    | '/meus-diagnosticos'
     | '/pagamento'
     | '/painel'
     | '/profissional'
@@ -250,7 +284,9 @@ export interface FileRouteTypes {
     | '/indicacao/$code'
     | '/r/$code'
     | '/briefing/$projectId'
+    | '/diagnostico/$id'
     | '/api/public/conversions'
+    | '/diagnostico'
     | '/api/public/payments/webhook'
     | '/api/public/referrals/dossie'
   id:
@@ -266,6 +302,7 @@ export interface FileRouteTypes {
     | '/_authenticated/construir'
     | '/_authenticated/contratar'
     | '/_authenticated/fornecedor'
+    | '/_authenticated/meus-diagnosticos'
     | '/_authenticated/pagamento'
     | '/_authenticated/painel'
     | '/_authenticated/profissional'
@@ -273,7 +310,9 @@ export interface FileRouteTypes {
     | '/indicacao/$code'
     | '/r/$code'
     | '/_authenticated/briefing/$projectId'
+    | '/_authenticated/diagnostico/$id'
     | '/api/public/conversions'
+    | '/_authenticated/diagnostico/'
     | '/api/public/payments/webhook'
     | '/api/public/referrals/dossie'
   fileRoutesById: FileRoutesById
@@ -372,6 +411,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFornecedorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/meus-diagnosticos': {
+      id: '/_authenticated/meus-diagnosticos'
+      path: '/meus-diagnosticos'
+      fullPath: '/meus-diagnosticos'
+      preLoaderRoute: typeof AuthenticatedMeusDiagnosticosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pagamento': {
       id: '/_authenticated/pagamento'
       path: '/pagamento'
@@ -421,6 +467,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBriefingProjectIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/diagnostico/': {
+      id: '/_authenticated/diagnostico/'
+      path: '/diagnostico'
+      fullPath: '/diagnostico/'
+      preLoaderRoute: typeof AuthenticatedDiagnosticoIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/diagnostico/$id': {
+      id: '/_authenticated/diagnostico/$id'
+      path: '/diagnostico/$id'
+      fullPath: '/diagnostico/$id'
+      preLoaderRoute: typeof AuthenticatedDiagnosticoIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/public/conversions': {
       id: '/api/public/conversions'
       path: '/api/public/conversions'
@@ -451,10 +511,13 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedConstruirRoute: typeof AuthenticatedConstruirRoute
   AuthenticatedContratarRoute: typeof AuthenticatedContratarRoute
   AuthenticatedFornecedorRoute: typeof AuthenticatedFornecedorRoute
+  AuthenticatedMeusDiagnosticosRoute: typeof AuthenticatedMeusDiagnosticosRoute
   AuthenticatedPagamentoRoute: typeof AuthenticatedPagamentoRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedProfissionalRoute: typeof AuthenticatedProfissionalRoute
   AuthenticatedBriefingProjectIdRoute: typeof AuthenticatedBriefingProjectIdRoute
+  AuthenticatedDiagnosticoIdRoute: typeof AuthenticatedDiagnosticoIdRoute
+  AuthenticatedDiagnosticoIndexRoute: typeof AuthenticatedDiagnosticoIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -463,10 +526,13 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedConstruirRoute: AuthenticatedConstruirRoute,
   AuthenticatedContratarRoute: AuthenticatedContratarRoute,
   AuthenticatedFornecedorRoute: AuthenticatedFornecedorRoute,
+  AuthenticatedMeusDiagnosticosRoute: AuthenticatedMeusDiagnosticosRoute,
   AuthenticatedPagamentoRoute: AuthenticatedPagamentoRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedProfissionalRoute: AuthenticatedProfissionalRoute,
   AuthenticatedBriefingProjectIdRoute: AuthenticatedBriefingProjectIdRoute,
+  AuthenticatedDiagnosticoIdRoute: AuthenticatedDiagnosticoIdRoute,
+  AuthenticatedDiagnosticoIndexRoute: AuthenticatedDiagnosticoIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
