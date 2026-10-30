@@ -29,7 +29,9 @@ export const analisarAmbiente = createServerFn({ method: "POST" }).middleware([r
       }
     }
     const { buildContainer } = await import("@/composition/container.server");
-    const container = buildContainer(context.supabase);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // Only the validated analysis handler may write completion; browser writes are revoked.
+    const container = buildContainer(supabaseAdmin);
     const respostas = prepararRespostasQuestionario(data.tipoAmbiente, data.respostas);
     const location = dadosLocalizacao(respostas);
     if (location.consultar && !location.endereco) throw new Error("Informe o endereço do imóvel.");
