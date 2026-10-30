@@ -15,6 +15,8 @@ import type { DocumentoMarca } from "@/domain/ports";
 import { uploadImagem, analisarAmbiente } from "@/lib/diagnostico.functions";
 import { RelatorioView } from "@/components/eco/RelatorioView";
 import { Button } from "@/components/ui/button";
+import { PartnerShell } from "@/components/PartnerShell";
+import { REF_STORAGE_KEY } from "@/lib/referrals";
 
 export const Route = createFileRoute("/_authenticated/diagnostico/")({
   head: () => ({
@@ -73,7 +75,7 @@ function WizardPage() {
     setEtapa("processando");
     try {
       const { id, resultado, imagemOriginalUrl, bloqueado } = await analisar({
-        data: { tipoAmbiente: tipo, imagemPath, respostas: prepararRespostasQuestionario(tipo, respostas), documentoMarca },
+        data: { tipoAmbiente: tipo, imagemPath, respostas: prepararRespostasQuestionario(tipo, respostas), documentoMarca, ref: localStorage.getItem(REF_STORAGE_KEY) },
       });
       setDiagId(id);
       setResultado(resultado);
@@ -87,7 +89,7 @@ function WizardPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
+    <PartnerShell eyebrow="Projeto Start · Gratuito" title="Dossiê Eco-Holístico"><div className="mx-auto max-w-5xl py-6">
       <StepIndicator etapa={etapa} />
 
       {etapa === "tipo" && (
@@ -126,7 +128,7 @@ function WizardPage() {
           <RelatorioView resultado={resultado} imagemOriginal={imagemOriginalUrl} tipoAmbiente={tipo ?? undefined} bloqueado={bloqueado} dossieId={diagId ?? undefined} />
         </div>
       )}
-    </div>
+    </div></PartnerShell>
   );
 }
 

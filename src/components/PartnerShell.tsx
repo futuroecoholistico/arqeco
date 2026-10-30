@@ -4,21 +4,26 @@ import type { ReactNode } from "react";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getAccount } from "@/lib/account.functions";
+import { CATEGORIES, categoryHome } from "@/lib/account";
 
 export function PartnerShell({ eyebrow, title, children }: { eyebrow: string; title: string; children: ReactNode }) {
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const get = useServerFn(getAccount);
+  const account = useQuery({ queryKey: ["account"], queryFn: () => get() });
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
           <Link to="/" className="font-display text-xl font-semibold tracking-wide text-primary">ARQECO</Link>
-          <nav className="flex items-center gap-1 text-sm">
-            <Link to="/profissional" className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground" activeProps={{ className: "rounded-md px-3 py-2 font-semibold text-primary" }}>Arquiteto</Link>
-            <Link to="/fornecedor" className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground" activeProps={{ className: "rounded-md px-3 py-2 font-semibold text-primary" }}>Fornecedor</Link>
-            <Link to="/afiliado" className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground" activeProps={{ className: "rounded-md px-3 py-2 font-semibold text-primary" }}>Afiliado</Link>
-            <Link to="/admin" className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground" activeProps={{ className: "rounded-md px-3 py-2 font-semibold text-primary" }}>Admin</Link>
-            <Button variant="ghost" size="icon" aria-label="Sair" onClick={async () => { await supabase.auth.signOut(); qc.clear(); navigate({ to: "/" }); }}><LogOut /></Button>
+          <nav className="flex flex-wrap items-center justify-end gap-2 text-xs sm:text-sm">
+            {account.data && <Link to={categoryHome(account.data.profile.registration_category)} className="text-primary">Meu painel</Link>}
+            <Link to="/minha-conta">Meus dados</Link>
+            {account.data?.admin && <Link to="/admin" className="text-primary">Administração</Link>}
+            <Button variant="ghost" size="icon" aria-label="Sair" onClick={async () => { await qc.cancelQueries(); qc.clear(); await supabase.auth.signOut(); navigate({ to: "/auth", replace: true }); }}><LogOut /></Button>
           </nav>
         </div>
       </header>
@@ -29,6 +34,15 @@ export function PartnerShell({ eyebrow, title, children }: { eyebrow: string; ti
       </main>
     </div>
   );
+}
+
+export function CategoryBoundary({ category, children }: { category: string; children: ReactNode }) {
+  const get = useServerFn(getAccount);
+  const q = useQuery({ queryKey: ["account"], queryFn: () => get() });
+  if (!q.data) return <p className="p-8">{q.error ? "Não foi possível carregar seu cadastro." : "Carregando…"}</p>;
+  if (!q.data.profile.registration_category) return <div className="p-8"><Button asChild variant="editorial"><Link to="/minha-conta">Completar meu cadastro</Link></Button></div>;
+  if (!q.data.admin && q.data.profile.registration_category !== category) return <div className="p-8"><p className="mb-4">Esta área pertence a outra categoria.</p><Button asChild variant="editorial"><Link to={categoryHome(q.data.profile.registration_category)}>Voltar ao meu painel</Link></Button></div>;
+  return children;
 }
 
 export function StatusPill({ status }: { status: string }) {
