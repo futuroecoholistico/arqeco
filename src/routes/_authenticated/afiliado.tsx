@@ -4,13 +4,13 @@ import { useMemo, useState } from "react";
 import { Copy, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
+import { CategoryBoundary, PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
 import { REFERRAL_PLANS, type ReferralPlanSlug } from "@/lib/referrals";
 
 export const Route = createFileRoute("/_authenticated/afiliado")({
   head: () => ({ meta: [{ title: "Área do afiliado — ARQECO" }, { name: "description", content: "Gere links da Curadoria ARQECO por projeto e acompanhe cliques, vendas e comissões." }, { property: "og:title", content: "Área do afiliado — ARQECO" }, { property: "og:description", content: "Acompanhe seus links, vendas e comissões na rede ARQECO." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
-  component: AffiliatePage,
+  component: () => <CategoryBoundary category="affiliate"><AffiliatePage /></CategoryBoundary>,
 });
 
 function AffiliatePage() {

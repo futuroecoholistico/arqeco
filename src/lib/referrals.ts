@@ -1,6 +1,6 @@
 // Business rules for the plan referral program (see mem://features/afiliados).
 export const REFERRAL_PLANS = [
-  { slug: "start", name: "Projeto Start", reward: "10 ecos" },
+  { slug: "start", name: "Projeto Start", reward: "20 ecos" },
   { slug: "viver-bem", name: "Viver Bem", reward: "10% do valor fechado" },
   { slug: "viver-lifestyle", name: "Viver Lifestyle", reward: "10% do valor fechado" },
 ] as const;

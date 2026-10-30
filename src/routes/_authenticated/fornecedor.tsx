@@ -4,12 +4,12 @@ import { useState } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
+import { CategoryBoundary, PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
 
 export const Route = createFileRoute("/_authenticated/fornecedor")({
   head: () => ({ meta: [{ title: "Área do fornecedor — ARQECO" }, { name: "description", content: "Envie produtos para a Curadoria ARQECO e acompanhe avaliações e vendas." }, { property: "og:title", content: "Área do fornecedor — ARQECO" }, { property: "og:description", content: "Produtos, avaliações e vendas dos parceiros da Curadoria ARQECO." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
-  component: SupplierPage,
+  component: () => <CategoryBoundary category="supplier"><SupplierPage /></CategoryBoundary>,
 });
 
 const CATEGORIES = ["Revestimentos", "Tintas", "Iluminação", "Mobiliário", "Madeiras", "Metais", "Louças", "Decoração", "Paisagismo", "Tecnologia"];

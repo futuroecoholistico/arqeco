@@ -13,13 +13,6 @@ import startPlanImageAsset from "@/assets/planos/plano-start-dossie.jpeg.asset.j
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/components/PartnerShell";
-import { DOSSIE_APP_URL, REF_STORAGE_KEY, dossieUrl } from "@/lib/referrals";
-
-// Carry a pending affiliate code to the Dossiê app so the Start referral can earn ecos there.
-const withRef = (e: React.MouseEvent<HTMLAnchorElement>) => {
-  e.currentTarget.href = dossieUrl(localStorage.getItem(REF_STORAGE_KEY));
-};
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -298,7 +291,7 @@ function Home() {
       <section className="bg-forest text-primary-foreground">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 lg:grid-cols-[1fr_auto] lg:items-center">
           <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Bônus em todos os pacotes</p><h2 className="mt-3 font-display text-3xl font-semibold md:text-4xl">Dossiê Eco-Holístico gratuito</h2><p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-75">Todos os pacotes de projeto ARQECO incluem um Dossiê Eco-Holístico para ampliar o olhar sobre bem-estar, sustentabilidade e a relação com seus ambientes.</p></div>
-          <Button asChild variant="editorial" size="lg"><a href={DOSSIE_APP_URL} onClick={withRef} target="_blank" rel="noreferrer">Conhecer o Dossiê <ArrowRight /></a></Button>
+          <Button asChild variant="editorial" size="lg"><Link to="/diagnostico">Conhecer o Dossiê <ArrowRight /></Link></Button>
         </div>
       </section>
 
@@ -334,7 +327,7 @@ function Home() {
             <div className="mt-8 border-t border-border pt-5">
               <p className="text-xs text-muted-foreground">Para qualquer ambiente</p>
               <p className="font-display text-3xl font-semibold">Gratuito</p>
-              <Button asChild variant="paper" className="mt-4 w-full"><a href={DOSSIE_APP_URL} onClick={withRef} target="_blank" rel="noreferrer">Começar pelo Dossiê <ArrowRight /></a></Button>
+              <Button asChild variant="paper" className="mt-4 w-full"><Link to="/diagnostico">Começar pelo Dossiê <ArrowRight /></Link></Button>
               <p className="mt-3 text-[11px] font-semibold text-forest-soft">Também incluso como bônus em todos os projetos pagos.</p>
             </div>
           </article>
@@ -450,7 +443,7 @@ function Home() {
           <h3 className="font-display text-3xl font-semibold">Um olhar complementar para cada projeto.</h3>
           <p className="mt-4 text-sm opacity-90">O <strong>Índice Eco-Holístico™</strong> ajuda a interpretar materiais e produtos. O Dossiê oferecido como bônus reúne orientações para ampliar a relação entre bem-estar, escolhas conscientes e o espaço vivido.</p>
           <div className="mt-6 flex flex-wrap gap-2">{["Bem-estar", "Materiais conscientes", "Conforto", "Relação pessoa-espaço"].map((t) => <span key={t} className="rounded-full border border-primary-foreground/30 px-3 py-1 text-xs">{t}</span>)}</div>
-          <Button asChild variant="editorial" className="mt-7"><a href={DOSSIE_APP_URL} onClick={withRef} target="_blank" rel="noreferrer">Acessar Dossiê <ArrowRight /></a></Button>
+          <Button asChild variant="editorial" className="mt-7"><Link to="/diagnostico">Acessar Dossiê <ArrowRight /></Link></Button>
         </div>
       </section>
 

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { PartnerShell, StatusPill, brl } from "@/components/PartnerShell";
+import { CategoryBoundary, PartnerShell, StatusPill, brl } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
 import { SlotManager } from "@/components/SlotManager";
 import { ZoeChat } from "@/components/ZoeChat";
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_authenticated/profissional")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: ProfessionalPage,
+  component: () => <CategoryBoundary category="professional"><ProfessionalPage /></CategoryBoundary>,
 });
 
 function ProfessionalPage() {
