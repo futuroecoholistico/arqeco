@@ -1,0 +1,9 @@
+// Curated excerpts from the supplied REV6 book and accompanying workbook.
+// Symbolic methodology references, not evidence of clinical effectiveness.
+export const CONHECIMENTO_COMPLEMENTAR = `REFERÊNCIAS COMPLEMENTARES DO LIVRO DESIGN ECO HOLÍSTICO REV6:
+Cristais de ancoragem: quartzo fumê, jaspe vermelho e hematita, como recursos simbólicos de estabilidade e estrutura.
+Ametista: associada ao Éter e à introspecção; quartzo rosa aparece nos espaços de meditação e nas referências decorativas de paredes. Cornalina: elemento Fogo. Água-marinha e selenita aparecem na metáfora de memória líquida e fluidez; não usar essas referências para afirmar efeitos físicos na água ou no corpo.
+Som: o livro menciona 432 Hz, 528 Hz, 396 Hz, 963 Hz e solfeggio como referências vibracionais. Usar apenas como proposta opcional de paisagem sonora em volume confortável, sem alegações de cura, reestruturação da água ou efeitos clínicos. 7,83 Hz (Schumann) é referência conceitual, não frequência audível nem prescrição de iluminação pulsante.
+Rituais: meditação/contemplação, espaços de autocuidado, geometria sagrada e símbolos pessoais. Nomear uma prática concreta e opcional adequada às crenças e à rotina dos ocupantes, sem prescrever terapia. Em empresas, respeitar consentimento, diversidade e áreas silenciosas.
+Materiais: priorizar tintas e adesivos de baixo COV, mobiliário livre de formaldeído, madeira de origem responsável, cerâmica e fibras naturais; não afirmar composição, certificação ou desempenho apenas pela aparência de uma foto.
+Biofilia não substitui ventilação nem filtragem; selecionar plantas pela luz disponível, manutenção e segurança de crianças/animais. Não recomendar ionizadores que possam produzir ozônio, fumaça ou ingestão de água com cristais.`;
