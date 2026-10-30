@@ -170,8 +170,8 @@ function StepTipo({ onSelect }: { onSelect: (t: TipoAmbiente) => void }) {
       <p className="mt-2 text-muted-foreground">Cada tipo direciona a anamnese e a leitura elemental.</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {TIPOS_AMBIENTE.map((t) => (
-          <Button key={t.id} onClick={() => onSelect(t.id)}
-            className="group rounded-xl border border-border/70 bg-card/60 p-6 text-left transition hover:border-primary hover:bg-card">
+          <Button variant="outline" key={t.id} onClick={() => onSelect(t.id)}
+            className="group h-auto min-h-36 flex-col items-start whitespace-normal rounded-lg border border-border/70 bg-card/60 p-6 text-left transition hover:border-primary hover:bg-card">
             <div className="font-display text-2xl text-primary">{t.label}</div>
             <p className="mt-1 text-sm text-muted-foreground">{t.descricao}</p>
           </Button>
@@ -318,7 +318,7 @@ function StepQuestionario({ tipo, respostas, setRespostas, documentoMarca, setDo
                             const active = respostas[key] === op;
                             const curto = op.split(" — ")[0];
                             return (
-                              <Button key={op} type="button" title={op} aria-label={`${item}: ${op}`} onClick={() => setVal(key, op)}
+                              <Button variant="outline" aria-pressed={active} key={op} type="button" title={op} aria-label={`${item}: ${op}`} onClick={() => setVal(key, op)}
                                 className={`min-w-9 rounded-full border px-3 py-1 text-xs ${active ? "border-primary bg-primary/15 text-primary" : "border-border text-muted-foreground hover:border-primary/60"}`}>
                                 {curto === "Não sei avaliar" ? "Não sei" : curto}
                               </Button>
@@ -348,8 +348,8 @@ function StepQuestionario({ tipo, respostas, setRespostas, documentoMarca, setDo
                   {p.opcoes?.map((op) => {
                     const active = respostas[p.id] === op;
                     return (
-                      <Button key={op} type="button" onClick={() => setVal(p.id, op)}
-                        className={`rounded-full border px-4 py-1.5 text-sm ${active ? "border-primary bg-primary/15 text-primary" : "border-border text-muted-foreground hover:border-primary/60"}`}>
+                      <Button variant="outline" aria-pressed={active} key={op} type="button" onClick={() => setVal(p.id, op)}
+                        className={`h-auto whitespace-normal rounded-full border px-4 py-1.5 text-sm ${active ? "border-primary bg-primary/15 text-primary" : "border-border text-muted-foreground hover:border-primary/60"}`}>
                         {op}
                       </Button>
                     );
@@ -362,12 +362,12 @@ function StepQuestionario({ tipo, respostas, setRespostas, documentoMarca, setDo
                     const arr = (respostas[p.id] as string[]) ?? [];
                     const active = arr.includes(op);
                     return (
-                      <Button key={op} type="button" onClick={() => {
+                      <Button variant="outline" aria-pressed={active} key={op} type="button" onClick={() => {
                         if (active) return setVal(p.id, arr.filter((x) => x !== op));
                         if (p.max && arr.length >= p.max) return toast.info(`Selecione até ${p.max} opções.`);
                         setVal(p.id, [...arr, op]);
                       }}
-                        className={`rounded-full border px-4 py-1.5 text-sm ${active ? "border-primary bg-primary/15 text-primary" : "border-border text-muted-foreground hover:border-primary/60"}`}>
+                        className={`h-auto whitespace-normal rounded-full border px-4 py-1.5 text-sm ${active ? "border-primary bg-primary/15 text-primary" : "border-border text-muted-foreground hover:border-primary/60"}`}>
                         {op}
                       </Button>
                     );
