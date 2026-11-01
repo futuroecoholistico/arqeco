@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { CategoryBoundary, PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
+import { PayoutAccount } from "@/components/PayoutAccount";
 import { REFERRAL_PLANS, type ReferralPlanSlug } from "@/lib/referrals";
 
 export const Route = createFileRoute("/_authenticated/afiliado")({
@@ -22,7 +23,7 @@ function AffiliatePage() {
   return (
     <PartnerShell eyebrow="Área do afiliado" title="Seus projetos e comissões">
       {app.isLoading ? <p className="text-sm text-muted-foreground">Carregando…</p>
-        : app.data?.status === "approved" ? <AffiliateDashboard userId={user.id} />
+        : app.data?.status === "approved" ? <div className="space-y-8"><AffiliateDashboard userId={user.id} /><PayoutAccount userId={user.id} /></div>
         : <PartnerApplication kind="affiliate" userId={user.id} application={app.data ?? null} />}
     </PartnerShell>
   );
