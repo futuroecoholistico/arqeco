@@ -12,9 +12,10 @@ test("hero registration offers the three profiles the site asks for", () => {
 });
 
 test("each offered profile leads to its own panel", () => {
-  expect(categoryHome(REGISTRATION_OPTIONS[0].category)).toBe("/painel");
-  expect(categoryHome(REGISTRATION_OPTIONS[1].category)).toBe("/profissional");
-  expect(categoryHome(REGISTRATION_OPTIONS[2].category)).toBe("/afiliado");
+  const panel = (perfil: string) => categoryHome(REGISTRATION_OPTIONS.find((o) => o.perfil === perfil)?.category);
+  expect(panel("cliente")).toBe("/painel");
+  expect(panel("profissional")).toBe("/profissional");
+  expect(panel("afiliado")).toBe("/afiliado");
 });
 
 test("offered profiles use the auth search values", () => {
