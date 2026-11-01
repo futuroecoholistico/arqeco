@@ -85,6 +85,8 @@ function ReferralPayouts() {
   const q = useQuery({ queryKey: ["admin-referrals"], queryFn: async () => (await supabase.from("referral_commissions").select("*").order("payout_date")).data ?? [] });
   const names = useQuery({ queryKey: ["admin-aff-names"], queryFn: async () => (await supabase.from("partner_applications").select("user_id,display_name").eq("kind", "affiliate")).data ?? [] });
   const nameOf = (id: string) => names.data?.find((n) => n.user_id === id)?.display_name ?? "Afiliado";
+  const payouts = useQuery({ queryKey: ["admin-payout-accounts"], queryFn: async () => (await supabase.from("payout_accounts").select("user_id,document_path")).data ?? [] });
+  const canPay = (id: string) => !!payouts.data?.find((p) => p.user_id === id && p.document_path);
   async function markPaid(id: string) {
     await supabase.from("referral_commissions").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", id);
     qc.invalidateQueries({ queryKey: ["admin-referrals"] });
@@ -98,7 +100,9 @@ function ReferralPayouts() {
           <span className="font-semibold text-primary">{brl(c.commission_cents)}</span>
           <span className="text-xs">pagar em {new Date(`${c.payout_date}T12:00:00`).toLocaleDateString("pt-BR")}</span>
           <StatusPill status={c.status} />
-          {c.status === "pending" && <Button size="sm" variant="editorial" onClick={() => markPaid(c.id)}>Marcar como pago</Button>}
+          {c.status === "pending" && (canPay(c.affiliate_id)
+            ? <Button size="sm" variant="editorial" onClick={() => markPaid(c.id)}>Marcar como pago</Button>
+            : <span className="text-xs text-destructive">Sem dados bancários com documento</span>)}
         </div>
       ))}
     </div>

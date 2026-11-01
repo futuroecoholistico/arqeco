@@ -99,6 +99,13 @@
       "when": 1793567474483,
       "tag": "0013_payout_accounts",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1793567551915,
+      "tag": "0014_require_payout_document",
+      "breakpoints": true
     }
   ]
 }
