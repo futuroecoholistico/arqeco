@@ -778,6 +778,42 @@ export type Database = {
           },
         ]
       }
+      payout_accounts: {
+        Row: {
+          account: string | null
+          agency: string | null
+          bank: string | null
+          document_path: string
+          holder_cpf: string
+          holder_name: string
+          pix_key: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account?: string | null
+          agency?: string | null
+          bank?: string | null
+          document_path: string
+          holder_cpf: string
+          holder_name: string
+          pix_key?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account?: string | null
+          agency?: string | null
+          bank?: string | null
+          document_path?: string
+          holder_cpf?: string
+          holder_name?: string
+          pix_key?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       product_submissions: {
         Row: {
           category: string
