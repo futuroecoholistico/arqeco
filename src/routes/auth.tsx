@@ -8,15 +8,15 @@ import { fieldClass } from "@/components/PartnerShell";
 import { CATEGORIES, categoryHome, safeDestination, type Category } from "@/lib/account";
 
 export const Route = createFileRoute("/auth")({
- validateSearch: z.object({ next: z.string().optional(), perfil: z.enum(["cliente","fornecedor","afiliado","profissional"]).optional() }),
+ validateSearch: z.object({ next: z.string().optional(), perfil: z.enum(["cliente","fornecedor","afiliado","profissional"]).optional(), modo: z.enum(["entrar"]).optional() }),
  head: () => ({ meta: [{title:"Cadastro e entrada — ARQECO"},{name:"description",content:"Entre na ARQECO como cliente, arquiteto, designer, fornecedor ou afiliado."},{property:"og:title",content:"Cadastro e entrada — ARQECO"},{property:"og:description",content:"Uma conta para seus projetos e Dossiês Eco-Holísticos."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}] }),
  component: AuthPage,
 });
 function AuthPage() {
- const { next, perfil } = Route.useSearch();
+ const { next, perfil, modo } = Route.useSearch();
  const initial = perfil === "cliente" ? "client" : perfil === "profissional" ? "professional" : perfil === "fornecedor" ? "supplier" : perfil === "afiliado" ? "affiliate" : null;
  const [category,setCategory] = useState<Category | null>(initial);
- const [mode,setMode] = useState<"choose"|"in"|"up">(initial ? "up" : "choose");
+ const [mode,setMode] = useState<"choose"|"in"|"up">(modo === "entrar" && !initial ? "in" : initial ? "up" : "choose");
  const [email,setEmail] = useState(""); const [password,setPassword] = useState(""); const [name,setName] = useState(""); const [phone,setPhone] = useState(""); const [city,setCity] = useState("");
  const [msg,setMsg] = useState(""); const [busy,setBusy] = useState(false); const navigate=useNavigate();
  useEffect(() => { let active=true; const finish=async () => { const {data}=await supabase.auth.getUser(); if(!data.user || !active) return; const {data:p}=await supabase.from("profiles").select("registration_category").eq("user_id",data.user.id).maybeSingle(); if(!p?.registration_category) { navigate({to:"/minha-conta"}); return; } navigate({to:safeDestination(next) ?? categoryHome(p.registration_category)}); }; void finish(); const {data}=supabase.auth.onAuthStateChange(event=>{if(event==="SIGNED_IN") setTimeout(()=>void finish(),0);}); return()=>{active=false;data.subscription.unsubscribe();}; },[next,navigate]);

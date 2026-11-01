@@ -6,6 +6,8 @@ import { fieldClass } from "@/components/PartnerShell";
 
 const MAX_FILE = 10 * 1024 * 1024;
 
+type PayoutFields = { holder_name: string; holder_cpf: string; pix_key: string; bank: string; agency: string; account: string };
+
 /** Dados bancários para recebimento. Um documento (RG/CNH) é obrigatório para salvar. */
 export function PayoutAccount({ userId }: { userId: string }) {
   const qc = useQueryClient();
@@ -20,15 +22,22 @@ export function PayoutAccount({ userId }: { userId: string }) {
       return { acc: acc.data, appDoc };
     },
   });
-  const [form, setForm] = useState<Record<string, string> | null>(null);
+  const [form, setForm] = useState<PayoutFields | null>(null);
   const [doc, setDoc] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   if (q.isLoading) return null;
   const acc = q.data?.acc;
   const existingDoc = acc?.document_path ?? q.data?.appDoc ?? null;
-  const f = form ?? { holder_name: acc?.holder_name ?? "", holder_cpf: acc?.holder_cpf ?? "", pix_key: acc?.pix_key ?? "", bank: acc?.bank ?? "", agency: acc?.agency ?? "", account: acc?.account ?? "" };
-  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...f, [k]: e.target.value });
+  const f: PayoutFields = {
+    holder_name: form?.holder_name ?? acc?.holder_name ?? "",
+    holder_cpf: form?.holder_cpf ?? acc?.holder_cpf ?? "",
+    pix_key: form?.pix_key ?? acc?.pix_key ?? "",
+    bank: form?.bank ?? acc?.bank ?? "",
+    agency: form?.agency ?? acc?.agency ?? "",
+    account: form?.account ?? acc?.account ?? "",
+  };
+  const set = (k: keyof PayoutFields) => (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...f, [k]: e.target.value });
 
   async function save(e: React.FormEvent) {
     e.preventDefault();

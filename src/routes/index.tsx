@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/components/PartnerShell";
 import { categoryHome } from "@/lib/account";
+import { RegistrationChoiceDialog } from "@/components/RegistrationChoiceDialog";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -232,7 +233,7 @@ function Home() {
             <h1 className="mt-5 font-display text-7xl font-normal md:text-8xl">ARQECO</h1>
             <p className="mt-4 max-w-xl font-display text-4xl leading-tight md:text-5xl">Espaços que criam o <span className="italic text-accent">Futuro Consciente</span></p>
             <p className="mt-6 max-w-lg text-sm leading-relaxed md:text-base">Criamos <strong className="font-medium">projetos de Arquitetura e Design de Interiores sustentáveis e conscientes</strong> — unindo rigor técnico e sensibilidade humana para promover bem-estar em cada espaço.</p>
-            <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#servicos">Começar meu projeto <ArrowRight /></a></Button><Button asChild variant="paper" size="lg" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent"><a href="#sobre">Conheça a ARQECO</a></Button></div>
+            <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#servicos">Começar meu projeto <ArrowRight /></a></Button><RegistrationChoiceDialog label="Criar cadastro" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent" /><Button asChild variant="paper" size="lg" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent"><a href="#sobre">Conheça a ARQECO</a></Button></div>
           </div>
         </div>
       </section>

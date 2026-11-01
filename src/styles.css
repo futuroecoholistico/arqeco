@@ -188,6 +188,11 @@
 }
 
 .cover-shade { background: var(--cover-overlay); }
+.register-panel {
+  background: color-mix(in oklab, var(--overlay-ink) 96%, transparent);
+  border-color: color-mix(in oklab, var(--paper) 22%, transparent);
+  backdrop-filter: blur(8px);
+}
 .brand-mark { border-radius: 50%; }
 .arqeco-home { letter-spacing: 0; }
 .arqeco-home :is(h1, h2, h3, h4) { font-weight: 400; }
