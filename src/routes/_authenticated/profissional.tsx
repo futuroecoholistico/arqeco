@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { CategoryBoundary, PartnerShell, StatusPill, brl } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
+import { PayoutAccount } from "@/components/PayoutAccount";
 import { SlotManager } from "@/components/SlotManager";
 import { ZoeChat } from "@/components/ZoeChat";
 
@@ -41,6 +42,7 @@ function ProfessionalPage() {
       ) : (
         <div className="grid gap-8 lg:grid-cols-[1fr_420px]">
           <div className="space-y-8">
+          <PayoutAccount userId={user.id} />
           <div className="divide-y divide-border rounded-lg border border-border bg-card">
             {(contracts.data ?? []).length === 0 && <p className="p-5 text-sm text-muted-foreground">Nenhum projeto atribuído ainda.</p>}
             {(contracts.data ?? []).map((c) => (

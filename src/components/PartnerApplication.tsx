@@ -44,8 +44,7 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
     e.preventDefault();
     const p = schema.safeParse(form);
     if (!p.success) { setErr("Confira os campos: nome, CPF (000.000.000-00), telefone com DDD e site em formato https://…"); return; }
-    if (!docFile || !selfie) { setErr("Envie a foto do documento (RG ou CNH) e uma selfie segurando o documento."); return; }
-    if (docFile.size > MAX_FILE || selfie.size > MAX_FILE) { setErr("Cada arquivo pode ter no máximo 10 MB."); return; }
+    if ((docFile && docFile.size > MAX_FILE) || (selfie && selfie.size > MAX_FILE)) { setErr("Cada arquivo pode ter no máximo 10 MB."); return; }
     setBusy(true); setErr(null);
     const d = p.data;
     const up = async (f: File, name: string) => {
@@ -55,8 +54,8 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
       if (error) throw error;
       return path;
     };
-    let document_path: string, selfie_path: string;
-    try { document_path = await up(docFile, "documento"); selfie_path = await up(selfie, "selfie"); }
+    let document_path: string | null = null, selfie_path: string | null = null;
+    try { if (docFile) document_path = await up(docFile, "documento"); if (selfie) selfie_path = await up(selfie, "selfie"); }
     catch { setBusy(false); setErr("Não foi possível enviar as fotos. Tente novamente."); return; }
     const payload = { cpf: d.cpf, phone: d.phone, document_path, selfie_path, display_name: d.display_name, document: d.document || null, category: d.category || null, city: d.city || null, message: d.message || null, website: d.website || null, user_id: userId, kind };
     const { error } = await supabase.from("partner_applications").insert(payload);
@@ -77,13 +76,13 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
       <input className={fieldClass} placeholder={isPro ? "Especialidade (ex.: Interiores residenciais)" : isSupplier ? "Categoria (ex.: Revestimentos)" : "Tema (ex.: Casa e lifestyle)"} value={form.category} onChange={set("category")} aria-label="Categoria" />
       <input className={fieldClass} placeholder="CPF do responsável" inputMode="numeric" value={form.cpf} onChange={set("cpf")} aria-label="CPF" />
       <input className={fieldClass} placeholder="Telefone com DDD" inputMode="tel" value={form.phone} onChange={set("phone")} aria-label="Telefone" />
-      <label className="block text-xs font-semibold text-muted-foreground">Foto do documento (RG ou CNH)
-        <input type="file" accept="image/*,application/pdf" className="mt-1 block w-full text-sm" onChange={(e) => setDocFile(e.target.files?.[0] ?? null)} />
-      </label>
-      <label className="block text-xs font-semibold text-muted-foreground">Selfie segurando o documento
+      <label className="block text-xs font-semibold text-muted-foreground">Selfie para o perfil (opcional)
         <input type="file" accept="image/*" capture="user" className="mt-1 block w-full text-sm" onChange={(e) => setSelfie(e.target.files?.[0] ?? null)} />
       </label>
-      <p className="text-xs text-muted-foreground">Usamos essas fotos apenas para confirmar sua identidade. Só a equipe ARQECO tem acesso.</p>
+      <label className="block text-xs font-semibold text-muted-foreground">Documento — RG ou CNH (opcional)
+        <input type="file" accept="image/*,application/pdf" className="mt-1 block w-full text-sm" onChange={(e) => setDocFile(e.target.files?.[0] ?? null)} />
+      </label>
+      <p className="text-xs text-muted-foreground">Não é obrigatório para o cadastro, mas o documento será exigido para cadastrar seus dados bancários e receber valores. Só a equipe ARQECO tem acesso.</p>
       <input className={fieldClass} placeholder="Cidade" value={form.city} onChange={set("city")} aria-label="Cidade" />
       <textarea className={`${fieldClass} h-24 py-2`} placeholder="Mensagem para a equipe ARQECO" value={form.message} onChange={set("message")} aria-label="Mensagem" />
       {err && <p className="text-sm text-destructive">{err}</p>}
