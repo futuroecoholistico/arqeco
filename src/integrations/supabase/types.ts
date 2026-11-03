@@ -666,6 +666,39 @@ export type Database = {
         }
         Relationships: []
       }
+      email_contacts: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          original_created_at: string | null
+          phone: string | null
+          source: string
+          subscriber_status: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: string
+          original_created_at?: string | null
+          phone?: string | null
+          source?: string
+          subscriber_status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          original_created_at?: string | null
+          phone?: string | null
+          source?: string
+          subscriber_status?: string
+        }
+        Relationships: []
+      }
       feedbacks: {
         Row: {
           created_at: string
