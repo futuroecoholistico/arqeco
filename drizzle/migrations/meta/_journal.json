@@ -106,6 +106,13 @@
       "when": 1793567551915,
       "tag": "0014_require_payout_document",
       "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1793749413489,
+      "tag": "0015_email_contacts",
+      "breakpoints": true
     }
   ]
 }
