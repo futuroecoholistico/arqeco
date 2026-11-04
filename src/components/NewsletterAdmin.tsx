@@ -20,7 +20,7 @@ export function NewsletterAdmin() {
     if (!test && !confirm(`Enviar para ${count ?? 0} inscritos agora?`)) return;
     setBusy(true); setMsg(null);
     try {
-      await send({ data: { subject, html, testEmail: test ? testEmail : undefined } });
+      await send({ data: { subject, html, ...(test ? { testEmail } : {}) } });
       setMsg(test ? `Teste enviado para ${testEmail}.` : "Newsletter enviada para os inscritos.");
     } catch (e) { setMsg((e as Error).message); } finally { setBusy(false); }
   };

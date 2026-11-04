@@ -12,7 +12,7 @@ async function brevo(path: string, init: { method?: string; body?: unknown } = {
   const res = await fetch(`${GATEWAY}${path}`, {
     method: init.method ?? "GET",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${lk}`, "X-Connection-Api-Key": bk },
-    body: init.body ? JSON.stringify(init.body) : undefined,
+    body: init.body ? JSON.stringify(init.body) : null,
   });
   const text = await res.text();
   if (!res.ok) {
