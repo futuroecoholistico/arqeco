@@ -60,6 +60,10 @@ export const sendNewsletter = createServerFn({ method: "POST" })
   .inputValidator(validate)
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
+    if (data.testEmail) {
+      await brevo("/smtp/email", { method: "POST", body: { sender: SENDER, to: [{ email: data.testEmail }], subject: `[Teste] ${data.subject}`, htmlContent: data.html.replace("{{ unsubscribe }}", "#") } });
+      return { ok: true, mode: "test" as const };
+    }
     const listId = await ensureList();
 
     if (!data.testEmail) {
