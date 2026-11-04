@@ -7,6 +7,7 @@ import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerS
 import { SlotManager } from "@/components/SlotManager";
 import { BriefingsAdmin, VisualLibraryAdmin } from "@/components/briefing/BriefingAdmin";
 import { RegistrantsAdmin, DossiersAdmin } from "@/components/RegistrantsAdmin";
+import { NewsletterAdmin } from "@/components/NewsletterAdmin";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Administração — ARQECO" }, { name: "description", content: "Gerencie contratos, solicitações de construção, parceiros, produtos e planos ARQECO." }, { property: "og:title", content: "Administração — ARQECO" }, { property: "og:description", content: "Gestão da operação, dos serviços e dos parceiros ARQECO." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
@@ -15,13 +16,13 @@ export const Route = createFileRoute("/_authenticated/admin")({
 
 function AdminPage() {
   const isAdmin = useQuery({ queryKey: ["is-admin"], queryFn: async () => (await supabase.rpc("is_admin")).data === true });
-  const [tab, setTab] = useState<"cadastros" | "dossies" | "contratos" | "briefings" | "biblioteca" | "construcao" | "planos" | "horarios" | "depoimentos" | "parceiros" | "produtos" | "vendas" | "indicacoes">("cadastros");
+  const [tab, setTab] = useState<"cadastros" | "dossies" | "contratos" | "briefings" | "biblioteca" | "construcao" | "planos" | "horarios" | "depoimentos" | "parceiros" | "produtos" | "vendas" | "indicacoes" | "newsletter">("cadastros");
   return (
     <PartnerShell eyebrow="Administração" title="Curadoria e parceiros">
       {isAdmin.isLoading ? <p className="text-sm text-muted-foreground">Carregando…</p> : !isAdmin.data ? <p className="text-sm text-muted-foreground">Esta área é exclusiva da equipe ARQECO.</p> : (
         <>
           <div className="mb-6 flex flex-wrap gap-2">
-            {(["cadastros", "dossies", "contratos", "briefings", "biblioteca", "construcao", "planos", "horarios", "depoimentos", "parceiros", "produtos", "vendas", "indicacoes"] as const).map((t) => <Button key={t} variant={tab === t ? "editorial" : "paper"} size="sm" onClick={() => setTab(t)} className="capitalize">{t === "dossies" ? "dossiês" : t === "horarios" ? "horários" : t === "construcao" ? "construção" : t === "parceiros" ? "parceiros e arquitetos" : t === "biblioteca" ? "biblioteca visual" : t === "indicacoes" ? "indicações de planos" : t}</Button>)}
+            {(["cadastros", "dossies", "contratos", "briefings", "biblioteca", "construcao", "planos", "horarios", "depoimentos", "parceiros", "produtos", "vendas", "indicacoes", "newsletter"] as const).map((t) => <Button key={t} variant={tab === t ? "editorial" : "paper"} size="sm" onClick={() => setTab(t)} className="capitalize">{t === "dossies" ? "dossiês" : t === "horarios" ? "horários" : t === "construcao" ? "construção" : t === "parceiros" ? "parceiros e arquitetos" : t === "biblioteca" ? "biblioteca visual" : t === "indicacoes" ? "indicações de planos" : t}</Button>)}
           </div>
           {tab === "contratos" && <Contracts />}
           {tab === "cadastros" && <RegistrantsAdmin />}
@@ -36,6 +37,7 @@ function AdminPage() {
           {tab === "planos" && <Plans />}
           {tab === "vendas" && <Sales />}
           {tab === "indicacoes" && <ReferralPayouts />}
+          {tab === "newsletter" && <NewsletterAdmin />}
         </>
       )}
     </PartnerShell>
