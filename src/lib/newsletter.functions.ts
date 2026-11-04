@@ -6,8 +6,8 @@ const SENDER = { name: "Arquitetura Ecológica", email: "contato.arquiteturaecol
 const LIST_NAME = "ARQECO Newsletter";
 
 async function brevo(path: string, init: { method?: string; body?: unknown } = {}) {
-  const lk = process.env.LOVABLE_API_KEY;
-  const bk = process.env.BREVO_API_KEY;
+  const lk = process.env['LOVABLE_API_KEY'];
+  const bk = process.env['BREVO_API_KEY'];
   if (!lk || !bk) throw new Error("Brevo não está conectado.");
   const res = await fetch(`${GATEWAY}${path}`, {
     method: init.method ?? "GET",
