@@ -78,7 +78,7 @@ function ClientDashboard() {
                     {b?.status === "revision_requested" && <p className="mt-2 text-xs text-destructive">A equipe pediu ajustes no briefing.</p>}
                   </div>
                 </div>
-                {(bookings.data ?? []).filter(booking => booking.projects?.some(project => project.id === p.id)).map(booking => <div key={booking.id} className="px-6 pb-6 md:px-8"><PaidBookingSchedule bookingId={booking.id} /></div>)}
+                {(bookings.data ?? []).filter(booking => booking.projects?.id === p.id).map(booking => <div key={booking.id} className="px-6 pb-6 md:px-8"><PaidBookingSchedule bookingId={booking.id} /></div>)}
                 <div className="overflow-x-auto border-t border-border px-6 py-5 md:px-8">
                   <ol className="flex min-w-[560px]">
                     {STAGES.map((s, i) => (
