@@ -127,6 +127,13 @@
       "when": 1793901375912,
       "tag": "0017_booking_rooms_oversize",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1793901388167,
+      "tag": "0018_regrant_prepare_booking",
+      "breakpoints": true
     }
   ]
 }
