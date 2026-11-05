@@ -217,12 +217,16 @@ function ExtraOption({ checked, onCheckedChange, title, price, disabled }: { che
   return <label className={`flex items-center gap-4 border border-border bg-card p-5 ${disabled ? "opacity-60" : "cursor-pointer"}`}><Checkbox checked={checked} onCheckedChange={(value) => onCheckedChange(value === true)} disabled={disabled} /><span className="flex-1 text-sm font-semibold">{title}</span><span className="text-sm text-muted-foreground">{price}</span></label>;
 }
 function BookingCheckout({ bookingId }: { bookingId: string }) {
+  const [checkoutError, setCheckoutError] = useState("");
   const [options] = useState(() => ({
     fetchClientSecret: async () => {
       const result = await createBookingCheckout({ data: { bookingId, environment: getStripeEnvironment(), returnUrl: `${window.location.origin}/pagamento?session_id={CHECKOUT_SESSION_ID}` } });
-      if ("error" in result) throw new Error(result.error);
+      if ("error" in result) {
+        setCheckoutError(result.error.includes("Stripe Tax is not supported") ? "O pagamento está indisponível: o cálculo automático de impostos do Stripe não atende ao país desta conta. A configuração de cobrança precisa ser revisada pela ARQECO." : result.error);
+        throw new Error(result.error);
+      }
       return result.clientSecret;
     },
   }));
-  return <EmbeddedCheckoutProvider stripe={getStripe()} options={options}><EmbeddedCheckout /></EmbeddedCheckoutProvider>;
+  return <>{checkoutError && <p role="alert" className="p-5 text-sm text-destructive">{checkoutError}</p>}<EmbeddedCheckoutProvider stripe={getStripe()} options={options}><EmbeddedCheckout /></EmbeddedCheckoutProvider></>;
 }
