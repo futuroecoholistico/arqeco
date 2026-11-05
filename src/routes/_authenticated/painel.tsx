@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, Check, ClipboardList, LogOut } from "lucide-react";
+import { PaidBookingSchedule } from "@/components/PaidBookingSchedule";
 import { Button } from "@/components/ui/button";
 import { PartnerShell, CategoryBoundary } from "@/components/PartnerShell";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,6 +30,14 @@ function ClientDashboard() {
   const projects = useQuery({
     queryKey: ["my-projects"],
     queryFn: async () => (await supabase.from("projects").select("id,name,status,next_action,created_at,briefings(status,progress)").eq("client_id", user.id).order("created_at", { ascending: false })).data ?? [],
+  });
+  const bookings = useQuery({
+    queryKey: ["my-meeting-bookings"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("service_bookings").select("id,projects(id)").eq("client_id", user.id).eq("payment_status", "paid").eq("status", "confirmed");
+      if (error) throw error;
+      return data ?? [];
+    },
   });
   const firstName = (user.user_metadata?.["full_name"] as string | undefined)?.split(" ")[0];
 
@@ -69,6 +78,7 @@ function ClientDashboard() {
                     {b?.status === "revision_requested" && <p className="mt-2 text-xs text-destructive">A equipe pediu ajustes no briefing.</p>}
                   </div>
                 </div>
+                {(bookings.data ?? []).filter(booking => booking.projects?.id === p.id).map(booking => <div key={booking.id} className="px-6 pb-6 md:px-8"><PaidBookingSchedule bookingId={booking.id} /></div>)}
                 <div className="overflow-x-auto border-t border-border px-6 py-5 md:px-8">
                   <ol className="flex min-w-[560px]">
                     {STAGES.map((s, i) => (

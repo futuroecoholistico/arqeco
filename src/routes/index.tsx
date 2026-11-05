@@ -367,7 +367,7 @@ function Home() {
                 <div className="mt-8 border-t border-border pt-5">
                   <p className="text-xs text-muted-foreground">{perRoom ? opt?.rooms_label : `Até ${opt?.rooms_label ?? ""}`}</p>
                   <Price opt={opt} />
-                  {opt && opt.price_cents != null ? <Button asChild variant={featured ? "editorial" : "paper"} className="mt-4 w-full"><Link to="/auth" search={{ next: `/contratar?plano=${encodeURIComponent(p.id)}&opcao=${encodeURIComponent(opt.id)}` }}>Começar agora</Link></Button> : <Button type="button" variant={featured ? "editorial" : "paper"} className="mt-4 w-full" disabled>Preço em configuração</Button>}
+                  {opt && opt.price_cents != null ? <Button asChild variant={featured ? "editorial" : "paper"} className="mt-4 w-full"><Link to="/auth" search={{ perfil: "cliente", next: `/contratar?plano=${encodeURIComponent(p.id)}&opcao=${encodeURIComponent(opt.id)}` }}>Começar agora</Link></Button> : <Button type="button" variant={featured ? "editorial" : "paper"} className="mt-4 w-full" disabled>Preço em configuração</Button>}
                   {p.footnote && <p className="mt-3 text-[11px] font-semibold text-forest-soft">{p.footnote}</p>}
                 </div>
               </article>

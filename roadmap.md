@@ -1,4 +1,6 @@
 # ARQECO roadmap
+- [x] Compra sem escolha de categoria; contratação sem horário e agenda protegida por pagamento confirmado, disponível após pagar e no painel.
+- [ ] Verificar pagamento → reunião completo: Stripe Tax não atende ao país da conta e não há horários futuros cadastrados; depende da revisão de cobrança e da agenda da ARQECO.
 
 - [x] Incorporar o Dossiê Eco-Holístico à ARQECO para novos registros; análise, imagem, histórico e feedback verificados.
 - [x] Cadastro por categoria, dados e foto; painéis isolados e lista de todos os inscritos no admin.
