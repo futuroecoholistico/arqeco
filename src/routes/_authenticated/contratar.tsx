@@ -161,8 +161,8 @@ function BookingPage() {
       </header>
 
       <main className="mx-auto max-w-6xl px-5 py-10 lg:py-16">
-        <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
-          <section>
+        <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <section className="min-w-0">
             <div className="mb-10 overflow-x-auto pb-2">
               <ol className="flex min-w-[480px]">
                 {stepLabels.map((label, index) => {
