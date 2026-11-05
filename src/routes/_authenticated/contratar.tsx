@@ -97,7 +97,7 @@ function BookingPage() {
   const expectedRooms = perRoom ? roomCount : includedRooms(selection.data?.rooms_label) + extraRoomCount;
   const [roomDrafts, setRoomDrafts] = useState<RoomDraft[]>([]);
   const rooms = Array.from({ length: expectedRooms }, (_, i) => roomDrafts[i] ?? null);
-  const updateRoom = (i: number, patch: Partial<RoomDraft>) => setRoomDrafts((prev) => { const next = [...prev]; while (next.length <= i) next.push(newRoom()); next[i] = { ...next[i], ...patch }; return next; });
+  const updateRoom = (i: number, patch: Partial<RoomDraft>) => setRoomDrafts((prev) => { const next = [...prev]; while (next.length <= i) next.push(newRoom()); next[i] = { ...next[i], ...patch } as RoomDraft; return next; });
   const oversize = rooms.reduce((sum, r) => sum + roomOversizeCents(Number((r?.area ?? "").replace(",", "."))), 0);
   const total = basePrice == null || selectedExtraPrice == null ? null : basePrice + selectedExtraPrice + oversize + (urgent ? urgentFee ?? 0 : 0);
 
