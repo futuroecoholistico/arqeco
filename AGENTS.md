@@ -23,13 +23,13 @@
 - Partner approval and product review run through admin-checked SECURITY DEFINER SQL functions — atomic creation of supplier/catalog rows without exposing admin keys.
 - Plans/prices live in `service_plans`/`service_plan_options`; never hardcode prices in UI.
 - Zoe is available only to authenticated architects/designers with the `professional` role; enforce this on the server because client visibility is not access control.
-- Service bookings use `appointment_slots` and `service_bookings`; reserve and calculate totals atomically through `reserve_service_booking` to prevent double booking and client-side price manipulation.
-- Extra rooms use a configurable unit price on each plan option and a booking quantity; `reserve_service_booking` calculates their subtotal server-side.
-- Plan payments use embedded checkout with `price_data` whose amount is the `total_cents` already stored by `reserve_service_booking`; the browser never sends amounts — fixed admin prices, no client manipulation.
-- Payment results arrive only via signed webhook `/api/public/payments/webhook`, which confirms the booking and blocks the slot — confirmation must not depend on the browser returning.
+- Prepare booking totals without a slot through `prepare_service_booking`; reserve meetings atomically through owner-scoped `schedule_paid_booking` only after confirmed payment to prevent unpaid reservations and double booking.
+- Extra rooms use a configurable unit price on each plan option and a booking quantity; `prepare_service_booking` calculates their subtotal server-side.
+- Plan payments use embedded checkout with `price_data` whose amount is the `total_cents` stored by `prepare_service_booking`; the browser never sends amounts — fixed admin prices, no client manipulation.
+- Payment results arrive only via signed webhook `/api/public/payments/webhook`, which confirms the booking; meeting selection follows confirmation and never depends on the browser claiming payment.
 - Architects apply via `partner_applications` kind `professional`; approval grants the `professional` role inside `review_partner_application` — one audited approval path.
 - Construction requests live separately from fixed-price interior plan bookings; authenticated clients submit an inquiry before optionally reserving a meeting slot, because construction needs a scoped proposal rather than instant checkout.
 
-- Each approved professional manages own `appointment_slots` (professional_id); slots without professional are the central ARQECO team agenda; booking a professional slot assigns the booking to that professional inside `reserve_service_booking`.
+- Each approved professional manages own `appointment_slots` (professional_id); slots without professional are the central team agenda; `schedule_paid_booking` assigns both booking and project atomically when scheduling after payment.
 - Briefings: one per project (created when a plan payment is confirmed); answers live in briefings.answers jsonb with question catalogue in src/lib/briefing/config.ts; submit_briefing normalizes rooms/people and advances the project — keeps the form flexible while filters and future AI read structured data. Visual options (styles/palettes/materials/moodboards) are rows in briefing_visual_options so the team swaps images without code.
 - Plan referrals: referral_links/attributions/commissions + eco_ledger; commission is written only by the signed payment webhook using rules in src/lib/referrals.ts — affiliates can never write their own earnings.
