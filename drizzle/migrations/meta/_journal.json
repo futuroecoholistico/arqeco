@@ -113,6 +113,13 @@
       "when": 1793749413489,
       "tag": "0015_email_contacts",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1793897277652,
+      "tag": "0016_payment_before_meeting",
+      "breakpoints": true
     }
   ]
 }
