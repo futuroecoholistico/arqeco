@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.prepare_service_booking(uuid,text,text,text,text,text,text,text,text,text,text,text,integer,boolean) TO authenticated;

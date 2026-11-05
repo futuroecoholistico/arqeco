@@ -29,7 +29,7 @@ function ClientDashboard() {
   const qc = useQueryClient();
   const projects = useQuery({
     queryKey: ["my-projects"],
-    queryFn: async () => (await supabase.from("projects").select("id,name,status,next_action,created_at,briefings(status,progress)").eq("client_id", user.id).order("created_at", { ascending: false })).data ?? [],
+    queryFn: async () => (await supabase.from("projects").select("id,name,status,next_action,created_at,briefings(status,progress,answers)").eq("client_id", user.id).order("created_at", { ascending: false })).data ?? [],
   });
   const bookings = useQuery({
     queryKey: ["my-meeting-bookings"],
@@ -57,6 +57,8 @@ function ClientDashboard() {
           </div>
         )}
 
+        <a href="https://wa.me/5511964710505" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 border border-primary px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground">Falar com nosso time no WhatsApp · (11) 96471-0505</a>
+
         <div className="mt-10 space-y-6">
           {(projects.data ?? []).map((p) => {
             const b = Array.isArray(p.briefings) ? p.briefings[0] : p.briefings;
@@ -78,6 +80,17 @@ function ClientDashboard() {
                     {b?.status === "revision_requested" && <p className="mt-2 text-xs text-destructive">A equipe pediu ajustes no briefing.</p>}
                   </div>
                 </div>
+                {(() => { const ans = (b?.answers ?? {}) as { rooms?: { id: string; name: string; area?: string }[]; roomNeeds?: Record<string, { items?: string[]; usage?: string; problem?: string; change?: string }> }; const rs = ans.rooms ?? []; if (!rs.length) return null; return (
+                  <div className="border-t border-border px-6 py-5 md:px-8">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Ambientes do projeto</p>
+                    <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {rs.map((r) => { const n = ans.roomNeeds?.[r.id]; const filled = [n?.items?.length, n?.usage, n?.problem, n?.change].filter(Boolean).length; const done = filled >= 3; return (
+                        <li key={r.id} className="flex flex-col justify-between gap-3 border border-border bg-background p-4">
+                          <div><p className="font-display text-xl font-semibold">{r.name}</p><p className="text-xs text-muted-foreground">{r.area ? `${r.area} m²` : "Metragem a informar"} · {done ? "Briefing preenchido" : filled ? "Briefing em andamento" : "Briefing pendente"}</p></div>
+                          <Button asChild size="sm" variant={done ? "paper" : "editorial"}><Link to="/briefing/$projectId" params={{ projectId: p.id }}><ClipboardList /> {done ? "Ver briefing" : "Preencher briefing"}</Link></Button>
+                        </li>); })}
+                    </ul>
+                  </div>); })()}
                 {(bookings.data ?? []).filter(booking => booking.projects?.id === p.id).map(booking => <div key={booking.id} className="px-6 pb-6 md:px-8"><PaidBookingSchedule bookingId={booking.id} /></div>)}
                 <div className="overflow-x-auto border-t border-border px-6 py-5 md:px-8">
                   <ol className="flex min-w-[560px]">

@@ -218,7 +218,7 @@ function Wizard({ briefing, projectName, options, files, userId, userEmail, onFi
             <F label="Cidade"><Input value={a.city ?? ""} onChange={(e) => set("city", e.target.value)} maxLength={100} /></F>
             <F label="Endereço"><Input value={a.address ?? ""} onChange={(e) => set("address", e.target.value)} maxLength={200} /></F>
             <F label="Área aproximada do imóvel (m²)"><Input inputMode="decimal" value={a.propertyArea ?? ""} onChange={(e) => set("propertyArea", e.target.value)} maxLength={10} /></F>
-            <F label="Área do ambiente a projetar (m²)"><Input inputMode="decimal" value={a.roomArea ?? ""} onChange={(e) => set("roomArea", e.target.value)} maxLength={10} /></F>
+            <p className="self-end text-xs text-muted-foreground">A metragem de cada ambiente é informada na etapa de ambientes.</p>
           </Grid>
           <Q title="Quando pretende iniciar a execução?"><Chips options={START_WHEN} value={a.startWhen ? [a.startWhen] : []} onChange={(v) => set("startWhen", v[0])} single /></Q>
           <Uploader briefingId={briefing.id} userId={userId} files={files} onChanged={onFilesChanged} />
@@ -230,11 +230,12 @@ function Wizard({ briefing, projectName, options, files, userId, userEmail, onFi
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {ROOM_CATALOG.map((r) => {
               const on = (a.rooms ?? []).some((x) => x.name === r.label);
-              return <button key={r.label} type="button" aria-pressed={on} onClick={() => set("rooms", on ? (a.rooms ?? []).filter((x) => x.name !== r.label) : [...(a.rooms ?? []), { id: uid(), key: r.key, name: r.label }])} className={`flex min-h-20 items-end justify-between border p-4 text-left text-sm font-semibold transition-all ${on ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary"}`}>{r.label}{on && <Check className="size-4" />}</button>;
+              const locked = (a.rooms ?? []).some((x) => x.name === r.label && x.contracted);
+              return <button key={r.label} type="button" aria-pressed={on} disabled={locked} title={locked ? "Ambiente contratado" : undefined} onClick={() => set("rooms", on ? (a.rooms ?? []).filter((x) => x.name !== r.label) : [...(a.rooms ?? []), { id: uid(), key: r.key, name: r.label }])} className={`flex min-h-20 items-end justify-between border p-4 text-left text-sm font-semibold transition-all ${on ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary"}`}>{r.label}{on && <Check className="size-4" />}</button>;
             })}
           </div>
           <OtherRoom onAdd={(name) => set("rooms", [...(a.rooms ?? []), { id: uid(), key: "outro", name }])} />
-          {(a.rooms ?? []).filter((r) => !ROOM_CATALOG.some((c) => c.label === r.name)).map((r) => <span key={r.id} className="mr-2 inline-flex items-center gap-2 rounded-full border border-primary px-3 py-1 text-sm">{r.name}<button type="button" aria-label={`Remover ${r.name}`} onClick={() => set("rooms", (a.rooms ?? []).filter((x) => x.id !== r.id))}><X className="size-3" /></button></span>)}
+          {(a.rooms ?? []).filter((r) => !ROOM_CATALOG.some((c) => c.label === r.name)).map((r) => <span key={r.id} className="mr-2 inline-flex items-center gap-2 rounded-full border border-primary px-3 py-1 text-sm">{r.name}{!r.contracted && <button type="button" aria-label={`Remover ${r.name}`} onClick={() => set("rooms", (a.rooms ?? []).filter((x) => x.id !== r.id))}><X className="size-3" /></button>}</span>)}
         </Step>
       )}
 
@@ -287,13 +288,14 @@ function Wizard({ briefing, projectName, options, files, userId, userEmail, onFi
           {(a.rooms ?? []).map((r) => { const n: RoomNeeds = a.roomNeeds?.[r.id] ?? { items: [], usage: "", problem: "", change: "", mustHave: "" }; const upd = (p: Partial<RoomNeeds>) => set("roomNeeds", { ...a.roomNeeds, [r.id]: { ...n, ...p } }); return (
             <div key={r.id} className="border border-border bg-card p-5 md:p-6">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Módulo</p>
-              <h3 className="font-display text-2xl font-semibold">{r.name}</h3>
-              {ROOM_ITEMS[r.key].length > 0 && <div className="mt-4"><p className="mb-2 text-sm font-semibold">O que este ambiente precisa ter?</p><Chips options={ROOM_ITEMS[r.key]} value={n.items} onChange={(v) => upd({ items: v })} /></div>}
+              <div className="flex flex-wrap items-end justify-between gap-3"><h3 className="font-display text-2xl font-semibold">{r.name}</h3>{r.contracted && <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary">Contratado</span>}</div>
+              <label className="mt-3 flex max-w-xs items-center gap-2 text-sm">Metragem (m²)<Input inputMode="decimal" value={r.area ?? ""} onChange={(e) => set("rooms", (a.rooms ?? []).map((x) => x.id === r.id ? { ...x, area: e.target.value } : x))} maxLength={6} /></label>
+              {ROOM_ITEMS[r.key].length > 0 && <div className="mt-4"><p className="mb-2 text-sm font-semibold">O que não pode faltar nesse ambiente?</p><Chips options={ROOM_ITEMS[r.key]} value={n.items} onChange={(v) => upd({ items: v })} /></div>}
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <Input placeholder={`Como você utiliza ${r.name.toLowerCase()}?`} value={n.usage} onChange={(e) => upd({ usage: e.target.value })} maxLength={500} />
-                <Input placeholder="Qual o principal problema?" value={n.problem} onChange={(e) => upd({ problem: e.target.value })} maxLength={500} />
-                <Input placeholder="O que gostaria de mudar?" value={n.change} onChange={(e) => upd({ change: e.target.value })} maxLength={500} />
-                <Input placeholder="O que não pode faltar?" value={n.mustHave} onChange={(e) => upd({ mustHave: e.target.value })} maxLength={500} />
+                <Input placeholder="Objetivo: o que você quer com este ambiente?" value={n.usage} onChange={(e) => upd({ usage: e.target.value })} maxLength={500} />
+                <Input placeholder="Problemas a solucionar" value={n.problem} onChange={(e) => upd({ problem: e.target.value })} maxLength={500} />
+                <Input placeholder="Solução esperada com a reforma" value={n.change} onChange={(e) => upd({ change: e.target.value })} maxLength={500} />
+                <Input placeholder="Outros itens (ex.: TV de 55 polegadas)" value={n.mustHave} onChange={(e) => upd({ mustHave: e.target.value })} maxLength={500} />
               </div>
             </div>); })}
           <Q title="Móveis e objetos que você já tem">

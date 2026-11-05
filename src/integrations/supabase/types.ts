@@ -1189,6 +1189,7 @@ export type Database = {
           full_name: string | null
           id: string
           neighborhood: string | null
+          oversize_fee_cents: number
           paid_at: string | null
           payment_reference: string | null
           payment_status: Database["public"]["Enums"]["payment_status"]
@@ -1199,6 +1200,7 @@ export type Database = {
           professional_id: string | null
           property_type: string | null
           room_count: number
+          rooms: Json
           state: string | null
           status: Database["public"]["Enums"]["booking_status"]
           street: string | null
@@ -1223,6 +1225,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           neighborhood?: string | null
+          oversize_fee_cents?: number
           paid_at?: string | null
           payment_reference?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
@@ -1233,6 +1236,7 @@ export type Database = {
           professional_id?: string | null
           property_type?: string | null
           room_count?: number
+          rooms?: Json
           state?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
           street?: string | null
@@ -1257,6 +1261,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           neighborhood?: string | null
+          oversize_fee_cents?: number
           paid_at?: string | null
           payment_reference?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
@@ -1267,6 +1272,7 @@ export type Database = {
           professional_id?: string | null
           property_type?: string | null
           room_count?: number
+          rooms?: Json
           state?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
           street?: string | null
@@ -1315,10 +1321,13 @@ export type Database = {
           installments: number
           is_starting_price: boolean
           meetings: number | null
+          oversize_step_cents: number
+          oversize_step_m2: number
           plan_id: string
           price_cents: number | null
           price_per_room: boolean
           revisions: number | null
+          room_area_limit_m2: number
           rooms_label: string
           sort_order: number
           updated_at: string
@@ -1337,10 +1346,13 @@ export type Database = {
           installments?: number
           is_starting_price?: boolean
           meetings?: number | null
+          oversize_step_cents?: number
+          oversize_step_m2?: number
           plan_id: string
           price_cents?: number | null
           price_per_room?: boolean
           revisions?: number | null
+          room_area_limit_m2?: number
           rooms_label: string
           sort_order?: number
           updated_at?: string
@@ -1359,10 +1371,13 @@ export type Database = {
           installments?: number
           is_starting_price?: boolean
           meetings?: number | null
+          oversize_step_cents?: number
+          oversize_step_m2?: number
           plan_id?: string
           price_cents?: number | null
           price_per_room?: boolean
           revisions?: number | null
+          room_area_limit_m2?: number
           rooms_label?: string
           sort_order?: number
           updated_at?: string
@@ -1612,6 +1627,7 @@ export type Database = {
           full_name: string | null
           id: string
           neighborhood: string | null
+          oversize_fee_cents: number
           paid_at: string | null
           payment_reference: string | null
           payment_status: Database["public"]["Enums"]["payment_status"]
@@ -1622,6 +1638,68 @@ export type Database = {
           professional_id: string | null
           property_type: string | null
           room_count: number
+          rooms: Json
+          state: string | null
+          status: Database["public"]["Enums"]["booking_status"]
+          street: string | null
+          street_number: string | null
+          subtotal_cents: number | null
+          total_cents: number | null
+          updated_at: string
+          urgent_delivery: boolean
+          urgent_fee_cents: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "service_bookings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      prepare_service_booking_rooms: {
+        Args: {
+          _address_complement: string
+          _booking_id: string
+          _city: string
+          _email: string
+          _extra_room_count: number
+          _full_name: string
+          _neighborhood: string
+          _phone: string
+          _postal_code: string
+          _property_type: string
+          _rooms: Json
+          _state: string
+          _street: string
+          _street_number: string
+          _urgent_delivery: boolean
+        }
+        Returns: {
+          add_extra_room: boolean
+          address_complement: string | null
+          appointment_slot_id: string | null
+          checkout_session_id: string | null
+          city: string | null
+          client_id: string
+          created_at: string
+          email: string | null
+          extra_room_count: number
+          extra_room_price_cents: number | null
+          full_name: string | null
+          id: string
+          neighborhood: string | null
+          oversize_fee_cents: number
+          paid_at: string | null
+          payment_reference: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          phone: string | null
+          plan_id: string
+          plan_option_id: string
+          postal_code: string | null
+          professional_id: string | null
+          property_type: string | null
+          room_count: number
+          rooms: Json
           state: string | null
           status: Database["public"]["Enums"]["booking_status"]
           street: string | null
@@ -1671,6 +1749,7 @@ export type Database = {
           full_name: string | null
           id: string
           neighborhood: string | null
+          oversize_fee_cents: number
           paid_at: string | null
           payment_reference: string | null
           payment_status: Database["public"]["Enums"]["payment_status"]
@@ -1681,6 +1760,7 @@ export type Database = {
           professional_id: string | null
           property_type: string | null
           room_count: number
+          rooms: Json
           state: string | null
           status: Database["public"]["Enums"]["booking_status"]
           street: string | null
@@ -1731,6 +1811,7 @@ export type Database = {
           full_name: string | null
           id: string
           neighborhood: string | null
+          oversize_fee_cents: number
           paid_at: string | null
           payment_reference: string | null
           payment_status: Database["public"]["Enums"]["payment_status"]
@@ -1741,6 +1822,7 @@ export type Database = {
           professional_id: string | null
           property_type: string | null
           room_count: number
+          rooms: Json
           state: string | null
           status: Database["public"]["Enums"]["booking_status"]
           street: string | null
