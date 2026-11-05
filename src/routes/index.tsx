@@ -2,7 +2,7 @@ import heroVideoAsset from "@/assets/video/interiores-hero.mp4.asset.json";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { ArrowRight, Building2, Check, ChevronDown, Eye, Hammer, Menu, Minus, MoveHorizontal, Quote, X } from "lucide-react";
+import { ArrowRight, Building2, Check, ChevronDown, Eye, Hammer, Menu, MessageCircle, Minus, MoveHorizontal, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import karinaKoch from "@/assets/karina-koch.jpg.asset.json";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
@@ -373,6 +373,15 @@ function Home() {
               </article>
             );
           })}
+        </div>
+
+        <div className="mt-10 flex flex-col items-center gap-4 text-center">
+          <p className="font-display text-2xl font-semibold">Ficou com alguma dúvida? Fale com nosso time!</p>
+          <Button asChild variant="editorial" size="lg" className="h-auto max-w-full whitespace-normal py-3">
+            <a href="https://wa.me/5511964710505" target="_blank" rel="noopener noreferrer" aria-label="Fale com nosso time pelo WhatsApp: (11) 96471-0505">
+              <MessageCircle className="shrink-0" /> WhatsApp · (11) 96471-0505
+            </a>
+          </Button>
         </div>
 
         {/* 8. Comparador */}
