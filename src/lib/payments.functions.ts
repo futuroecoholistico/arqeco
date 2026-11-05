@@ -63,8 +63,6 @@ export const createBookingCheckout = createServerFn({ method: "POST" })
         return_url: data.returnUrl,
         customer: customerId,
         line_items: [{ quantity: 1, price_data: { currency: "brl", product: productId, unit_amount: booking.total_cents } }],
-        automatic_tax: { enabled: true },
-        customer_update: { address: "auto" },
         payment_intent_data: { description, metadata: { bookingId: booking.id, userId } },
         metadata: { bookingId: booking.id, userId, managed_payments: "false" },
       });
