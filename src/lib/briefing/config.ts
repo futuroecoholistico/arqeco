@@ -45,14 +45,14 @@ export const ROOM_CATALOG: { label: string; key: RoomKey }[] = [
 ];
 
 export const ROOM_ITEMS: Record<RoomKey, string[]> = {
-  sala: ["Sofá", "TV", "Rack", "Mesa de centro", "Poltronas", "Tapete", "Cortina", "Almofadas", "Aparador", "Cristaleira", "Luminárias", "Quadros", "Plantas", "Espaço de leitura", "Home office"],
-  jantar: ["Mesa", "Cadeiras", "Aparador", "Buffet", "Cristaleira", "Pendente", "Tapete", "Quadros", "Plantas", "Adega"],
-  cozinha: ["Geladeira", "Fogão", "Cooktop", "Forno", "Microondas", "Armários", "Prateleiras", "Bancada", "Mesa", "Cadeiras", "Bancos", "Lava-louças", "Freezer", "Adega", "Máquina de café", "Air fryer"],
-  dormitorio: ["Cama", "Guarda-roupa", "Closet", "Mesa de cabeceira", "TV", "Penteadeira", "Escrivaninha", "Poltrona", "Estante", "Luminária", "Ar-condicionado", "Ventilador", "Cortina", "Tapete"],
-  banheiro: ["Chuveiro", "Box", "Cuba", "Espelho", "Armário", "Nichos", "Porta-toalhas", "Cesto", "Espaço para produtos"],
-  varanda: ["Mesa", "Cadeiras", "Poltronas", "Sofá", "Futon", "Rede", "Plantas", "Paisagismo", "Churrasqueira", "Frigobar", "Adega", "Armário", "Iluminação", "Fonte de água"],
-  office: ["Bancada", "Monitor", "Notebook", "Impressora", "Armários", "Prateleiras", "Cadeira", "Iluminação", "Mesa de reunião", "Área de café", "Cenário para vídeo", "Área de descanso", "Paisagismo"],
-  servico: ["Máquina de lavar", "Secadora", "Varal", "Tanque", "Armários", "Tábua de passar", "Aspirador", "Produtos de limpeza", "Escada"],
+  sala: ["Sofá", "TV", "Rack e/ou suporte", "Mesa", "Cadeiras", "Espaço home office", "Adega", "Espaço para descanso/leitura", "Mesa de centro", "Poltrona(s)", "Tapetes e cortina", "Almofadas", "Aparador ou cristaleira", "Luminárias", "Quadros", "Garden design (plantas)"],
+  jantar: ["Mesa", "Cadeiras", "Aparador ou cristaleira", "Buffet", "Adega", "Pendente", "Tapete", "Quadros", "Garden design (plantas)"],
+  cozinha: ["Geladeira", "Fogão", "Armário, prateleiras", "Microondas", "Mesa e cadeiras", "Forno de embutir", "Bancos altos (balcão)", "Lava-louças", "Freezer", "Liquidificador e processador", "Grill", "Máquina de café", "Batedeira", "Filtro de água"],
+  dormitorio: ["Cama solteiro", "Cama de casal", "Cama queen size", "Cama king size", "Guarda-roupa", "Mesa de cabeceira", "Painel TV", "Penteadeira", "Luminária de leitura", "Ventilador", "Quadros", "Cadeira ou poltrona", "Escrivaninha", "Estante", "Tapete e cortina", "Ar-condicionado"],
+  banheiro: ["Chuveiro", "Armário, estante ou nichos", "Lixo", "Cesto de roupa suja", "Secador de cabelo", "Porta papel higiênico", "Porta shampoo e saboneteira", "Pia de granito", "Cuba de sobrepor", "Cuba de embutir", "Espelho"],
+  varanda: ["Mesa", "Cadeiras", "Poltronas", "Sofá", "Rede", "Plantas", "Paisagismo", "Churrasqueira", "Frigobar", "Adega", "Armário", "Iluminação", "Fonte de água"],
+  office: ["Bancada de trabalho", "TV", "Monitor/notebook", "Materiais de escritório", "Impressora", "Luminária", "Cadeiras para clientes", "Área de café", "Paisagismo", "Armários", "Prateleiras", "Mesa de reunião", "Cenário para lives", "Área de descanso", "Copa"],
+  servico: ["Máquina de lavar", "Secadora", "Varal", "Ferro e tábua de passar", "Vassoura, rodo e pá", "Panos de limpeza", "Escada", "Aspirador de pó", "Tanque de embutir", "Tanque normal", "Armários"],
   outro: [],
 };
 
@@ -64,7 +64,7 @@ export const PRIORITIES = ["Funcionalidade", "Conforto", "Estética", "Organiza�
 export const EXISTING_ACTIONS = ["Manter", "Reaproveitar", "Reformar", "Substituir"];
 
 export type Person = { id: string; name: string; age: string; relation: string; occupation: string; usage: string; notes: string };
-export type Room = { id: string; key: RoomKey; name: string };
+export type Room = { id: string; key: RoomKey; name: string; area?: string; contracted?: boolean };
 export type RoomNeeds = { items: string[]; usage: string; problem: string; change: string; mustHave: string };
 export type ExistingItem = { id: string; name: string; action: string; notes: string };
 
