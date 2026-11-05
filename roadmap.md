@@ -1,4 +1,5 @@
 # ARQECO roadmap
+- [ ] Compra sem escolha de categoria; pagamento antes de agendar, com agenda protegida por confirmação e acesso no painel.
 
 - [x] Incorporar o Dossiê Eco-Holístico à ARQECO para novos registros; análise, imagem, histórico e feedback verificados.
 - [x] Cadastro por categoria, dados e foto; painéis isolados e lista de todos os inscritos no admin.
