@@ -30,7 +30,12 @@ async function ensureProject(admin: any, bookingId: string, b: any) {
     }).select("id").single();
     projectId = created?.id;
   }
-  if (projectId) await admin.from("briefings").upsert({ project_id: projectId, client_id: b.client_id }, { onConflict: "project_id", ignoreDuplicates: true });
+  if (projectId) {
+    // Seed the briefing with the rooms (and areas) contracted at checkout, so each gets its own module.
+    const { data: bk } = await admin.from("service_bookings").select("rooms").eq("id", bookingId).maybeSingle();
+    const rooms = Array.isArray(bk?.rooms) ? bk.rooms.map((r: any) => ({ id: String(r.id), key: r.key ?? "outro", name: r.name, area: String(r.area_m2 ?? ""), contracted: true })) : [];
+    await admin.from("briefings").upsert({ project_id: projectId, client_id: b.client_id, answers: rooms.length ? { rooms } : {} }, { onConflict: "project_id", ignoreDuplicates: true });
+  }
 }
 
 async function updateBooking(session: any, kind: "paid" | "pending" | "failed") {
