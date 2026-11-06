@@ -6,6 +6,7 @@ import { CategoryBoundary, PartnerShell, StatusPill, brl } from "@/components/Pa
 import { PartnerApplication } from "@/components/PartnerApplication";
 import { PayoutAccount } from "@/components/PayoutAccount";
 import { SlotManager } from "@/components/SlotManager";
+import { ProjectManager } from "@/components/ProjectManager";
 import { ZoeChat } from "@/components/ZoeChat";
 
 export const Route = createFileRoute("/_authenticated/profissional")({
@@ -129,6 +130,9 @@ function MySchedule({ userId }: { userId: string }) {
       <h2 className="font-display text-2xl font-semibold">Minha agenda</h2>
       <p className="mt-1 mb-4 text-sm text-muted-foreground">Escolha os dias, o período e o intervalo — os horários são criados automaticamente. Os clientes escolhem você e um destes horários ao contratar.</p>
       <SlotManager professionalId={userId} />
+      <h2 className="mt-12 font-display text-2xl font-semibold">Meus projetos</h2>
+      <p className="mt-1 mb-4 text-sm text-muted-foreground">Confirme a reunião de briefing realizada para iniciar o prazo, atualize o status, envie arquivos e responda revisões.</p>
+      <ProjectManager />
     </section>
   );
 }
