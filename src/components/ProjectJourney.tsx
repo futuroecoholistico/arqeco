@@ -8,7 +8,7 @@ export function JourneyTimeline({ input }: { input: JourneyInput }) {
   return (
     <ol className="grid gap-3 sm:grid-cols-4 lg:grid-cols-8">
       {JOURNEY_STAGES.map((s, i) => {
-        const st = states[i];
+        const st = states[i] ?? "pending";
         return (
           <li key={s} className="flex items-start gap-3 sm:flex-col sm:gap-2">
             <span className={`grid size-7 shrink-0 place-items-center rounded-full border text-[11px] ${st === "done" ? "border-primary bg-primary text-primary-foreground" : st === "pending" ? "border-border text-muted-foreground" : "border-primary text-primary"}`}>{st === "done" ? <Check className="size-3.5" /> : i + 1}</span>
