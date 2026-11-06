@@ -23,6 +23,7 @@ export const Route = createFileRoute("/_authenticated/construir")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
+  validateSearch: (search: Record<string, unknown>) => ({ tipo: search.tipo === "clinica" ? ("clinica" as const) : undefined }),
   component: ConstructionPage,
 });
 
@@ -49,6 +50,9 @@ function formatTime(value: string) {
 }
 
 function ConstructionPage() {
+  const { tipo } = Route.useSearch();
+  const clinic = tipo === "clinica";
+  const [budget, setBudget] = useState("");
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [form, setForm] = useState<FormState>({ fullName: "", email: "", phone: "", postalCode: "", city: "", state: "", description: "", scope: "project_only", timeline: "" });
   const [inquiryId, setInquiryId] = useState<string>();
@@ -69,12 +73,14 @@ function ConstructionPage() {
   const daySlots = useMemo(() => selectedDay ? (slots.data ?? []).filter((slot) => new Date(slot.starts_at).toDateString() === selectedDay.toDateString()) : [], [selectedDay, slots.data]);
 
   async function submitInquiry() {
-    const parsed = inquirySchema.safeParse(form);
+    const prefix = clinic ? "[Projeto Clínicas da Nova Era] " : "";
+    const budgetNote = budget.trim() ? `\n\nOrçamento estimado: ${budget.trim()}` : "";
+    const parsed = inquirySchema.safeParse({ ...form, description: `${prefix}${form.description}${budgetNote}`.slice(0, 1500) });
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Revise os dados informados."); return; }
     setBusy(true); setError(undefined);
     try {
       const result = await createConstructionInquiry({ data: parsed.data });
-      setInquiryId(result.id); setForm(parsed.data); setStep(2);
+      setInquiryId(result.id); setStep(2);
     } catch { setError("Não foi possível enviar sua solicitação. Tente novamente."); }
     setBusy(false);
   }
@@ -102,7 +108,9 @@ function ConstructionPage() {
         <div className="grid gap-10 lg:grid-cols-[1fr_300px]">
           <section>
             {step === 1 && <>
-              <StepTitle icon={Building2} eyebrow="Construção sustentável" title="Conte o que você deseja construir." text="Vamos conhecer o seu momento, o imóvel e o tipo de apoio que você procura." />
+              {clinic
+                ? <StepTitle icon={Building2} eyebrow="Projeto Clínicas da Nova Era" title="Solicite o orçamento do seu espaço de bem-estar." text="Clínicas, consultórios, spas e espaços wellness. Conte sobre o espaço, os atendimentos e o orçamento que imagina para receber uma proposta sob medida." />
+                : <StepTitle icon={Building2} eyebrow="Construção sustentável" title="Conte o que você deseja construir." text="Vamos conhecer o seu momento, o imóvel e o tipo de apoio que você procura." />}
               <div className="mt-8 grid gap-5 sm:grid-cols-2">
                 <Field label="Nome completo" className="sm:col-span-2"><Input value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} maxLength={100} autoComplete="name" /></Field>
                 <Field label="E-mail"><Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} autoComplete="email" /></Field>
@@ -111,7 +119,8 @@ function ConstructionPage() {
                 <Field label="Cidade"><Input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} maxLength={100} autoComplete="address-level2" /></Field>
                 <Field label="Estado (UF)"><Input value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })} maxLength={2} autoComplete="address-level1" /></Field>
                 <Field label="Quando pretende começar?"><Select value={form.timeline} onValueChange={(value) => setForm({ ...form, timeline: value })}><SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger><SelectContent><SelectItem value="Até 3 meses">Até 3 meses</SelectItem><SelectItem value="De 3 a 6 meses">De 3 a 6 meses</SelectItem><SelectItem value="De 6 a 12 meses">De 6 a 12 meses</SelectItem><SelectItem value="Mais de 1 ano">Mais de 1 ano</SelectItem><SelectItem value="Ainda estou planejando">Ainda estou planejando</SelectItem></SelectContent></Select></Field>
-                <Field label="O que você pretende construir?" className="sm:col-span-2"><textarea className="min-h-36 w-full border border-input bg-background px-3 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} maxLength={1500} placeholder="Conte sobre o imóvel, o terreno, as necessidades e o que imagina para o projeto." /></Field>
+                <Field label={clinic ? "Conte sobre o seu espaço (tipo de atendimento, metragem, número de salas)" : "O que você pretende construir?"} className="sm:col-span-2"><textarea className="min-h-36 w-full border border-input bg-background px-3 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} maxLength={1500} placeholder="Conte sobre o imóvel, o terreno, as necessidades e o que imagina para o projeto." /></Field>
+                <Field label="Orçamento estimado para o projeto (opcional)" className="sm:col-span-2"><Input value={budget} onChange={(e) => setBudget(e.target.value)} maxLength={80} placeholder="Ex.: até R$ 15.000" /></Field>
                 <fieldset className="sm:col-span-2"><legend className="mb-3 text-sm font-semibold">Como podemos ajudar?</legend><div className="grid gap-3 sm:grid-cols-2"><ScopeOption selected={form.scope === "project_only"} title="Somente o projeto" text="Arquitetura e documentos previstos na proposta." onClick={() => setForm({ ...form, scope: "project_only" })} /><ScopeOption selected={form.scope === "project_build_followup"} title="Projeto, obra e acompanhamento" text="Uma jornada integrada do projeto à execução." onClick={() => setForm({ ...form, scope: "project_build_followup" })} /></div></fieldset>
               </div>
               <div className="mt-8 flex justify-end"><Button variant="editorial" onClick={submitInquiry} disabled={busy}>{busy ? "Enviando…" : "Enviar e escolher reunião"} <ArrowRight /></Button></div>
