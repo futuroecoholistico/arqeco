@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, Check, ClipboardList, LogOut } from "lucide-react";
 import { PaidBookingSchedule } from "@/components/PaidBookingSchedule";
 import { Button } from "@/components/ui/button";
+import { JournalSection } from "@/components/JournalSection";
 import { PartnerShell, CategoryBoundary } from "@/components/PartnerShell";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -107,6 +108,7 @@ function ClientDashboard() {
             );
           })}
         </div>
+        <JournalSection />
       </main>
     </PartnerShell>
   );
