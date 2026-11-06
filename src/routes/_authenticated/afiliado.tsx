@@ -5,7 +5,7 @@ import { Copy, Trash2, LayoutGrid, Link2, FolderOpen, Trophy, DollarSign, Lock, 
 import { AffiliateHome, MaterialTab, AchievementsTab, PaymentsHistory } from "@/components/affiliate/AffiliateTabs";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { CategoryBoundary, PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
+import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
 import { PayoutAccount } from "@/components/PayoutAccount";
 import { REFERRAL_PLANS, type ReferralPlanSlug } from "@/lib/referrals";
