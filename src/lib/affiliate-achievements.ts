@@ -12,8 +12,10 @@ export const ACHIEVEMENTS: { id: string; title: string; scope: string; descripti
 const LEVELS = [{ name: "Iniciante", min: 0 }, { name: "Prata", min: 3 }, { name: "Ouro", min: 10 }, { name: "Embaixador", min: 30 }];
 
 export function affiliateLevel(sales: number) {
-  const i = LEVELS.findLastIndex((l) => sales >= l.min);
+  let i = 0;
+  LEVELS.forEach((l, idx) => { if (sales >= l.min) i = idx; });
+  const cur = LEVELS[i]!;
   const next = LEVELS[i + 1]?.min ?? null;
-  const progress = next === null ? 100 : Math.round(((sales - LEVELS[i].min) / (next - LEVELS[i].min)) * 100);
-  return { name: LEVELS[i].name, next, progress };
+  const progress = next === null ? 100 : Math.round(((sales - cur.min) / (next - cur.min)) * 100);
+  return { name: cur.name, next, progress };
 }
