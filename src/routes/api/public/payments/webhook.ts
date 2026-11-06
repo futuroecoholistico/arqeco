@@ -23,10 +23,16 @@ async function ensureProject(admin: any, bookingId: string, b: any) {
   let projectId = existing?.id as string | undefined;
   if (!projectId) {
     const planName = b.service_plans?.name ?? "Projeto ARQECO";
+    // Priority delivery only when the paid booking included the urgency fee; days come from the plan option (null = to be set by the team).
+    const { data: pay } = await admin.from("service_bookings").select("urgent_delivery,urgent_fee_cents,service_plan_options(delivery_days,urgent_delivery_days)").eq("id", bookingId).maybeSingle();
+    const priority = !!pay?.urgent_delivery && (pay?.urgent_fee_cents ?? 0) > 0;
+    const delivery = priority
+      ? { delivery_mode: "priority", delivery_business_days: pay?.service_plan_options?.urgent_delivery_days ?? null }
+      : { delivery_mode: "standard", delivery_business_days: 15 };
     const { data: created } = await admin.from("projects").insert({
       client_id: b.client_id, professional_id: b.professional_id, booking_id: bookingId,
       name: `${planName}${b.service_plan_options?.rooms_label ? ` · ${b.service_plan_options.rooms_label}` : ""}`,
-      service_name: planName, status: "BRIEFING_PENDING", progress: 5, next_action: "Responder o briefing",
+      service_name: planName, status: "BRIEFING_PENDING", progress: 5, next_action: "Responder o briefing", ...delivery,
     }).select("id").single();
     projectId = created?.id;
   }
