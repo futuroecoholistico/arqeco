@@ -134,6 +134,13 @@
       "when": 1793901388167,
       "tag": "0018_regrant_prepare_booking",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1793980765077,
+      "tag": "0019_client_journey",
+      "breakpoints": true
     }
   ]
 }

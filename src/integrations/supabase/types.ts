@@ -734,6 +734,21 @@ export type Database = {
           },
         ]
       }
+      holidays: {
+        Row: {
+          day: string
+          name: string
+        }
+        Insert: {
+          day: string
+          name: string
+        }
+        Update: {
+          day?: string
+          name?: string
+        }
+        Relationships: []
+      }
       partner_applications: {
         Row: {
           category: string | null
@@ -967,6 +982,53 @@ export type Database = {
         }
         Relationships: []
       }
+      project_files: {
+        Row: {
+          category: string
+          created_at: string
+          external_url: string | null
+          id: string
+          project_id: string
+          stage: string
+          storage_path: string | null
+          title: string
+          uploaded_by: string
+          version: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          external_url?: string | null
+          id?: string
+          project_id: string
+          stage?: string
+          storage_path?: string | null
+          title: string
+          uploaded_by?: string
+          version?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          external_url?: string | null
+          id?: string
+          project_id?: string
+          stage?: string
+          storage_path?: string | null
+          title?: string
+          uploaded_by?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_files_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_status_history: {
         Row: {
           changed_by: string
@@ -1005,11 +1067,16 @@ export type Database = {
       projects: {
         Row: {
           booking_id: string | null
+          briefing_meeting_done_at: string | null
           client_id: string
           created_at: string
+          delivery_business_days: number | null
+          delivery_mode: string
           due_date: string | null
           eco_index: number | null
+          first_delivery_due: string | null
           id: string
+          internal_notes: string | null
           name: string
           next_action: string | null
           professional_id: string | null
@@ -1020,11 +1087,16 @@ export type Database = {
         }
         Insert: {
           booking_id?: string | null
+          briefing_meeting_done_at?: string | null
           client_id: string
           created_at?: string
+          delivery_business_days?: number | null
+          delivery_mode?: string
           due_date?: string | null
           eco_index?: number | null
+          first_delivery_due?: string | null
           id?: string
+          internal_notes?: string | null
           name: string
           next_action?: string | null
           professional_id?: string | null
@@ -1035,11 +1107,16 @@ export type Database = {
         }
         Update: {
           booking_id?: string | null
+          briefing_meeting_done_at?: string | null
           client_id?: string
           created_at?: string
+          delivery_business_days?: number | null
+          delivery_mode?: string
           due_date?: string | null
           eco_index?: number | null
+          first_delivery_due?: string | null
           id?: string
+          internal_notes?: string | null
           name?: string
           next_action?: string | null
           professional_id?: string | null
@@ -1173,6 +1250,47 @@ export type Database = {
           plan_slug?: string
         }
         Relationships: []
+      }
+      revision_requests: {
+        Row: {
+          client_id: string
+          created_at: string
+          id: string
+          message: string
+          project_id: string
+          response: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          client_id?: string
+          created_at?: string
+          id?: string
+          message: string
+          project_id: string
+          response?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          id?: string
+          message?: string
+          project_id?: string
+          response?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "revision_requests_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       service_bookings: {
         Row: {
@@ -1331,6 +1449,7 @@ export type Database = {
           rooms_label: string
           sort_order: number
           updated_at: string
+          urgent_delivery_days: number | null
           urgent_fee_cents: number
         }
         Insert: {
@@ -1356,6 +1475,7 @@ export type Database = {
           rooms_label: string
           sort_order?: number
           updated_at?: string
+          urgent_delivery_days?: number | null
           urgent_fee_cents?: number
         }
         Update: {
@@ -1381,6 +1501,7 @@ export type Database = {
           rooms_label?: string
           sort_order?: number
           updated_at?: string
+          urgent_delivery_days?: number | null
           urgent_fee_cents?: number
         }
         Relationships: [
@@ -1571,6 +1692,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_business_days: {
+        Args: { _days: number; _start: string }
+        Returns: string
+      }
       admin_list_registrants: {
         Args: never
         Returns: {
@@ -1585,6 +1710,10 @@ export type Database = {
           phone: string
           user_id: string
         }[]
+      }
+      confirm_briefing_meeting: {
+        Args: { _done_on?: string; _project_id: string }
+        Returns: string
       }
       is_admin: { Args: never; Returns: boolean }
       is_approved_affiliate: { Args: { _uid: string }; Returns: boolean }
@@ -1839,6 +1968,14 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      set_project_status: {
+        Args: {
+          _note?: string
+          _project_id: string
+          _status: Database["public"]["Enums"]["project_status"]
+        }
+        Returns: undefined
       }
       submit_briefing: {
         Args: {
