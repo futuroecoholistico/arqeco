@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Copy, Trash2 } from "lucide-react";
+import { Copy, Trash2, LayoutGrid, Link2, FolderOpen, Trophy, DollarSign, Lock, MessageCircle } from "lucide-react";
+import { AffiliateHome, MaterialTab, AchievementsTab, PaymentsHistory } from "@/components/affiliate/AffiliateTabs";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { CategoryBoundary, PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
@@ -14,17 +15,46 @@ export const Route = createFileRoute("/_authenticated/afiliado")({
   component: () => <CategoryBoundary category="affiliate"><AffiliatePage /></CategoryBoundary>,
 });
 
+const TABS = [
+  { id: "home", label: "Home", icon: LayoutGrid },
+  { id: "links", label: "Meus links", icon: Link2 },
+  { id: "material", label: "Material de divulgação", icon: FolderOpen },
+  { id: "conquistas", label: "Conquistas", icon: Trophy },
+  { id: "pagamentos", label: "Pagamentos", icon: DollarSign },
+] as const;
+type Tab = (typeof TABS)[number]["id"];
+
 function AffiliatePage() {
   const { user } = Route.useRouteContext();
+  const [tab, setTab] = useState<Tab>("home");
   const app = useQuery({
     queryKey: ["application", "affiliate"],
     queryFn: async () => (await supabase.from("partner_applications").select("id,status,review_note,display_name").eq("user_id", user.id).eq("kind", "affiliate").maybeSingle()).data,
   });
+  const approved = app.data?.status === "approved";
+  const locked = (what: string) => (
+    <div className="rounded-lg border border-border bg-card p-10 text-center"><Lock className="mx-auto h-6 w-6 text-muted-foreground" /><p className="mt-3 font-display text-xl font-semibold">Disponível após a aprovação</p><p className="mt-1 text-sm text-muted-foreground">{what} será liberado assim que a equipe ARQECO aprovar seu cadastro.</p></div>
+  );
   return (
-    <PartnerShell eyebrow="Área do afiliado" title="Seus projetos e comissões">
-      {app.isLoading ? <p className="text-sm text-muted-foreground">Carregando…</p>
-        : app.data?.status === "approved" ? <div className="space-y-8"><AffiliateDashboard userId={user.id} /><PayoutAccount userId={user.id} /></div>
-        : <PartnerApplication kind="affiliate" userId={user.id} application={app.data ?? null} />}
+    <PartnerShell eyebrow="Afiliados · Creators · Corretores de imóveis" title={`Olá, ${(app.data?.display_name ?? user.email ?? "").split(/[ @]/)[0]}`}>
+      {app.isLoading ? <p className="text-sm text-muted-foreground">Carregando…</p> : (
+        <div className="space-y-8">
+          {app.data && !approved && <p className="rounded-md border border-border bg-secondary px-4 py-3 text-center text-sm">{app.data.status === "rejected" ? "Cadastro não aprovado. Fale com a equipe ARQECO." : "Cadastro em análise. Seus links só rastreiam indicações após a aprovação."}</p>}
+          <nav className="flex gap-1 overflow-x-auto border-b border-border">
+            {TABS.map((t) => (
+              <button key={t.id} type="button" onClick={() => setTab(t.id)} className={`flex shrink-0 items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${tab === t.id ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
+                <t.icon className="h-4 w-4" />{t.label}
+              </button>
+            ))}
+          </nav>
+          {tab === "home" && (app.data ? <AffiliateHome userId={user.id} email={user.email ?? ""} name={app.data.display_name} approved={approved} onGo={(t) => setTab(t as Tab)} /> : <PartnerApplication kind="affiliate" userId={user.id} application={null} />)}
+          {tab === "links" && (approved ? <AffiliateDashboard userId={user.id} /> : app.data ? locked("A criação de links") : <PartnerApplication kind="affiliate" userId={user.id} application={null} />)}
+          {tab === "material" && <MaterialTab />}
+          {tab === "conquistas" && <AchievementsTab userId={user.id} />}
+          {tab === "pagamentos" && (approved ? <div className="space-y-8"><PayoutAccount userId={user.id} /><PaymentsHistory userId={user.id} /></div> : locked("A área de pagamentos"))}
+          <a href="https://wa.me/5511964710505" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-primary"><MessageCircle className="h-4 w-4" /> Dúvidas? Fale com o time no WhatsApp · (11) 96471-0505</a>
+        </div>
+      )}
     </PartnerShell>
   );
 }
