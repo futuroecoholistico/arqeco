@@ -2,7 +2,7 @@ import heroVideoAsset from "@/assets/video/interiores-hero.mp4.asset.json";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { ArrowRight, Building2, Check, ChevronDown, Eye, Gift, Hammer, Sparkles, Menu, MessageCircle, Minus, MoveHorizontal, Quote, X } from "lucide-react";
+import { ArrowRight, Building2, Check, ChevronDown, Eye, Gift, Sparkles, Menu, MessageCircle, Minus, MoveHorizontal, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import karinaKoch from "@/assets/karina-koch.jpg.asset.json";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
