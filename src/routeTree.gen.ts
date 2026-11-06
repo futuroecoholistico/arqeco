@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as GuiaMedicaoRouteImport } from './routes/guia-medicao'
 import { Route as ManualRouteImport } from './routes/manual'
+import { Route as NossaTrajetoriaRouteImport } from './routes/nossa-trajetoria'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -65,6 +66,11 @@ const GuiaMedicaoRoute = GuiaMedicaoRouteImport.update({
 const ManualRoute = ManualRouteImport.update({
   id: '/manual',
   path: '/manual',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NossaTrajetoriaRoute = NossaTrajetoriaRouteImport.update({
+  id: '/nossa-trajetoria',
+  path: '/nossa-trajetoria',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
@@ -192,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/cookies': typeof CookiesRoute
   '/guia-medicao': typeof GuiaMedicaoRoute
   '/manual': typeof ManualRoute
+  '/nossa-trajetoria': typeof NossaTrajetoriaRoute
   '/privacidade': typeof PrivacidadeRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -221,6 +228,7 @@ export interface FileRoutesByTo {
   '/cookies': typeof CookiesRoute
   '/guia-medicao': typeof GuiaMedicaoRoute
   '/manual': typeof ManualRoute
+  '/nossa-trajetoria': typeof NossaTrajetoriaRoute
   '/privacidade': typeof PrivacidadeRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -252,6 +260,7 @@ export interface FileRoutesById {
   '/cookies': typeof CookiesRoute
   '/guia-medicao': typeof GuiaMedicaoRoute
   '/manual': typeof ManualRoute
+  '/nossa-trajetoria': typeof NossaTrajetoriaRoute
   '/privacidade': typeof PrivacidadeRoute
   '/termos': typeof TermosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -283,6 +292,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/guia-medicao'
     | '/manual'
+    | '/nossa-trajetoria'
     | '/privacidade'
     | '/termos'
     | '/admin'
@@ -312,6 +322,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/guia-medicao'
     | '/manual'
+    | '/nossa-trajetoria'
     | '/privacidade'
     | '/termos'
     | '/admin'
@@ -342,6 +353,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/guia-medicao'
     | '/manual'
+    | '/nossa-trajetoria'
     | '/privacidade'
     | '/termos'
     | '/_authenticated/admin'
@@ -373,6 +385,7 @@ export interface RootRouteChildren {
   CookiesRoute: typeof CookiesRoute
   GuiaMedicaoRoute: typeof GuiaMedicaoRoute
   ManualRoute: typeof ManualRoute
+  NossaTrajetoriaRoute: typeof NossaTrajetoriaRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   TermosRoute: typeof TermosRoute
   ApiZoeRoute: typeof ApiZoeRoute
@@ -425,6 +438,13 @@ declare module '@tanstack/react-router' {
       path: '/manual'
       fullPath: '/manual'
       preLoaderRoute: typeof ManualRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nossa-trajetoria': {
+      id: '/nossa-trajetoria'
+      path: '/nossa-trajetoria'
+      fullPath: '/nossa-trajetoria'
+      preLoaderRoute: typeof NossaTrajetoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacidade': {
@@ -628,6 +648,7 @@ const rootRouteChildren: RootRouteChildren = {
   CookiesRoute: CookiesRoute,
   GuiaMedicaoRoute: GuiaMedicaoRoute,
   ManualRoute: ManualRoute,
+  NossaTrajetoriaRoute: NossaTrajetoriaRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   TermosRoute: TermosRoute,
   ApiZoeRoute: ApiZoeRoute,
