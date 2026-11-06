@@ -5,14 +5,15 @@ import { Copy, Trash2, LayoutGrid, Link2, FolderOpen, Trophy, DollarSign, Lock, 
 import { AffiliateHome, MaterialTab, AchievementsTab, PaymentsHistory } from "@/components/affiliate/AffiliateTabs";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { CategoryBoundary, PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
+import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
 import { PartnerApplication } from "@/components/PartnerApplication";
 import { PayoutAccount } from "@/components/PayoutAccount";
 import { REFERRAL_PLANS, type ReferralPlanSlug } from "@/lib/referrals";
 
 export const Route = createFileRoute("/_authenticated/afiliado")({
   head: () => ({ meta: [{ title: "Área do afiliado — ARQECO" }, { name: "description", content: "Gere links da Curadoria ARQECO por projeto e acompanhe cliques, vendas e comissões." }, { property: "og:title", content: "Área do afiliado — ARQECO" }, { property: "og:description", content: "Acompanhe seus links, vendas e comissões na rede ARQECO." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
-  component: () => <CategoryBoundary category="affiliate"><AffiliatePage /></CategoryBoundary>,
+  // Qualquer usuário logado pode se cadastrar como afiliado; a página mostra o formulário quando não há cadastro.
+  component: () => <AffiliatePage />,
 });
 
 const TABS = [
