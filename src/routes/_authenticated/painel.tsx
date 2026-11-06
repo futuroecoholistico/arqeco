@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowRight, BookOpen, Check, ClipboardList, Ruler } from "lucide-react";
+import { ArrowRight, BookOpen, Check, ClipboardList, HandCoins, Ruler } from "lucide-react";
 import { DeadlineCard, JourneyTimeline } from "@/components/ProjectJourney";
 import { formatDateBR, nextAction } from "@/lib/project-journey";
 import { PaidBookingSchedule } from "@/components/PaidBookingSchedule";
