@@ -31,6 +31,7 @@ import { Route as RCodeRouteImport } from './routes/r.$code'
 import { Route as AuthenticatedBriefingProjectIdRouteImport } from './routes/_authenticated/briefing.$projectId'
 import { Route as AuthenticatedDiagnosticoIndexRouteImport } from './routes/_authenticated/diagnostico.index'
 import { Route as AuthenticatedDiagnosticoIdRouteImport } from './routes/_authenticated/diagnostico.$id'
+import { Route as AuthenticatedProjetoProjectIdRouteImport } from './routes/_authenticated/projeto.$projectId'
 import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicReferralsDossieRouteImport } from './routes/api/public/referrals/dossie'
@@ -149,6 +150,12 @@ const AuthenticatedDiagnosticoIdRoute =
     path: '/diagnostico/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProjetoProjectIdRoute =
+  AuthenticatedProjetoProjectIdRouteImport.update({
+    id: '/projeto/$projectId',
+    path: '/projeto/$projectId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiPublicConversionsRoute = ApiPublicConversionsRouteImport.update({
   id: '/api/public/conversions',
   path: '/api/public/conversions',
@@ -188,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/r/$code': typeof RCodeRoute
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/diagnostico/$id': typeof AuthenticatedDiagnosticoIdRoute
+  '/projeto/$projectId': typeof AuthenticatedProjetoProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/diagnostico/': typeof AuthenticatedDiagnosticoIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -214,6 +222,7 @@ export interface FileRoutesByTo {
   '/r/$code': typeof RCodeRoute
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/diagnostico/$id': typeof AuthenticatedDiagnosticoIdRoute
+  '/projeto/$projectId': typeof AuthenticatedProjetoProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/diagnostico': typeof AuthenticatedDiagnosticoIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -242,6 +251,7 @@ export interface FileRoutesById {
   '/r/$code': typeof RCodeRoute
   '/_authenticated/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/_authenticated/diagnostico/$id': typeof AuthenticatedDiagnosticoIdRoute
+  '/_authenticated/projeto/$projectId': typeof AuthenticatedProjetoProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/_authenticated/diagnostico/': typeof AuthenticatedDiagnosticoIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -270,6 +280,7 @@ export interface FileRouteTypes {
     | '/r/$code'
     | '/briefing/$projectId'
     | '/diagnostico/$id'
+    | '/projeto/$projectId'
     | '/api/public/conversions'
     | '/diagnostico/'
     | '/api/public/payments/webhook'
@@ -296,6 +307,7 @@ export interface FileRouteTypes {
     | '/r/$code'
     | '/briefing/$projectId'
     | '/diagnostico/$id'
+    | '/projeto/$projectId'
     | '/api/public/conversions'
     | '/diagnostico'
     | '/api/public/payments/webhook'
@@ -323,6 +335,7 @@ export interface FileRouteTypes {
     | '/r/$code'
     | '/_authenticated/briefing/$projectId'
     | '/_authenticated/diagnostico/$id'
+    | '/_authenticated/projeto/$projectId'
     | '/api/public/conversions'
     | '/_authenticated/diagnostico/'
     | '/api/public/payments/webhook'
@@ -500,6 +513,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDiagnosticoIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/projeto/$projectId': {
+      id: '/_authenticated/projeto/$projectId'
+      path: '/projeto/$projectId'
+      fullPath: '/projeto/$projectId'
+      preLoaderRoute: typeof AuthenticatedProjetoProjectIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/public/conversions': {
       id: '/api/public/conversions'
       path: '/api/public/conversions'
@@ -537,6 +557,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfissionalRoute: typeof AuthenticatedProfissionalRoute
   AuthenticatedBriefingProjectIdRoute: typeof AuthenticatedBriefingProjectIdRoute
   AuthenticatedDiagnosticoIdRoute: typeof AuthenticatedDiagnosticoIdRoute
+  AuthenticatedProjetoProjectIdRoute: typeof AuthenticatedProjetoProjectIdRoute
   AuthenticatedDiagnosticoIndexRoute: typeof AuthenticatedDiagnosticoIndexRoute
 }
 
@@ -553,6 +574,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfissionalRoute: AuthenticatedProfissionalRoute,
   AuthenticatedBriefingProjectIdRoute: AuthenticatedBriefingProjectIdRoute,
   AuthenticatedDiagnosticoIdRoute: AuthenticatedDiagnosticoIdRoute,
+  AuthenticatedProjetoProjectIdRoute: AuthenticatedProjetoProjectIdRoute,
   AuthenticatedDiagnosticoIndexRoute: AuthenticatedDiagnosticoIndexRoute,
 }
 
