@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as GuiaMedicaoRouteImport } from './routes/guia-medicao'
+import { Route as ManualRouteImport } from './routes/manual'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -31,6 +33,7 @@ import { Route as RCodeRouteImport } from './routes/r.$code'
 import { Route as AuthenticatedBriefingProjectIdRouteImport } from './routes/_authenticated/briefing.$projectId'
 import { Route as AuthenticatedDiagnosticoIndexRouteImport } from './routes/_authenticated/diagnostico.index'
 import { Route as AuthenticatedDiagnosticoIdRouteImport } from './routes/_authenticated/diagnostico.$id'
+import { Route as AuthenticatedProjetoProjectIdRouteImport } from './routes/_authenticated/projeto.$projectId'
 import { Route as ApiPublicConversionsRouteImport } from './routes/api/public/conversions'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicReferralsDossieRouteImport } from './routes/api/public/referrals/dossie'
@@ -52,6 +55,16 @@ const AuthRoute = AuthRouteImport.update({
 const CookiesRoute = CookiesRouteImport.update({
   id: '/cookies',
   path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuiaMedicaoRoute = GuiaMedicaoRouteImport.update({
+  id: '/guia-medicao',
+  path: '/guia-medicao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManualRoute = ManualRouteImport.update({
+  id: '/manual',
+  path: '/manual',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
@@ -149,6 +162,12 @@ const AuthenticatedDiagnosticoIdRoute =
     path: '/diagnostico/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProjetoProjectIdRoute =
+  AuthenticatedProjetoProjectIdRouteImport.update({
+    id: '/projeto/$projectId',
+    path: '/projeto/$projectId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiPublicConversionsRoute = ApiPublicConversionsRouteImport.update({
   id: '/api/public/conversions',
   path: '/api/public/conversions',
@@ -171,6 +190,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cookies': typeof CookiesRoute
+  '/guia-medicao': typeof GuiaMedicaoRoute
+  '/manual': typeof ManualRoute
   '/privacidade': typeof PrivacidadeRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -188,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/r/$code': typeof RCodeRoute
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/diagnostico/$id': typeof AuthenticatedDiagnosticoIdRoute
+  '/projeto/$projectId': typeof AuthenticatedProjetoProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/diagnostico/': typeof AuthenticatedDiagnosticoIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -197,6 +219,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cookies': typeof CookiesRoute
+  '/guia-medicao': typeof GuiaMedicaoRoute
+  '/manual': typeof ManualRoute
   '/privacidade': typeof PrivacidadeRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -214,6 +238,7 @@ export interface FileRoutesByTo {
   '/r/$code': typeof RCodeRoute
   '/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/diagnostico/$id': typeof AuthenticatedDiagnosticoIdRoute
+  '/projeto/$projectId': typeof AuthenticatedProjetoProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/diagnostico': typeof AuthenticatedDiagnosticoIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -225,6 +250,8 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/cookies': typeof CookiesRoute
+  '/guia-medicao': typeof GuiaMedicaoRoute
+  '/manual': typeof ManualRoute
   '/privacidade': typeof PrivacidadeRoute
   '/termos': typeof TermosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -242,6 +269,7 @@ export interface FileRoutesById {
   '/r/$code': typeof RCodeRoute
   '/_authenticated/briefing/$projectId': typeof AuthenticatedBriefingProjectIdRoute
   '/_authenticated/diagnostico/$id': typeof AuthenticatedDiagnosticoIdRoute
+  '/_authenticated/projeto/$projectId': typeof AuthenticatedProjetoProjectIdRoute
   '/api/public/conversions': typeof ApiPublicConversionsRoute
   '/_authenticated/diagnostico/': typeof AuthenticatedDiagnosticoIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -253,6 +281,8 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/cookies'
+    | '/guia-medicao'
+    | '/manual'
     | '/privacidade'
     | '/termos'
     | '/admin'
@@ -270,6 +300,7 @@ export interface FileRouteTypes {
     | '/r/$code'
     | '/briefing/$projectId'
     | '/diagnostico/$id'
+    | '/projeto/$projectId'
     | '/api/public/conversions'
     | '/diagnostico/'
     | '/api/public/payments/webhook'
@@ -279,6 +310,8 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/cookies'
+    | '/guia-medicao'
+    | '/manual'
     | '/privacidade'
     | '/termos'
     | '/admin'
@@ -296,6 +329,7 @@ export interface FileRouteTypes {
     | '/r/$code'
     | '/briefing/$projectId'
     | '/diagnostico/$id'
+    | '/projeto/$projectId'
     | '/api/public/conversions'
     | '/diagnostico'
     | '/api/public/payments/webhook'
@@ -306,6 +340,8 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/cookies'
+    | '/guia-medicao'
+    | '/manual'
     | '/privacidade'
     | '/termos'
     | '/_authenticated/admin'
@@ -323,6 +359,7 @@ export interface FileRouteTypes {
     | '/r/$code'
     | '/_authenticated/briefing/$projectId'
     | '/_authenticated/diagnostico/$id'
+    | '/_authenticated/projeto/$projectId'
     | '/api/public/conversions'
     | '/_authenticated/diagnostico/'
     | '/api/public/payments/webhook'
@@ -334,6 +371,8 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   CookiesRoute: typeof CookiesRoute
+  GuiaMedicaoRoute: typeof GuiaMedicaoRoute
+  ManualRoute: typeof ManualRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   TermosRoute: typeof TermosRoute
   ApiZoeRoute: typeof ApiZoeRoute
@@ -372,6 +411,20 @@ declare module '@tanstack/react-router' {
       path: '/cookies'
       fullPath: '/cookies'
       preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guia-medicao': {
+      id: '/guia-medicao'
+      path: '/guia-medicao'
+      fullPath: '/guia-medicao'
+      preLoaderRoute: typeof GuiaMedicaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manual': {
+      id: '/manual'
+      path: '/manual'
+      fullPath: '/manual'
+      preLoaderRoute: typeof ManualRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacidade': {
@@ -500,6 +553,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDiagnosticoIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/projeto/$projectId': {
+      id: '/_authenticated/projeto/$projectId'
+      path: '/projeto/$projectId'
+      fullPath: '/projeto/$projectId'
+      preLoaderRoute: typeof AuthenticatedProjetoProjectIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/public/conversions': {
       id: '/api/public/conversions'
       path: '/api/public/conversions'
@@ -537,6 +597,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfissionalRoute: typeof AuthenticatedProfissionalRoute
   AuthenticatedBriefingProjectIdRoute: typeof AuthenticatedBriefingProjectIdRoute
   AuthenticatedDiagnosticoIdRoute: typeof AuthenticatedDiagnosticoIdRoute
+  AuthenticatedProjetoProjectIdRoute: typeof AuthenticatedProjetoProjectIdRoute
   AuthenticatedDiagnosticoIndexRoute: typeof AuthenticatedDiagnosticoIndexRoute
 }
 
@@ -553,6 +614,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfissionalRoute: AuthenticatedProfissionalRoute,
   AuthenticatedBriefingProjectIdRoute: AuthenticatedBriefingProjectIdRoute,
   AuthenticatedDiagnosticoIdRoute: AuthenticatedDiagnosticoIdRoute,
+  AuthenticatedProjetoProjectIdRoute: AuthenticatedProjetoProjectIdRoute,
   AuthenticatedDiagnosticoIndexRoute: AuthenticatedDiagnosticoIndexRoute,
 }
 
@@ -564,6 +626,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   CookiesRoute: CookiesRoute,
+  GuiaMedicaoRoute: GuiaMedicaoRoute,
+  ManualRoute: ManualRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   TermosRoute: TermosRoute,
   ApiZoeRoute: ApiZoeRoute,

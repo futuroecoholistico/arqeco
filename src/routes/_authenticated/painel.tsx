@@ -1,6 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowRight, Check, ClipboardList, LogOut } from "lucide-react";
+import { ArrowRight, BookOpen, Check, ClipboardList, Ruler } from "lucide-react";
+import { DeadlineCard, JourneyTimeline } from "@/components/ProjectJourney";
+import { formatDateBR, nextAction } from "@/lib/project-journey";
 import { PaidBookingSchedule } from "@/components/PaidBookingSchedule";
 import { Button } from "@/components/ui/button";
 import { JournalSection } from "@/components/JournalSection";
@@ -21,8 +23,6 @@ export const Route = createFileRoute("/_authenticated/painel")({
   component: () => <CategoryBoundary category="client"><ClientDashboard /></CategoryBoundary>,
 });
 
-const STAGES = ["Briefing", "Reunião", "Desenvolvimento", "Apresentação", "Ajustes", "Entrega"];
-const stageIndex = (s: string) => (["PAYMENT_CONFIRMED", "BRIEFING_PENDING"].includes(s) ? 0 : ["BRIEFING_COMPLETED", "BRIEFING_VALIDATED", "MEETING_1"].includes(s) ? 1 : s === "DEVELOPMENT" ? 2 : s === "PRESENTATION" ? 3 : ["ADJUSTMENTS", "APPROVAL"].includes(s) ? 4 : 5);
 
 function ClientDashboard() {
   const { user } = Route.useRouteContext();
@@ -30,7 +30,7 @@ function ClientDashboard() {
   const qc = useQueryClient();
   const projects = useQuery({
     queryKey: ["my-projects"],
-    queryFn: async () => (await supabase.from("projects").select("id,name,status,next_action,created_at,briefings(status,progress,answers)").eq("client_id", user.id).order("created_at", { ascending: false })).data ?? [],
+    queryFn: async () => (await supabase.from("projects").select("id,name,service_name,status,created_at,booking_id,delivery_mode,delivery_business_days,briefing_meeting_done_at,first_delivery_due,briefings(status,progress,answers),service_bookings(paid_at,appointment_slot_id)").eq("client_id", user.id).order("created_at", { ascending: false })).data ?? [],
   });
   const bookings = useQuery({
     queryKey: ["my-meeting-bookings"],
@@ -46,7 +46,12 @@ function ClientDashboard() {
     <PartnerShell eyebrow="Cliente" title="Meus projetos">
       <main className="mx-auto max-w-5xl px-5 py-10 lg:py-14">
         <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary">Meus projetos</p>
-        <h1 className="mt-2 font-display text-4xl font-semibold md:text-5xl">Olá{firstName ? `, ${firstName}` : ""}.</h1>
+        <h1 className="mt-2 font-display text-4xl font-semibold md:text-5xl">Olá{firstName ? `, ${firstName}` : ""}!</h1>
+        <p className="mt-3 max-w-2xl text-muted-foreground">{(projects.data ?? []).length ? "Seu projeto está em andamento. Acompanhe cada etapa da transformação do seu espaço." : "Bem-vindo à Minha ARQECO."}</p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="border border-border bg-card p-6"><BookOpen className="size-5 text-primary" /><p className="mt-3 font-display text-2xl font-semibold">Manual do cliente</p><p className="mt-1 text-sm text-muted-foreground">Tudo sobre etapas, prazos, revisões e entregas. Leia online ou baixe em PDF.</p><Button asChild variant="editorial" size="sm" className="mt-4"><Link to="/manual">Acessar meu manual</Link></Button></div>
+          <div className="border border-border bg-card p-6"><Ruler className="size-5 text-primary" /><p className="mt-3 font-display text-2xl font-semibold">Não tem a planta?</p><p className="mt-1 text-sm text-muted-foreground">Aprenda a medir paredes, portas, janelas e pontos de instalação.</p><Button asChild variant="paper" size="sm" className="mt-4"><Link to="/guia-medicao">Aprender a medir meu ambiente</Link></Button></div>
+        </div>
 
         <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial"><Link to="/diagnostico">Criar Dossiê gratuito <ArrowRight /></Link></Button><Button asChild variant="paper"><Link to="/meus-diagnosticos">Meus dossiês</Link></Button></div>
         {projects.isLoading && <p className="mt-8 text-sm text-muted-foreground">Carregando…</p>}
@@ -64,13 +69,16 @@ function ClientDashboard() {
           {(projects.data ?? []).map((p) => {
             const b = Array.isArray(p.briefings) ? p.briefings[0] : p.briefings;
             const open = !b || b.status === "draft" || b.status === "revision_requested";
-            const idx = stageIndex(p.status);
+            const bk = p.service_bookings;
+            const journey = { status: p.status, hasMeeting: !!bk?.appointment_slot_id, briefingSubmitted: b?.status === "submitted", meetingDone: !!p.briefing_meeting_done_at };
             return (
               <article key={p.id} className="border border-border bg-card">
                 <div className="grid gap-6 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
                   <div>
                     <h2 className="font-display text-3xl font-semibold">{p.name}</h2>
-                    {p.next_action && <p className="mt-2 text-sm text-muted-foreground">Próxima ação: {p.next_action}</p>}
+                    <p className="mt-1 text-xs text-muted-foreground">{p.service_name} · Pedido nº {(p.booking_id ?? p.id).slice(0, 8).toUpperCase()} · contratado em {formatDateBR(bk?.paid_at ?? p.created_at)} · {p.delivery_mode === "priority" ? "Entrega prioritária" : "Prazo padrão"}</p>
+                    <p className="mt-3 border-l-2 border-primary pl-3 text-sm"><span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Próxima ação</span><br />{nextAction(journey)}</p>
+                    <Link to="/projeto/$projectId" params={{ projectId: p.id }} className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">Abrir passaporte do projeto <ArrowRight className="size-4" /></Link>
                   </div>
                   <div className="md:text-right">
                     {open ? (
@@ -93,17 +101,8 @@ function ClientDashboard() {
                     </ul>
                   </div>); })()}
                 {(bookings.data ?? []).filter(booking => booking.projects?.id === p.id).map(booking => <div key={booking.id} className="px-6 pb-6 md:px-8"><PaidBookingSchedule bookingId={booking.id} /></div>)}
-                <div className="overflow-x-auto border-t border-border px-6 py-5 md:px-8">
-                  <ol className="flex min-w-[560px]">
-                    {STAGES.map((s, i) => (
-                      <li key={s} className="relative flex flex-1 flex-col items-center text-center">
-                        {i < STAGES.length - 1 && <span className={`absolute left-1/2 top-3 h-px w-full ${i < idx ? "bg-primary" : "bg-border"}`} />}
-                        <span className={`relative z-10 grid size-6 place-items-center rounded-full border text-[10px] ${i < idx ? "border-primary bg-primary text-primary-foreground" : i === idx ? "border-primary bg-card text-primary" : "border-border bg-background text-muted-foreground"}`}>{i < idx ? <Check className="size-3" /> : i + 1}</span>
-                        <span className={`mt-2 text-[10px] font-semibold uppercase ${i <= idx ? "text-foreground" : "text-muted-foreground"}`}>{s}</span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
+                <div className="border-t border-border px-6 py-5 md:px-8"><JourneyTimeline input={journey} /></div>
+                <div className="px-6 pb-6 md:px-8"><DeadlineCard mode={p.delivery_mode} days={p.delivery_business_days} meetingDoneAt={p.briefing_meeting_done_at} due={p.first_delivery_due} /></div>
               </article>
             );
           })}
