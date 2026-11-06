@@ -1,12 +1,13 @@
 // Business rules for the plan referral program (see mem://features/afiliados).
 export const REFERRAL_PLANS = [
-  { slug: "start", name: "Projeto Start", reward: "20 ecos" },
+  { slug: "start", name: "Projeto Start", reward: "10 ecos" },
   { slug: "viver-bem", name: "Viver Bem", reward: "15% do valor fechado" },
   { slug: "viver-lifestyle", name: "Viver Lifestyle", reward: "15% do valor fechado" },
 ] as const;
 export type ReferralPlanSlug = (typeof REFERRAL_PLANS)[number]["slug"];
 
-export const START_REFERRAL_ECOS = 20;
+// The Start plan is free (it does not monetize), so its referral reward is a smaller eco bonus.
+export const START_REFERRAL_ECOS = 10;
 export const PAID_PLAN_COMMISSION_RATE = 15; // percent
 // Eco redemption: 1 eco = R$ 1,00 off interior project plans (100 ecos = R$ 100,00).
 export const ECO_VALUE_CENTS = 100;
