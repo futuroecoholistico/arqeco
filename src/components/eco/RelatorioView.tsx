@@ -21,6 +21,14 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
 
   return (
     <div className="report-view report-light space-y-8 bg-background p-5 text-foreground md:p-8">
+      <section className="border-b border-border pb-6">
+        <p className="text-xs uppercase tracking-widest text-primary">O que é o Design Eco-Holístico</p>
+        <p className="mt-3 text-sm leading-relaxed">O Design Eco-Holístico é uma harmonização de ambientes: pequenas mudanças em cores, iluminação, tapetes, quadros, plantas, cristais e objetos que ajudam a melhorar o bem-estar de quem vive ou trabalha no espaço, sem obra e sem reforma.</p>
+        <div role="note" className="mt-5 border-l-4 border-primary bg-secondary p-4 text-sm leading-relaxed">
+          <p className="font-bold uppercase tracking-wide text-primary">Importante</p>
+          <p className="mt-1">A imagem gerada <strong>NÃO É um projeto de design de interiores</strong>. A I.A. apenas sugere a harmonização do ambiente com tapetes, cristais, quadros, cores, iluminação e outros elementos. As principais instruções constam no Dossiê abaixo.</p>
+        </div>
+      </section>
       <ReportVisualSummary resultado={resultado} imagemOriginal={imagemOriginal} empresarial={isEmpresarial} />
       <section className="border-b border-border py-6"><p className="text-xs uppercase tracking-widest text-primary">Leitura do nível</p><p className="mt-3 text-sm leading-relaxed">{resultado.descricaoNivel}</p></section>
 
@@ -186,6 +194,12 @@ export function RelatorioView({ resultado: resultadoSalvo, imagemOriginal, tipoA
 
       {/* Feedback e contribuição */}
       <ReportFeedback dossieId={dossieId} />
+      <section className="border border-primary bg-secondary p-6 md:p-8">
+        <p className="text-xs uppercase tracking-widest text-primary">Próximo passo</p>
+        <h3 className="mt-2 font-display text-2xl md:text-3xl">Quer um projeto de design de interiores para o seu ambiente?</h3>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">Para contratar um projeto completo, com layout, visual 3D, lista de compras e acompanhamento da implementação, acesse www.arquiteturaecologica.com.br e conheça os planos Viver Bem e Viver Lifestyle.</p>
+        <a href="https://www.arquiteturaecologica.com.br/#planos" target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 bg-primary px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground hover:opacity-90">Ver planos de contratação →</a>
+      </section>
     </div>
   );
 }

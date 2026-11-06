@@ -2,7 +2,7 @@ import heroVideoAsset from "@/assets/video/interiores-hero.mp4.asset.json";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { ArrowRight, Building2, Check, ChevronDown, Eye, Hammer, Menu, MessageCircle, Minus, MoveHorizontal, Quote, X } from "lucide-react";
+import { ArrowRight, Building2, Check, ChevronDown, Eye, Gift, Sparkles, Menu, MessageCircle, Minus, MoveHorizontal, Quote, X } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import karinaKoch from "@/assets/karina-koch.jpg.asset.json";
 import bedroomImage from "@/assets/portfolio-quarto.jpg";
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const nav = [["Serviços", "#servicos"], ["Projetos", "#planos"], ["Como funciona", "#como-funciona"], ["Curadoria", "#curadoria"], ["Sobre", "#sobre"]];
+const nav = [["Projetos", "#planos"], ["Como funciona", "#como-funciona"], ["Curadoria", "#curadoria"], ["Sobre", "#sobre"]];
 const startPlanImage = startPlanImageAsset.url;
 
 const comparison: [string, string, string][] = [
@@ -216,7 +216,7 @@ function Home() {
           <nav className="hidden gap-7 text-xs font-medium lg:flex">{nav.map(([l, h]) => <a key={l} href={h} className="opacity-65 transition-opacity hover:opacity-100">{l}</a>)}</nav>
           <div className="hidden items-center gap-3 lg:flex">
              <Link to={accountPath ?? "/auth"} className="text-sm font-medium opacity-75 hover:opacity-100">{accountPath ? "Meu painel" : "Entrar"}</Link>
-             <Button asChild variant="editorial"><a href="#servicos">Começar meu projeto</a></Button>
+             <Button asChild variant="editorial"><a href="#planos">Começar meu projeto</a></Button>
           </div>
           <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button>
         </div>
@@ -236,7 +236,7 @@ function Home() {
             <ul aria-label="Diferenciais do projeto" className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium uppercase text-sidebar-foreground">
               {["Sem obra", "Sem improviso", "Sem desperdício"].map((keyword) => <li key={keyword} className="flex items-center gap-2"><span aria-hidden="true">—</span>{keyword}</li>)}
             </ul>
-            <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#servicos">Começar meu projeto <ArrowRight /></a></Button><RegistrationChoiceDialog label="Criar cadastro" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent" /><Button asChild variant="paper" size="lg" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent"><a href="#sobre">Conheça a ARQECO</a></Button></div>
+            <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#planos">Começar meu projeto <ArrowRight /></a></Button><RegistrationChoiceDialog label="Criar cadastro" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent" /><Button asChild variant="paper" size="lg" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent"><a href="#sobre">Conheça a ARQECO</a></Button></div>
           </div>
         </div>
       </section>
@@ -271,39 +271,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Escolha de serviços */}
-      <section id="servicos" className="border-y border-border bg-secondary">
-        <div className="mx-auto max-w-7xl px-5 py-20">
-          <Eyebrow>Por onde você quer começar?</Eyebrow>
-          <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold md:text-5xl">Cada transformação pede um caminho diferente.</h2>
-          <p className="mt-4 max-w-2xl text-muted-foreground">Identifique o momento do seu imóvel e encontre os serviços certos para seguir com clareza.</p>
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
-            <article className="flex min-h-96 min-w-0 flex-col overflow-hidden bg-forest p-7 text-primary-foreground md:p-10">
-              <Building2 className="size-8 text-accent" aria-hidden="true" />
-              <p className="mt-10 text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Arquitetura</p>
-              <h3 className="mt-3 font-display text-4xl font-semibold">Vai construir?</h3>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed opacity-70">Conte onde fica o imóvel, o que pretende construir, quando deseja começar e se procura somente o projeto ou uma jornada completa com obra e acompanhamento.</p>
-              <div className="mt-auto pt-8"><Button asChild variant="editorial" size="lg" className="h-auto w-full whitespace-normal py-3 text-center leading-snug sm:w-auto"><Link to="/auth" search={{ next: "/construir" }}>Solicitar projeto de construção <ArrowRight className="shrink-0" /></Link></Button></div>
-            </article>
-            <article className="flex min-h-96 min-w-0 flex-col overflow-hidden bg-card p-7 md:p-10">
-              <Hammer className="size-8 text-primary" aria-hidden="true" />
-              <p className="mt-10 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Interiores</p>
-               <h3 className="mt-3 font-display text-4xl font-semibold">Design de interiores sustentável</h3>
-               <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Conheça os projetos sustentáveis e conscientes Viver Bem e Viver Lifestyle, com contratação prática e diferenças claras entre cada experiência.</p>
-               <div className="mt-8 flex flex-wrap gap-2 text-xs font-semibold"><span className="border border-border px-3 py-2">Viver Bem</span><span className="border border-border px-3 py-2">Viver Lifestyle</span></div>
-               <div className="mt-auto pt-8"><Button asChild variant="paper" size="lg" className="h-auto w-full whitespace-normal py-3 text-center leading-snug sm:w-auto"><a href="#planos">Ver projetos de interiores <ArrowRight className="shrink-0" /></a></Button></div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-forest text-primary-foreground">
-        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Bônus em todos os pacotes</p><h2 className="mt-3 font-display text-3xl font-semibold md:text-4xl">Dossiê Eco-Holístico gratuito</h2><p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-75">Todos os pacotes de projeto ARQECO incluem um Dossiê Eco-Holístico para ampliar o olhar sobre bem-estar, sustentabilidade e a relação com seus ambientes.</p></div>
-          <Button asChild variant="editorial" size="lg"><Link to="/diagnostico">Conhecer o Dossiê <ArrowRight /></Link></Button>
-        </div>
-      </section>
-
       {/* 5-7. Planos + 9. Ambientes */}
       <section id="planos" className="mx-auto max-w-7xl px-5 py-20">
         <Eyebrow>Design de interiores sustentável</Eyebrow>
@@ -319,27 +286,9 @@ function Home() {
           </div>
         )}
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+        <div className="mx-auto mt-10 grid max-w-5xl gap-6 lg:grid-cols-2">
           {plans.isLoading && [0, 1].map((i) => <div key={i} className="h-[560px] animate-pulse bg-card" />)}
           {plans.isError && <p className="text-sm text-muted-foreground">Não foi possível carregar os planos agora.</p>}
-          <article className="plan-card relative flex flex-col overflow-hidden border border-border bg-card p-7">
-            <span className="absolute top-4 left-4 z-10 rounded-sm bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary-foreground">Gratuito</span>
-            <img src={startPlanImage} alt="Canto de meditação com almofada de chão, pedras e plantas, no estilo do Dossiê Eco-Holístico" loading="lazy" decoding="async" className="-mt-7 mb-6 aspect-[4/3] w-[calc(100%+3.5rem)] max-w-none self-center object-cover" />
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 01</p>
-            <h3 className="mt-2 font-display text-3xl font-semibold">Projeto Start</h3>
-            <p className="mt-3 text-sm font-semibold">Dossiê Eco-Holístico — o primeiro passo para entender o seu espaço.</p>
-            <LiveViewers count={viewers} />
-            <PlanDetails
-              description="Um olhar eco-holístico sobre o seu ambiente: bem-estar, sustentabilidade e a relação entre você e o espaço em que vive. Ideal para começar a jornada antes de um projeto de interiores."
-              deliverables={["Dossiê Eco-Holístico completo do seu ambiente", "Orientações de bem-estar e harmonização", "Leitura da relação pessoa-espaço", "Caminho sugerido para os próximos passos"]}
-            />
-            <div className="mt-8 border-t border-border pt-5">
-              <p className="text-xs text-muted-foreground">Para qualquer ambiente</p>
-              <p className="font-display text-3xl font-semibold">Gratuito</p>
-              <Button asChild variant="paper" className="mt-4 w-full"><Link to="/diagnostico">Começar pelo Dossiê <ArrowRight /></Link></Button>
-              <p className="mt-3 text-[11px] font-semibold text-forest-soft">Também incluso como bônus em todos os projetos pagos.</p>
-            </div>
-          </article>
           {plans.data?.map((p, idx) => {
             const perRoom = p.service_plan_options.some((o) => o.price_per_room);
             const priced = p.service_plan_options.find((o) => o.price_cents != null);
@@ -347,12 +296,12 @@ function Home() {
             const opt = perRoom
               ? p.service_plan_options[modes[p.id] ?? 0]
               : byLabel?.price_cents != null ? byLabel : priced ?? byLabel ?? p.service_plan_options[0];
-            const featured = idx === 1;
+            const featured = idx === 0;
             return (
               <article key={p.id} className={`plan-card relative flex flex-col overflow-hidden border p-7 ${featured ? "border-primary bg-card" : "border-border bg-card"}`}>
                 {p.badge && <span className="absolute top-4 left-4 z-10 rounded-sm bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary-foreground">{p.badge}</span>}
                 {p.image_url && <img src={p.image_url} alt={`Ambiente de design de interiores do projeto ${p.name}`} loading="lazy" decoding="async" className="-mt-7 mb-6 aspect-[4/3] w-[calc(100%+3.5rem)] max-w-none self-center object-cover" />}
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 0{idx + 2}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Plano 0{idx + 1}</p>
                 <h3 className="mt-2 font-display text-3xl font-semibold">{p.name}</h3>
                 <p className="mt-3 text-sm font-semibold">{p.tagline}</p>
                 <LiveViewers count={viewers} />
@@ -378,6 +327,39 @@ function Home() {
           })}
         </div>
 
+
+        {/* Presente: Dossiê */}
+        <div className="mx-auto mt-10 grid max-w-5xl overflow-hidden border border-dashed border-primary bg-secondary md:grid-cols-[260px_1fr]">
+          <img src={startPlanImage} alt="Canto de meditação com almofada de chão, pedras e plantas" loading="lazy" decoding="async" className="h-full min-h-48 w-full object-cover" />
+          <div className="p-7">
+            <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-primary"><Gift className="size-4" aria-hidden="true" /> Um presente da ARQECO para você</p>
+            <h3 className="mt-3 font-display text-3xl font-semibold">Dossiê Eco-Holístico</h3>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">Uma leitura gratuita de harmonização do seu ambiente — cores, iluminação, tapetes, quadros, plantas e cristais — para melhorar o seu bem-estar. Não é um projeto de interiores: é um primeiro olhar, com carinho, sobre o espaço onde você vive.</p>
+            <Button asChild variant="paper" className="mt-5"><Link to="/diagnostico">Receber meu presente <ArrowRight /></Link></Button>
+          </div>
+        </div>
+
+        {/* Mais serviços */}
+        <div className="mt-16">
+          <Eyebrow>Mais serviços</Eyebrow>
+          <h3 className="mt-4 font-display text-3xl font-semibold">Projetos sob medida, com orçamento personalizado.</h3>
+          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+            <article className="flex min-w-0 flex-col bg-forest p-7 text-primary-foreground md:p-10">
+              <Building2 className="size-8 text-accent" aria-hidden="true" />
+              <p className="mt-8 text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Arquitetura</p>
+              <h4 className="mt-3 font-display text-3xl font-semibold">Projeto para construção</h4>
+              <p className="mt-4 text-sm leading-relaxed opacity-75">Vai construir? Arquitetura sustentável para casas e reformas — somente o projeto ou a jornada completa com obra e acompanhamento.</p>
+              <div className="mt-auto pt-8"><Button asChild variant="editorial" className="h-auto whitespace-normal py-3"><Link to="/auth" search={{ next: "/construir" }}>Solicitar orçamento <ArrowRight className="shrink-0" /></Link></Button></div>
+            </article>
+            <article className="flex min-w-0 flex-col border border-border bg-card p-7 md:p-10">
+              <Sparkles className="size-8 text-primary" aria-hidden="true" />
+              <p className="mt-8 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Saúde e wellness</p>
+              <h4 className="mt-3 font-display text-3xl font-semibold">Projeto Clínicas da Nova Era</h4>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">Projetos para clínicas, consultórios, spas, estúdios e espaços de bem-estar e saúde integrativa: ambientes acolhedores, biofílicos e sustentáveis que cuidam de quem atende e de quem é atendido.</p>
+              <div className="mt-auto pt-8"><Button asChild variant="paper" className="h-auto whitespace-normal py-3"><Link to="/auth" search={{ next: "/construir?tipo=clinica" }}>Solicitar orçamento <ArrowRight className="shrink-0" /></Link></Button></div>
+            </article>
+          </div>
+        </div>
         <div className="mt-10 flex flex-col items-center gap-4 text-center">
           <p className="font-display text-2xl font-semibold">Ficou com alguma dúvida? Fale com nosso time!</p>
           <Button asChild variant="editorial" size="lg" className="h-auto max-w-full whitespace-normal py-3">
