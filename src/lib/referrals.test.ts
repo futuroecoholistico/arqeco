@@ -3,9 +3,9 @@ import { describe, expect, test } from "bun:test";
 import { commissionCents, payoutDate, START_REFERRAL_ECOS, ECO_VALUE_CENTS } from "./referrals";
 
 describe("referral rules", () => {
-  test("paid plans pay 10% of the closed total", () => {
-    expect(commissionCents(90740)).toBe(9074);
-    expect(commissionCents(148000)).toBe(14800);
+  test("paid plans pay 15% of the closed total", () => {
+    expect(commissionCents(90740)).toBe(13611);
+    expect(commissionCents(148000)).toBe(22200);
   });
   test("start referral earns 20 ecos", () => {
     expect(START_REFERRAL_ECOS).toBe(20);
