@@ -7,8 +7,8 @@ describe("referral rules", () => {
     expect(commissionCents(90740)).toBe(13611);
     expect(commissionCents(148000)).toBe(22200);
   });
-  test("start referral earns 20 ecos", () => {
-    expect(START_REFERRAL_ECOS).toBe(20);
+  test("free start plan referral earns 10 ecos", () => {
+    expect(START_REFERRAL_ECOS).toBe(10);
   });
   test("100 ecos equal R$ 100,00 of discount", () => {
     expect(ECO_VALUE_CENTS * 100).toBe(10000);
