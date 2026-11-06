@@ -180,7 +180,7 @@ function PlanReferrals({ userId, origin }: { userId: string; origin: string }) {
     <section className="space-y-6">
       <div>
         <h2 className="font-display text-2xl font-semibold">Indique os planos ARQECO</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Projeto Start rende 20 ecos por pessoa que criar a conta pelo seu link e gerar o Dossiê Eco-Holístico. Viver Bem e Viver Lifestyle rendem 10% do valor que o cliente fechar, liberados quando o pagamento é confirmado e pagos no dia 15 do mês seguinte. Seus ecos valem desconto: 100 ecos = R$ 100,00 nos planos de projetos de interiores.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Projeto Start rende 20 ecos por pessoa que criar a conta pelo seu link e gerar o Dossiê Eco-Holístico. Viver Bem e Viver Lifestyle rendem 15% do valor do plano vendido (Viver Bem R$ 907,40 → R$ 136,11; Viver Lifestyle R$ 1.480,00 → R$ 222,00; cada ambiente extra R$ 258,70 → R$ 38,81). Só é creditado quando o cliente fecha e paga a compra do projeto, e é pago sempre no dia 15 do mês seguinte à compra. Seus ecos valem desconto: 100 ecos = R$ 100,00 nos planos de projetos de interiores.</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-4">
         {[["Ecos acumulados", `${ecoTotal} ecos`], ["A receber", brl(toReceive)], ["Recebido", brl(received)], ["Próximo pagamento", next ? new Date(`${next}T12:00:00`).toLocaleDateString("pt-BR") : "—"]].map(([k, v]) => (
@@ -214,7 +214,7 @@ function PlanReferrals({ userId, origin }: { userId: string; origin: string }) {
           <div key={c.id} className="flex flex-wrap items-center gap-4 p-4 text-sm">
             <span className="flex-1">{new Date(c.created_at).toLocaleDateString("pt-BR")} · {c.plan_name}</span>
             <span>{brl(c.sale_cents)}</span>
-            <span className="font-semibold text-primary">+{brl(c.commission_cents)} (10%)</span>
+            <span className="font-semibold text-primary">+{brl(c.commission_cents)} (15%)</span>
             <span className="text-xs">pagamento em {new Date(`${c.payout_date}T12:00:00`).toLocaleDateString("pt-BR")}</span>
             <StatusPill status={c.status} />
           </div>
