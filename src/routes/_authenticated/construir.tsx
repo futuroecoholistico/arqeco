@@ -23,7 +23,7 @@ export const Route = createFileRoute("/_authenticated/construir")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  validateSearch: (search: Record<string, unknown>) => ({ tipo: search.tipo === "clinica" ? ("clinica" as const) : undefined }),
+  validateSearch: (search: Record<string, unknown>) => ({ tipo: search["tipo"] === "clinica" ? ("clinica" as const) : undefined }),
   component: ConstructionPage,
 });
 

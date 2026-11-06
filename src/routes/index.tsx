@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const nav = [["Serviços", "#servicos"], ["Projetos", "#planos"], ["Como funciona", "#como-funciona"], ["Curadoria", "#curadoria"], ["Sobre", "#sobre"]];
+const nav = [["Projetos", "#planos"], ["Como funciona", "#como-funciona"], ["Curadoria", "#curadoria"], ["Sobre", "#sobre"]];
 const startPlanImage = startPlanImageAsset.url;
 
 const comparison: [string, string, string][] = [
@@ -216,7 +216,7 @@ function Home() {
           <nav className="hidden gap-7 text-xs font-medium lg:flex">{nav.map(([l, h]) => <a key={l} href={h} className="opacity-65 transition-opacity hover:opacity-100">{l}</a>)}</nav>
           <div className="hidden items-center gap-3 lg:flex">
              <Link to={accountPath ?? "/auth"} className="text-sm font-medium opacity-75 hover:opacity-100">{accountPath ? "Meu painel" : "Entrar"}</Link>
-             <Button asChild variant="editorial"><a href="#servicos">Começar meu projeto</a></Button>
+             <Button asChild variant="editorial"><a href="#planos">Começar meu projeto</a></Button>
           </div>
           <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button>
         </div>
@@ -236,7 +236,7 @@ function Home() {
             <ul aria-label="Diferenciais do projeto" className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium uppercase text-sidebar-foreground">
               {["Sem obra", "Sem improviso", "Sem desperdício"].map((keyword) => <li key={keyword} className="flex items-center gap-2"><span aria-hidden="true">—</span>{keyword}</li>)}
             </ul>
-            <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#servicos">Começar meu projeto <ArrowRight /></a></Button><RegistrationChoiceDialog label="Criar cadastro" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent" /><Button asChild variant="paper" size="lg" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent"><a href="#sobre">Conheça a ARQECO</a></Button></div>
+            <div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="editorial" size="lg"><a href="#planos">Começar meu projeto <ArrowRight /></a></Button><RegistrationChoiceDialog label="Criar cadastro" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent" /><Button asChild variant="paper" size="lg" className="border-sidebar-foreground/60 text-sidebar-foreground hover:border-accent hover:text-accent"><a href="#sobre">Conheça a ARQECO</a></Button></div>
           </div>
         </div>
       </section>
