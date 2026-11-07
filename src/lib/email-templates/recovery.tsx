@@ -20,24 +20,24 @@ export const RecoveryEmail = ({
   siteName,
   confirmationUrl,
 }: RecoveryEmailProps) => (
-  <Html lang="en" dir="ltr">
+  <Html lang="pt-BR" dir="ltr">
     <Head>
       <style>{darkModeCss}</style>
     </Head>
-    <Preview>Reset your password for {siteName}</Preview>
+    <Preview>Redefina sua senha na {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Reset your password</Heading>
+        <Heading style={h1}>Redefina sua senha</Heading>
         <Text style={text}>
-          We received a request to reset your password for {siteName}. Click
-          the button below to choose a new password.
+          Recebemos uma solicitação para redefinir sua senha na {siteName}. Clique
+          no botão abaixo para escolher uma nova senha.
         </Text>
         <Button className="dm-btn" style={button} href={confirmationUrl}>
-          Reset Password
+          Redefinir senha
         </Button>
         <Text style={footer}>
-          If you didn't request a password reset, you can safely ignore this
-          email. Your password will not be changed.
+          Se você não solicitou a redefinição, ignore esta mensagem.
+          Sua senha não será alterada.
         </Text>
       </Container>
     </Body>
@@ -46,12 +46,13 @@ export const RecoveryEmail = ({
 
 export default RecoveryEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const main = { backgroundColor: '#ffffff', fontFamily: 'Montserrat, Arial, sans-serif' }
+const container = { padding: '32px 28px', maxWidth: '560px', backgroundColor: '#f7f5ef', borderTop: '4px solid #204b32' }
 const h1 = {
-  fontSize: '22px',
+  fontSize: '26px',
+  fontFamily: 'Playfair Display, Georgia, serif',
   fontWeight: 'bold' as const,
-  color: '#000000',
+  color: '#204b32',
   margin: '0 0 20px',
 }
 const text = {
@@ -61,11 +62,11 @@ const text = {
   margin: '0 0 25px',
 }
 const button = {
-  backgroundColor: '#000000',
+  backgroundColor: '#204b32',
   color: '#ffffff',
   fontSize: '14px',
-  border: '1px solid #000000',
-  borderRadius: '8px',
+  border: '1px solid #204b32',
+  borderRadius: '4px',
   padding: '12px 20px',
   textDecoration: 'none',
 }
