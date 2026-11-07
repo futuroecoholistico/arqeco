@@ -52,7 +52,6 @@ const text = {
 const codeStyle = {
   fontFamily: 'Courier, monospace',
   fontSize: '26px',
-  fontFamily: 'Playfair Display, Georgia, serif',
   fontWeight: 'bold' as const,
   color: '#204b32',
   margin: '0 0 30px',
