@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 ## Project architecture
+- Authentication email templates and signed delivery live in the managed `/lovable/email/auth/*` routes; preserve all six auth actions and bypass app redirects/CSRF for these self-authenticating routes.
 
 - Keep ARQECO centered on the project journey; people, Zoe, curation, certification, suppliers, and affiliates connect through projects.
 - Use Lovable Cloud with row-level access for persistent platform data because ARQECO requires real accounts, workflows, and relationships.

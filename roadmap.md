@@ -1,5 +1,5 @@
 # ARQECO roadmap
-- [ ] Concluir configuração dos e-mails automáticos de confirmação: aguarda seleção do domínio no diálogo; depois preparar mensagens da ARQECO e verificar envio.
+- [ ] Ativar e verificar envio dos e-mails de confirmação ARQECO: domínio notify.arquiteturaecologica.com.br configurado e mensagens preparadas; aguarda verificação do domínio e publicação.
 - [x] Compra sem escolha de categoria; contratação sem horário e agenda protegida por pagamento confirmado, disponível após pagar e no painel.
 - [ ] Verificar pagamento → reunião completo: Stripe Tax não atende ao país da conta e não há horários futuros cadastrados; depende da revisão de cobrança e da agenda da ARQECO.
 
