@@ -231,7 +231,7 @@ function Home() {
           <div className="max-w-2xl gentle-rise">
             <p className="text-[10px] font-medium uppercase text-sidebar-foreground">Projetos sustentáveis online</p>
             <h1 className="mt-5 font-display text-7xl font-normal md:text-8xl">ARQECO</h1>
-            <p className="mt-4 max-w-xl font-display text-4xl leading-tight md:text-5xl">DECORE COM{"\u00a0"}<br /><span className="italic text-accent">ALMA E BEM-ESTAR</span></p>
+            <p className="mt-4 max-w-xl font-display text-4xl leading-tight md:text-5xl">decore com{"\u00a0"}<br /><span className="italic text-accent">alma e bem-estar</span></p>
             <p className="mt-6 max-w-lg text-sm leading-relaxed md:text-base">Projeto de interiores online, com visual 3D, listas de compras e harmonização, para ter ambientes saudáveis e implementação correta.</p>
             <ul aria-label="Diferenciais do projeto" className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium uppercase text-sidebar-foreground">
               {["Sem obra", "Sem improviso", "Sem desperdício"].map((keyword) => <li key={keyword} className="flex items-center gap-2"><span aria-hidden="true">—</span>{keyword}</li>)}
