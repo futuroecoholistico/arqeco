@@ -11,7 +11,8 @@ export const getReferralPlan = createServerFn({ method: "GET" })
   })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: link } = await supabaseAdmin.from("referral_links").select("plan_slug").eq("code", data.code).maybeSingle();
+    const { data: link } = await supabaseAdmin.from("referral_links").select("id, affiliate_id, plan_slug").eq("code", data.code).maybeSingle();
+    if (link) await supabaseAdmin.from("referral_clicks").insert({ link_id: link.id, affiliate_id: link.affiliate_id });
     return { plan: (link?.plan_slug ?? null) as string | null };
   });
 
