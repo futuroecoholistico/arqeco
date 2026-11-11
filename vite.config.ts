@@ -14,9 +14,8 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        "entities/lib/decode.js": path.resolve("node_modules/entities/lib/decode.js"),
-        "entities/lib/encode.js": path.resolve("node_modules/entities/lib/encode.js"),
-        entities: path.resolve("node_modules/entities"),
+        "entities/lib/decode.js": path.resolve("node_modules/@react-email/render/node_modules/entities/lib/decode.js"),
+        "entities/lib/encode.js": path.resolve("node_modules/@react-email/render/node_modules/entities/lib/encode.js"),
       },
     },
   },
