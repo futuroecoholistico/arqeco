@@ -38,7 +38,7 @@ function AdminPage() {
           {tab === "produtos" && <Submissions />}
           {tab === "planos" && <Plans />}
           {tab === "vendas" && <Sales />}
-          {tab === "indicacoes" && <ReferralPayouts />}
+          {tab === "indicacoes" && <><AffiliateReport /><ReferralPayouts /></>}
           {tab === "newsletter" && <NewsletterAdmin />}
         </>
       )}
@@ -82,6 +82,34 @@ function ConstructionInquiries() {
 async function openKyc(path: string) {
   const { data } = await supabase.storage.from("partner-kyc").createSignedUrl(path, 120);
   if (data?.signedUrl) window.open(data.signedUrl, "_blank", "noopener");
+}
+
+function AffiliateReport() {
+  const clicks = useQuery({ queryKey: ["admin-ref-clicks"], queryFn: async () => (await supabase.from("referral_clicks").select("affiliate_id,link_id").limit(10000)).data ?? [] });
+  const links = useQuery({ queryKey: ["admin-ref-links"], queryFn: async () => (await supabase.from("referral_links").select("id,affiliate_id,plan_slug")).data ?? [] });
+  const comms = useQuery({ queryKey: ["admin-referrals"], queryFn: async () => (await supabase.from("referral_commissions").select("*").order("payout_date")).data ?? [] });
+  const attrs = useQuery({ queryKey: ["admin-ref-attrs"], queryFn: async () => (await supabase.from("referral_attributions").select("affiliate_id")).data ?? [] });
+  const names = useQuery({ queryKey: ["admin-aff-names"], queryFn: async () => (await supabase.from("partner_applications").select("user_id,display_name").eq("kind", "affiliate")).data ?? [] });
+  const ids = Array.from(new Set([...(links.data ?? []).map((l) => l.affiliate_id), ...(names.data ?? []).map((n) => n.user_id)]));
+  const plans = Array.from(new Set((comms.data ?? []).map((c) => c.plan_name)));
+  const byPlan = plans.map((p) => { const rows = (comms.data ?? []).filter((c) => c.plan_name === p); return { p, n: rows.length, sale: rows.reduce((a, c) => a + c.sale_cents, 0), com: rows.reduce((a, c) => a + c.commission_cents, 0) }; });
+  return (
+    <div className="mb-8 space-y-6">
+      <div className="rounded-lg border border-border bg-card p-5">
+        <h3 className="font-display text-xl">Comissões por plano vendido</h3>
+        {byPlan.length === 0 ? <p className="mt-2 text-sm text-muted-foreground">Nenhum plano vendido por indicação ainda.</p> :
+        <table className="mt-3 w-full text-sm"><thead><tr className="text-left text-muted-foreground"><th>Plano</th><th>Vendas</th><th>Valor vendido</th><th>Comissões</th></tr></thead>
+        <tbody>{byPlan.map((r) => <tr key={r.p} className="border-t border-border"><td className="py-2">{r.p}</td><td>{r.n}</td><td>{brl(r.sale)}</td><td className="font-semibold text-primary">{brl(r.com)}</td></tr>)}</tbody></table>}
+      </div>
+      <div className="rounded-lg border border-border bg-card p-5">
+        <h3 className="font-display text-xl">Desempenho por afiliado</h3>
+        {ids.length === 0 ? <p className="mt-2 text-sm text-muted-foreground">Nenhum afiliado com links ainda.</p> :
+        <table className="mt-3 w-full text-sm"><thead><tr className="text-left text-muted-foreground"><th>Afiliado</th><th>Cliques</th><th>Cadastros indicados</th><th>Planos vendidos</th><th>Comissões</th></tr></thead>
+        <tbody>{ids.map((id) => { const cs = (comms.data ?? []).filter((c) => c.affiliate_id === id); return <tr key={id} className="border-t border-border"><td className="py-2">{names.data?.find((n) => n.user_id === id)?.display_name ?? "Afiliado"}</td><td>{(clicks.data ?? []).filter((c) => c.affiliate_id === id).length}</td><td>{(attrs.data ?? []).filter((a) => a.affiliate_id === id).length}</td><td>{cs.length}</td><td className="font-semibold text-primary">{brl(cs.reduce((a, c) => a + c.commission_cents, 0))}</td></tr>; })}</tbody></table>}
+      </div>
+      <h3 className="font-display text-xl">Pagamentos de comissões</h3>
+    </div>
+  );
 }
 
 function ReferralPayouts() {
