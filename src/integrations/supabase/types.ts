@@ -1167,6 +1167,35 @@ export type Database = {
           },
         ]
       }
+      referral_clicks: {
+        Row: {
+          affiliate_id: string
+          created_at: string
+          id: string
+          link_id: string
+        }
+        Insert: {
+          affiliate_id: string
+          created_at?: string
+          id?: string
+          link_id: string
+        }
+        Update: {
+          affiliate_id?: string
+          created_at?: string
+          id?: string
+          link_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_clicks_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "referral_links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       referral_commissions: {
         Row: {
           affiliate_id: string
