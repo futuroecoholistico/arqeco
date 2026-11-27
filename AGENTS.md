@@ -37,3 +37,5 @@
 - Contracted rooms (type + area) are captured at checkout via prepare_service_booking_rooms, which validates count against the plan and adds the per-room oversize fee server-side; the payment webhook seeds the briefing with those rooms so each gets its own module.
 - Client journey deadlines start only when the team runs `confirm_briefing_meeting` (business days via `add_business_days` + `holidays`); a trigger blocks clients from editing status/deadline columns on projects, so the clock can't be started or faked from the browser.
 - Project deliverables live in private bucket `project-files` (path `<project_id>/...`) indexed by `project_files`; revisions in `revision_requests` — clients read via signed URLs, only the assigned professional/admin upload.
+- Public pages wrap content in `SiteLayout` (src/components/site/SiteLayout.tsx): one shared menu, footer and fixed WhatsApp/orçamento CTA keep the per-audience journey consistent.
+- The previous home is kept unrouted in src/components/home/legacy-home.tsx as source for relocating its sections (plans, comparator, curadoria, Zoe, parceiros) into /casa, /negocio, /profissionais etc.; delete once relocated.
