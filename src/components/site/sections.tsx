@@ -280,12 +280,12 @@ export function TestimonialsSection() {
     <section className="mx-auto max-w-7xl px-5 py-24">
       <Eyebrow>Depoimentos</Eyebrow>
       <h2 className="mt-4 max-w-3xl font-display text-4xl font-bold">Quem viveu a experiência ArqEco.</h2>
-      <div className="mt-12 grid gap-px overflow-hidden border border-border bg-border lg:grid-cols-3">
+      <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible lg:pb-0">
         {list.map((t) => (
-          <figure key={t.id} className="flex min-h-72 flex-col bg-background p-7">
-            <Quote className="size-7 text-primary" aria-hidden="true" />
-            <blockquote className="mt-8 flex-1 font-display text-2xl font-medium leading-snug">“{t.quote}”</blockquote>
-            <figcaption className="mt-8 border-t border-border pt-4"><p className="text-sm font-semibold">{t.author_name}</p><p className="mt-1 text-xs text-muted-foreground">{[t.context, t.project_label].filter(Boolean).join(" · ")}</p></figcaption>
+          <figure key={t.id} className="flex min-w-[78%] snap-start flex-col border border-border bg-background p-5 sm:min-w-[46%] lg:min-w-0 lg:flex-1">
+            <Quote className="size-5 text-primary" aria-hidden="true" />
+            <blockquote className="mt-4 flex-1 text-sm leading-relaxed">“{t.quote}”</blockquote>
+            <figcaption className="mt-4 border-t border-border pt-3"><p className="text-xs font-semibold">{t.author_name}</p><p className="mt-1 text-[11px] text-muted-foreground">{[t.context, t.project_label].filter(Boolean).join(" · ")}</p></figcaption>
           </figure>
         ))}
       </div>
