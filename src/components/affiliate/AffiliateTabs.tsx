@@ -85,7 +85,7 @@ export function AffiliateHome({ userId, email, name, approved, onGo }: { userId:
 }
 
 const MATERIALS = [
-  { title: "Guia do afiliado ARQECO", body: "A ARQECO nasceu para tornar o projeto de interiores sustentável acessível: 100% online, por ambiente, com arquiteta de verdade, visual 3D, lista de compras e harmonização. Você indica, o cliente contrata pelo seu link, paga e depois agenda a reunião. Plano pago rende 15% do valor fechado (Viver Bem: R$ 136,11; Viver Lifestyle: R$ 222,00), creditado só quando o cliente conclui a compra e pago sempre no dia 15 do mês seguinte à compra. Indicação do Projeto Start (gratuito, não monetiza) rende 10 ecos." },
+  { title: "Guia do afiliado ARQECO", body: "A ARQECO nasceu para tornar o projeto de interiores sustentável acessível: 100% online, por ambiente, com arquiteta de verdade, visual 3D, lista de compras e harmonização. Você indica, o cliente contrata pelo seu link, paga e depois agenda a reunião. Plano pago rende 10% do valor fechado (Viver Bem: R$ 90,74; Viver Lifestyle: R$ 148,00), creditado só quando o cliente conclui a compra e pago sempre no dia 20 do mês seguinte à compra. Indicação do Projeto Start (gratuito, não monetiza) rende 10 ecos." },
   { title: "Roteiro: Projeto Start (gratuito)", body: "Abra com uma pergunta: “Sua casa te faz bem?”. Mostre que o Dossiê Eco-Holístico é gratuito e revela como luz, ventilação, cores e materiais afetam o bem-estar. Feche com o link: é só criar a conta e responder." },
   { title: "Roteiro: Viver Bem", body: "O inimigo aqui é o improviso. Mostre o antes/depois de um ambiente e diga: sem obra, sem improviso, sem desperdício. O cliente recebe projeto 3D e lista de compras para executar com segurança." },
   { title: "Roteiro: Viver Lifestyle", body: "Para quem quer a casa completa com propósito. Fale de integração entre ambientes, materiais ecológicos e harmonização. O argumento é tranquilidade: tudo planejado antes de gastar." },
@@ -148,7 +148,7 @@ export function PaymentsHistory({ userId }: { userId: string }) {
   return (
     <section className={card}>
       <h3 className="font-display text-xl font-semibold">Histórico de comissões</h3>
-      <p className="text-sm text-muted-foreground">Comissões são pagas no dia 15 do mês seguinte ao pagamento confirmado do cliente.</p>
+      <p className="text-sm text-muted-foreground">Comissões são pagas no dia 20 do mês seguinte ao pagamento confirmado do cliente.</p>
       <div className="mt-4 overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead><tr className={kicker}><th className="py-2">Data</th><th>Plano</th><th>Venda</th><th>Comissão</th><th>Pagamento em</th><th>Status</th></tr></thead>
