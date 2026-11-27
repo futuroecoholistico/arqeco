@@ -12,11 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CasaRouteImport } from './routes/casa'
 import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as CuradoriaRouteImport } from './routes/curadoria'
 import { Route as GuiaMedicaoRouteImport } from './routes/guia-medicao'
 import { Route as ManualRouteImport } from './routes/manual'
+import { Route as NegocioRouteImport } from './routes/negocio'
 import { Route as NossaTrajetoriaRouteImport } from './routes/nossa-trajetoria'
+import { Route as OrcamentoRouteImport } from './routes/orcamento'
+import { Route as ParceirosRouteImport } from './routes/parceiros'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as ProfissionaisRouteImport } from './routes/profissionais'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -56,9 +63,19 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CasaRoute = CasaRouteImport.update({
+  id: '/casa',
+  path: '/casa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CookiesRoute = CookiesRouteImport.update({
   id: '/cookies',
   path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CuradoriaRoute = CuradoriaRouteImport.update({
+  id: '/curadoria',
+  path: '/curadoria',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuiaMedicaoRoute = GuiaMedicaoRouteImport.update({
@@ -71,14 +88,39 @@ const ManualRoute = ManualRouteImport.update({
   path: '/manual',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NegocioRoute = NegocioRouteImport.update({
+  id: '/negocio',
+  path: '/negocio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NossaTrajetoriaRoute = NossaTrajetoriaRouteImport.update({
   id: '/nossa-trajetoria',
   path: '/nossa-trajetoria',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrcamentoRoute = OrcamentoRouteImport.update({
+  id: '/orcamento',
+  path: '/orcamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParceirosRoute = ParceirosRouteImport.update({
+  id: '/parceiros',
+  path: '/parceiros',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfissionaisRoute = ProfissionaisRouteImport.update({
+  id: '/profissionais',
+  path: '/profissionais',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -213,11 +255,18 @@ const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/casa': typeof CasaRoute
   '/cookies': typeof CookiesRoute
+  '/curadoria': typeof CuradoriaRoute
   '/guia-medicao': typeof GuiaMedicaoRoute
   '/manual': typeof ManualRoute
+  '/negocio': typeof NegocioRoute
   '/nossa-trajetoria': typeof NossaTrajetoriaRoute
+  '/orcamento': typeof OrcamentoRoute
+  '/parceiros': typeof ParceirosRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/profissionais': typeof ProfissionaisRoute
   '/reset-password': typeof ResetPasswordRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -246,11 +295,18 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/casa': typeof CasaRoute
   '/cookies': typeof CookiesRoute
+  '/curadoria': typeof CuradoriaRoute
   '/guia-medicao': typeof GuiaMedicaoRoute
   '/manual': typeof ManualRoute
+  '/negocio': typeof NegocioRoute
   '/nossa-trajetoria': typeof NossaTrajetoriaRoute
+  '/orcamento': typeof OrcamentoRoute
+  '/parceiros': typeof ParceirosRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/profissionais': typeof ProfissionaisRoute
   '/reset-password': typeof ResetPasswordRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -281,11 +337,18 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/casa': typeof CasaRoute
   '/cookies': typeof CookiesRoute
+  '/curadoria': typeof CuradoriaRoute
   '/guia-medicao': typeof GuiaMedicaoRoute
   '/manual': typeof ManualRoute
+  '/negocio': typeof NegocioRoute
   '/nossa-trajetoria': typeof NossaTrajetoriaRoute
+  '/orcamento': typeof OrcamentoRoute
+  '/parceiros': typeof ParceirosRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/profissionais': typeof ProfissionaisRoute
   '/reset-password': typeof ResetPasswordRoute
   '/termos': typeof TermosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -316,11 +379,18 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/casa'
     | '/cookies'
+    | '/curadoria'
     | '/guia-medicao'
     | '/manual'
+    | '/negocio'
     | '/nossa-trajetoria'
+    | '/orcamento'
+    | '/parceiros'
+    | '/portfolio'
     | '/privacidade'
+    | '/profissionais'
     | '/reset-password'
     | '/termos'
     | '/admin'
@@ -349,11 +419,18 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/casa'
     | '/cookies'
+    | '/curadoria'
     | '/guia-medicao'
     | '/manual'
+    | '/negocio'
     | '/nossa-trajetoria'
+    | '/orcamento'
+    | '/parceiros'
+    | '/portfolio'
     | '/privacidade'
+    | '/profissionais'
     | '/reset-password'
     | '/termos'
     | '/admin'
@@ -383,11 +460,18 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/casa'
     | '/cookies'
+    | '/curadoria'
     | '/guia-medicao'
     | '/manual'
+    | '/negocio'
     | '/nossa-trajetoria'
+    | '/orcamento'
+    | '/parceiros'
+    | '/portfolio'
     | '/privacidade'
+    | '/profissionais'
     | '/reset-password'
     | '/termos'
     | '/_authenticated/admin'
@@ -418,11 +502,18 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CasaRoute: typeof CasaRoute
   CookiesRoute: typeof CookiesRoute
+  CuradoriaRoute: typeof CuradoriaRoute
   GuiaMedicaoRoute: typeof GuiaMedicaoRoute
   ManualRoute: typeof ManualRoute
+  NegocioRoute: typeof NegocioRoute
   NossaTrajetoriaRoute: typeof NossaTrajetoriaRoute
+  OrcamentoRoute: typeof OrcamentoRoute
+  ParceirosRoute: typeof ParceirosRoute
+  PortfolioRoute: typeof PortfolioRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  ProfissionaisRoute: typeof ProfissionaisRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermosRoute: typeof TermosRoute
   ApiZoeRoute: typeof ApiZoeRoute
@@ -458,11 +549,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/casa': {
+      id: '/casa'
+      path: '/casa'
+      fullPath: '/casa'
+      preLoaderRoute: typeof CasaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cookies': {
       id: '/cookies'
       path: '/cookies'
       fullPath: '/cookies'
       preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/curadoria': {
+      id: '/curadoria'
+      path: '/curadoria'
+      fullPath: '/curadoria'
+      preLoaderRoute: typeof CuradoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guia-medicao': {
@@ -479,6 +584,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManualRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/negocio': {
+      id: '/negocio'
+      path: '/negocio'
+      fullPath: '/negocio'
+      preLoaderRoute: typeof NegocioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/nossa-trajetoria': {
       id: '/nossa-trajetoria'
       path: '/nossa-trajetoria'
@@ -486,11 +598,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NossaTrajetoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/orcamento': {
+      id: '/orcamento'
+      path: '/orcamento'
+      fullPath: '/orcamento'
+      preLoaderRoute: typeof OrcamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parceiros': {
+      id: '/parceiros'
+      path: '/parceiros'
+      fullPath: '/parceiros'
+      preLoaderRoute: typeof ParceirosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacidade': {
       id: '/privacidade'
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profissionais': {
+      id: '/profissionais'
+      path: '/profissionais'
+      fullPath: '/profissionais'
+      preLoaderRoute: typeof ProfissionaisRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -705,11 +845,18 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  CasaRoute: CasaRoute,
   CookiesRoute: CookiesRoute,
+  CuradoriaRoute: CuradoriaRoute,
   GuiaMedicaoRoute: GuiaMedicaoRoute,
   ManualRoute: ManualRoute,
+  NegocioRoute: NegocioRoute,
   NossaTrajetoriaRoute: NossaTrajetoriaRoute,
+  OrcamentoRoute: OrcamentoRoute,
+  ParceirosRoute: ParceirosRoute,
+  PortfolioRoute: PortfolioRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  ProfissionaisRoute: ProfissionaisRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TermosRoute: TermosRoute,
   ApiZoeRoute: ApiZoeRoute,

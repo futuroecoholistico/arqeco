@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { SiteLayout } from "@/components/site/SiteChrome";
 import karinaKoch from "@/assets/karina-koch.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 
@@ -22,10 +23,9 @@ function H({ children }: { children: React.ReactNode }) {
 
 function Trajetoria() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <SiteLayout>
       <div className="mx-auto max-w-7xl px-5 py-10">
-        <Link to="/" className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">← ARQECO</Link>
-        <div className="mt-10 grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="mt-6 grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <aside className="lg:sticky lg:top-10 lg:self-start">
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary">Nossa trajetória</p>
             <img src={karinaKoch.url} alt="Karina Koch, fundadora da ArqEco" className="mt-6 aspect-[4/5] w-full object-cover object-[20%_center]" />
@@ -57,10 +57,10 @@ function Trajetoria() {
             <blockquote className="border-l-2 border-primary pl-5 font-display text-2xl italic text-foreground">Não acredito que o futuro seja algo que simplesmente esperamos acontecer. É algo que projetamos, escolhemos e construímos todos os dias.</blockquote>
             <p className="pt-4"><strong className="text-foreground">Karina Koch</strong><br />Fundadora da ArqEco | Criadora do Design Eco Holístico</p>
             <p className="italic">Arquitetura, consciência e inovação para transformar a maneira como habitamos o mundo.</p>
-            <Button asChild className="mt-6"><a href="/#planos">Conheça nossos projetos</a></Button>
+            <div className="mt-6 flex flex-wrap gap-3"><Button asChild><Link to="/casa">Projetos para sua casa</Link></Button><Button asChild variant="paper"><Link to="/negocio">Projetos para seu negócio</Link></Button></div>
           </article>
         </div>
       </div>
-    </div>
+    </SiteLayout>
   );
 }

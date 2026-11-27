@@ -1135,6 +1135,48 @@ export type Database = {
           },
         ]
       }
+      quote_requests: {
+        Row: {
+          admin_notes: string | null
+          city: string
+          created_at: string
+          full_name: string
+          id: string
+          message: string | null
+          project_type: string
+          source_page: string | null
+          status: string
+          updated_at: string
+          whatsapp: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          city: string
+          created_at?: string
+          full_name: string
+          id?: string
+          message?: string | null
+          project_type: string
+          source_page?: string | null
+          status?: string
+          updated_at?: string
+          whatsapp: string
+        }
+        Update: {
+          admin_notes?: string | null
+          city?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          message?: string | null
+          project_type?: string
+          source_page?: string | null
+          status?: string
+          updated_at?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
       referral_attributions: {
         Row: {
           affiliate_id: string

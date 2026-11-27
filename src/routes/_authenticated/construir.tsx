@@ -73,7 +73,7 @@ function ConstructionPage() {
   const daySlots = useMemo(() => selectedDay ? (slots.data ?? []).filter((slot) => new Date(slot.starts_at).toDateString() === selectedDay.toDateString()) : [], [selectedDay, slots.data]);
 
   async function submitInquiry() {
-    const prefix = clinic ? "[Projeto Clínicas da Nova Era] " : "";
+    const prefix = clinic ? "[Well Spaces Business] " : "";
     const budgetNote = budget.trim() ? `\n\nOrçamento estimado: ${budget.trim()}` : "";
     const parsed = inquirySchema.safeParse({ ...form, description: `${prefix}${form.description}${budgetNote}`.slice(0, 1500) });
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Revise os dados informados."); return; }
@@ -109,7 +109,7 @@ function ConstructionPage() {
           <section>
             {step === 1 && <>
               {clinic
-                ? <StepTitle icon={Building2} eyebrow="Projeto Clínicas da Nova Era" title="Solicite o orçamento do seu espaço de bem-estar." text="Clínicas, consultórios, spas e espaços wellness. Conte sobre o espaço, os atendimentos e o orçamento que imagina para receber uma proposta sob medida." />
+                ? <StepTitle icon={Building2} eyebrow="Well Spaces Business" title="Solicite o orçamento do seu espaço comercial." text="Lojas, escritórios, clínicas, consultórios, spas e restaurantes. Conte sobre o espaço, os atendimentos e o orçamento que imagina para receber uma proposta sob medida." />
                 : <StepTitle icon={Building2} eyebrow="Construção sustentável" title="Conte o que você deseja construir." text="Vamos conhecer o seu momento, o imóvel e o tipo de apoio que você procura." />}
               <div className="mt-8 grid gap-5 sm:grid-cols-2">
                 <Field label="Nome completo" className="sm:col-span-2"><Input value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} maxLength={100} autoComplete="name" /></Field>

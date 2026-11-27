@@ -16,11 +16,14 @@ export function commissionCents(totalCents: number): number {
   return Math.round((totalCents * PAID_PLAN_COMMISSION_RATE) / 100);
 }
 
-/** Payout happens on day 15 of the month after the payment. Returns YYYY-MM-DD. */
+/** Day of the month after the payment on which commissions are paid. */
+export const PAYOUT_DAY = 15;
+
+/** Payout happens on PAYOUT_DAY of the month after the payment. Returns YYYY-MM-DD. */
 export function payoutDate(paidAt: Date): string {
   const y = paidAt.getUTCFullYear();
   const m = paidAt.getUTCMonth() + 1; // next month (0-based + 1)
-  const d = new Date(Date.UTC(y, m, 15));
+  const d = new Date(Date.UTC(y, m, PAYOUT_DAY));
   return d.toISOString().slice(0, 10);
 }
 
