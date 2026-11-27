@@ -17,6 +17,7 @@ import { Route as GuiaMedicaoRouteImport } from './routes/guia-medicao'
 import { Route as ManualRouteImport } from './routes/manual'
 import { Route as NossaTrajetoriaRouteImport } from './routes/nossa-trajetoria'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAfiliadoRouteImport } from './routes/_authenticated/afiliado'
@@ -78,6 +79,11 @@ const NossaTrajetoriaRoute = NossaTrajetoriaRouteImport.update({
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermosRoute = TermosRouteImport.update({
@@ -212,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/manual': typeof ManualRoute
   '/nossa-trajetoria': typeof NossaTrajetoriaRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
@@ -244,6 +251,7 @@ export interface FileRoutesByTo {
   '/manual': typeof ManualRoute
   '/nossa-trajetoria': typeof NossaTrajetoriaRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/afiliado': typeof AuthenticatedAfiliadoRoute
@@ -278,6 +286,7 @@ export interface FileRoutesById {
   '/manual': typeof ManualRoute
   '/nossa-trajetoria': typeof NossaTrajetoriaRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/termos': typeof TermosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/afiliado': typeof AuthenticatedAfiliadoRoute
@@ -312,6 +321,7 @@ export interface FileRouteTypes {
     | '/manual'
     | '/nossa-trajetoria'
     | '/privacidade'
+    | '/reset-password'
     | '/termos'
     | '/admin'
     | '/afiliado'
@@ -344,6 +354,7 @@ export interface FileRouteTypes {
     | '/manual'
     | '/nossa-trajetoria'
     | '/privacidade'
+    | '/reset-password'
     | '/termos'
     | '/admin'
     | '/afiliado'
@@ -377,6 +388,7 @@ export interface FileRouteTypes {
     | '/manual'
     | '/nossa-trajetoria'
     | '/privacidade'
+    | '/reset-password'
     | '/termos'
     | '/_authenticated/admin'
     | '/_authenticated/afiliado'
@@ -411,6 +423,7 @@ export interface RootRouteChildren {
   ManualRoute: typeof ManualRoute
   NossaTrajetoriaRoute: typeof NossaTrajetoriaRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   TermosRoute: typeof TermosRoute
   ApiZoeRoute: typeof ApiZoeRoute
   IndicacaoCodeRoute: typeof IndicacaoCodeRoute
@@ -478,6 +491,13 @@ declare module '@tanstack/react-router' {
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/termos': {
@@ -690,6 +710,7 @@ const rootRouteChildren: RootRouteChildren = {
   ManualRoute: ManualRoute,
   NossaTrajetoriaRoute: NossaTrajetoriaRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   TermosRoute: TermosRoute,
   ApiZoeRoute: ApiZoeRoute,
   IndicacaoCodeRoute: IndicacaoCodeRoute,
