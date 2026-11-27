@@ -39,3 +39,5 @@
 - Project deliverables live in private bucket `project-files` (path `<project_id>/...`) indexed by `project_files`; revisions in `revision_requests` — clients read via signed URLs, only the assigned professional/admin upload.
 - Public pages wrap content in `SiteLayout` (src/components/site/SiteLayout.tsx): one shared menu, footer and fixed WhatsApp/orçamento CTA keep the per-audience journey consistent.
 - The previous home is kept unrouted in src/components/home/legacy-home.tsx as source for relocating its sections (plans, comparator, curadoria, Zoe, parceiros) into /casa, /negocio, /profissionais etc.; delete once relocated.
+- Shared public-page sections (plans grid, comparator, portfolio, FAQ, quote CTA) live in src/components/site/sections.tsx so /casa, /negocio and others reuse one plan/price implementation.
+- Public pages say "tecnologia com IA", never "Zoe"; Zoe stays named only inside the professional panel.
