@@ -4,8 +4,12 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Check, ChevronDown, Eye, Minus, MoveHorizontal, Quote } from "lucide-react";
 import projectImage from "@/assets/arqeco-project.jpg";
 import projectBeforeImage from "@/assets/arqeco-project-before.jpg";
-import heroImage from "@/assets/home-hero.jpg";
-import bedroomImage from "@/assets/portfolio-quarto.jpg";
+import varandaGourmet from "@/assets/portfolio/varanda-gourmet.jpeg.asset.json";
+import terracoGourmet from "@/assets/portfolio/terraco-gourmet.jpeg.asset.json";
+import salaHomeOffice from "@/assets/portfolio/sala-home-office.jpeg.asset.json";
+import salaoGourmet from "@/assets/portfolio/salao-gourmet.webp.asset.json";
+import salaoGourmetCozinha from "@/assets/portfolio/salao-gourmet-cozinha.webp.asset.json";
+import salaoGourmetEstar from "@/assets/portfolio/salao-gourmet-estar.webp.asset.json";
 import viverBem from "@/assets/planos/plano-viver-bem.jpeg.asset.json";
 import viverLifestyle from "@/assets/planos/plano-viver-lifestyle.jpeg.asset.json";
 import startDossie from "@/assets/planos/plano-start-dossie.jpeg.asset.json";
@@ -294,12 +298,12 @@ export function TestimonialsSection() {
 }
 
 export const portfolioItems: { src: string; room: string; label: string; plan: string }[] = [
-  { src: heroImage, room: "Sala", label: "Sala · Residencial", plan: "Viver Lifestyle" },
-  { src: bedroomImage, room: "Quarto", label: "Quarto · Residencial", plan: "Viver Bem" },
-  { src: projectImage, room: "Estar", label: "Estar · Residencial", plan: "Design Eco-Holístico" },
-  { src: viverBem.url, room: "Quarto", label: "Quarto · Residencial", plan: "Viver Bem" },
-  { src: viverLifestyle.url, room: "Sala", label: "Sala · Residencial", plan: "Viver Lifestyle" },
-  { src: startDossie.url, room: "Bem-estar", label: "Canto de meditação · Residencial", plan: "Dossiê Eco-Holístico" },
+  { src: varandaGourmet.url, room: "Gourmet", label: "Varanda gourmet com jardim vertical", plan: "Interiores · ARQECO" },
+  { src: terracoGourmet.url, room: "Gourmet", label: "Terraço gourmet com pergolado", plan: "Interiores · ARQECO" },
+  { src: salaHomeOffice.url, room: "Sala", label: "Sala integrada ao home office", plan: "Interiores · ARQECO" },
+  { src: salaoGourmet.url, room: "Gourmet", label: "Salão gourmet · Área de jantar", plan: "Interiores · ARQECO" },
+  { src: salaoGourmetCozinha.url, room: "Gourmet", label: "Salão gourmet · Cozinha integrada", plan: "Interiores · ARQECO" },
+  { src: salaoGourmetEstar.url, room: "Gourmet", label: "Salão gourmet · Área de estar", plan: "Interiores · ARQECO" },
 ];
 
 export const COMMERCIAL_PORTFOLIO_URL = "https://atelier-in-space.lovable.app";
@@ -315,7 +319,7 @@ export function PortfolioGrid() {
       </div>
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {shown.map((i, idx) => (
-          <figure key={i.src + idx}><img src={i.src} alt={i.label} loading="lazy" className="aspect-[4/5] w-full object-cover" /><figcaption className="mt-3 border-t border-border pt-3"><p className="text-sm font-semibold">{i.label}</p><p className="text-xs text-muted-foreground">{i.plan}</p></figcaption></figure>
+          <figure key={i.src + idx}><img src={i.src} alt={i.label} loading="lazy" className="aspect-video w-full object-cover" /><figcaption className="mt-3 border-t border-border pt-3"><p className="text-sm font-semibold">{i.label}</p><p className="text-xs text-muted-foreground">{i.plan}</p></figcaption></figure>
         ))}
       </div>
     </div>

@@ -41,3 +41,4 @@
 - The previous home is kept unrouted in src/components/home/legacy-home.tsx as source for relocating its sections (plans, comparator, curadoria, Zoe, parceiros) into /casa, /negocio, /profissionais etc.; delete once relocated.
 - Shared public-page sections (plans grid, comparator, portfolio, FAQ, quote CTA) live in src/components/site/sections.tsx so /casa, /negocio and others reuse one plan/price implementation.
 - Public pages say "tecnologia com IA", never "Zoe"; Zoe stays named only inside the professional panel.
+- Home and public portfolio galleries share portfolioItems from site/sections.tsx so uploaded project imagery remains consistent across pages.

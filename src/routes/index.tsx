@@ -5,13 +5,13 @@ import { useState } from "react";
 import { ArrowRight, Briefcase, Gift, Home as HomeIcon, MoveHorizontal, PenTool, Quote } from "lucide-react";
 import heroImage from "@/assets/home-hero.jpg";
 import karinaKoch from "@/assets/karina-koch.jpg.asset.json";
-import bedroomImage from "@/assets/portfolio-quarto.jpg";
 import projectImage from "@/assets/arqeco-project.jpg";
 import projectBeforeImage from "@/assets/arqeco-project-before.jpg";
 import startPlanImageAsset from "@/assets/planos/plano-start-dossie.jpeg.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout, WHATSAPP_URL } from "@/components/site/SiteLayout";
+import { portfolioItems } from "@/components/site/sections";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -125,6 +125,19 @@ function Home() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mx-auto grid max-w-5xl overflow-hidden border border-dashed border-primary bg-secondary md:grid-cols-[260px_1fr]">
+          <img src={startPlanImageAsset.url} alt="Canto de meditação com almofada de chão, pedras e plantas" loading="lazy" decoding="async" className="h-full min-h-48 w-full object-cover" />
+          <div className="p-7">
+            <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-primary"><Gift className="size-4" aria-hidden="true" /> Um presente da ARQECO para você</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold">Dossiê Eco-Holístico gratuito</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">Uma leitura gratuita de harmonização do seu ambiente — cores, iluminação, tapetes, quadros, plantas e cristais — para melhorar o seu bem-estar. Não é um projeto de interiores: é um primeiro olhar, com carinho, sobre o espaço onde você vive.</p>
+            <Button asChild variant="paper" className="mt-5"><Link to="/diagnostico">Receber meu presente <ArrowRight /></Link></Button>
+          </div>
+        </div>
+      </section>
+
+
       <div className="home-signature border-b border-border bg-card">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-5 py-8 lg:grid-cols-4">
           {numbers.map(([v, l]) => <div key={v} className="text-center"><p className="font-display text-2xl text-primary">{v}</p><p className="mt-1 text-[11px] font-medium text-muted-foreground">{l}</p></div>)}
@@ -133,9 +146,9 @@ function Home() {
 
       <section className="mx-auto max-w-7xl px-5 py-24">
         <div className="flex items-end justify-between gap-6"><div><Eyebrow>Portfólio</Eyebrow><h2 className="mt-4 font-display text-4xl font-bold">Espaços que respiram.</h2></div><p className="hidden max-w-xs text-right text-sm text-muted-foreground md:block">Matéria, luz e natureza organizadas em torno de quem vive o espaço.</p></div>
-        <div className="mt-10 grid items-start gap-6 md:grid-cols-[1.15fr_0.85fr_1fr]">
-          {[[heroImage, "Sala · Residencial", "Viver Lifestyle"], [bedroomImage, "Quarto · Residencial", "Viver Bem"], [projectImage, "Estar · Residencial", "Design Eco-Holístico"]].map(([src, t, p]) => (
-            <figure key={t} className="even:md:mt-10"><img src={src} alt={t} loading="lazy" className="aspect-[4/5] w-full object-cover" /><figcaption className="mt-3 border-t border-border pt-3"><p className="text-sm font-semibold">{t}</p><p className="text-xs text-muted-foreground">{p}</p></figcaption></figure>
+        <div className="mt-10 grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {portfolioItems.map(({ src, label, plan }) => (
+            <figure key={src}><img src={src} alt={label} loading="lazy" className="aspect-video w-full object-cover" /><figcaption className="mt-3 border-t border-border pt-3"><p className="text-sm font-semibold">{label}</p><p className="text-xs text-muted-foreground">{plan}</p></figcaption></figure>
           ))}
         </div>
         <div className="mt-10 text-center"><Button asChild variant="paper" size="lg"><a href="/portfolio">Ver portfólio completo <ArrowRight /></a></Button></div>
@@ -180,17 +193,6 @@ function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-20">
-        <div className="mx-auto grid max-w-5xl overflow-hidden border border-dashed border-primary bg-secondary md:grid-cols-[260px_1fr]">
-          <img src={startPlanImageAsset.url} alt="Canto de meditação com almofada de chão, pedras e plantas" loading="lazy" decoding="async" className="h-full min-h-48 w-full object-cover" />
-          <div className="p-7">
-            <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-primary"><Gift className="size-4" aria-hidden="true" /> Um presente da ARQECO para você</p>
-            <h2 className="mt-3 font-display text-3xl font-semibold">Dossiê Eco-Holístico gratuito</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">Uma leitura gratuita de harmonização do seu ambiente — cores, iluminação, tapetes, quadros, plantas e cristais — para melhorar o seu bem-estar. Não é um projeto de interiores: é um primeiro olhar, com carinho, sobre o espaço onde você vive.</p>
-            <Button asChild variant="paper" className="mt-5"><Link to="/diagnostico">Receber meu presente <ArrowRight /></Link></Button>
-          </div>
-        </div>
-      </section>
 
       <section id="sobre" className="border-y border-border bg-card">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-[0.75fr_1.25fr]">
