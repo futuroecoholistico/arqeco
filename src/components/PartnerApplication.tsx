@@ -90,3 +90,74 @@ export function PartnerApplication({ kind, userId, application }: { kind: Kind; 
     </form>
   );
 }
+
+export const AFFILIATE_ROLES = ["Afiliado(a)", "Creator / influenciador(a)", "Corretor(a) de imóveis", "Arquiteto(a) ou designer", "Outro"] as const;
+
+export function maskPhone(v: string) {
+  const d = v.replace(/\D/g, "").slice(0, 11);
+  if (d.length <= 2) return d.length ? `(${d}` : "";
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+}
+
+export const affiliateSchema = z.object({
+  display_name: z.string().trim().min(2).max(120),
+  phone: z.string().trim().regex(/^\(\d{2}\) \d{4,5}-\d{4}$/),
+  role: z.enum(AFFILIATE_ROLES),
+  other: z.string().trim().max(60),
+  website: z.string().trim().max(300),
+}).refine((v) => v.role !== "Outro" || v.other.length > 0, { path: ["other"] });
+
+export function affiliateRoleLabel(category: string | null) {
+  return category ? category.replace(/^Outro: /, "") : "afiliado(a)";
+}
+
+export function AffiliatePending({ name, category }: { name: string; category: string | null }) {
+  return (
+    <div className="max-w-xl rounded-lg border border-border bg-card p-8">
+      <StatusPill status="pending" />
+      <h2 className="mt-4 font-display text-2xl font-semibold">Cadastro recebido!</h2>
+      <p className="mt-2 text-sm text-muted-foreground">Obrigada, {name.split(" ")[0]}! Seu cadastro como {affiliateRoleLabel(category)} foi enviado e depende da aprovação da equipe ArqEco. Em breve você receberá o retorno por e-mail ou WhatsApp, com a liberação do seu painel de indicações.</p>
+      <p className="mt-4 text-xs text-muted-foreground">Os dados para pagamento das comissões serão pedidos só depois da aprovação.</p>
+    </div>
+  );
+}
+
+export function AffiliateApplication({ userId, email }: { userId: string; email: string }) {
+  const qc = useQueryClient();
+  const [form, setForm] = useState({ display_name: "", phone: "", role: "", other: "", website: "" });
+  const [err, setErr] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const p = affiliateSchema.safeParse(form);
+    if (!p.success) { setErr("Confira seu nome, WhatsApp com DDD e sua função."); return; }
+    setBusy(true); setErr(null);
+    const d = p.data;
+    const category = d.role === "Outro" ? `Outro: ${d.other}` : d.role;
+    const { error } = await supabase.from("partner_applications").insert({ user_id: userId, kind: "affiliate", display_name: d.display_name, phone: d.phone, category, website: d.website || null });
+    setBusy(false);
+    if (error) setErr(error.message.includes("duplicate") ? "Você já enviou um cadastro. Fale com a equipe ARQECO para reavaliação." : "Não foi possível enviar agora.");
+    else qc.invalidateQueries({ queryKey: ["application", "affiliate"] });
+  }
+
+  return (
+    <form onSubmit={submit} className="max-w-xl space-y-3 rounded-lg border border-border bg-card p-8">
+      <h2 className="font-display text-2xl font-semibold">Cadastro de afiliado / creator</h2>
+      <p className="text-sm text-muted-foreground">Leva menos de um minuto. Após a aprovação você gera seus links e acompanha suas indicações.</p>
+      <input className={fieldClass} placeholder="Nome completo" maxLength={120} value={form.display_name} onChange={(e) => setForm({ ...form, display_name: e.target.value })} aria-label="Nome completo" />
+      <input className={fieldClass} placeholder="WhatsApp com DDD — (11) 99999-9999" inputMode="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: maskPhone(e.target.value) })} aria-label="WhatsApp" />
+      <input className={`${fieldClass} opacity-70`} value={email} readOnly aria-label="E-mail" />
+      <select className={fieldClass} value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} aria-label="Sua função">
+        <option value="">Sua função</option>
+        {AFFILIATE_ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
+      </select>
+      {form.role === "Outro" && <input className={fieldClass} placeholder="Qual?" maxLength={60} value={form.other} onChange={(e) => setForm({ ...form, other: e.target.value })} aria-label="Qual?" />}
+      <input className={fieldClass} placeholder="Instagram, site ou canal (opcional) — @usuario ou link" maxLength={300} value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} aria-label="Instagram, site ou canal" />
+      {err && <p className="text-sm text-destructive">{err}</p>}
+      <Button type="submit" variant="editorial" disabled={busy}>Enviar cadastro</Button>
+    </form>
+  );
+}

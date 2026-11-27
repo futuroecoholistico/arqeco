@@ -31,3 +31,15 @@ export const deleteMyDossiers = createServerFn({ method: "POST" }).middleware([r
   if (error) throw new Error("Não foi possível excluir os dossiês.");
   return { ok: true };
 });
+export const getApplicantEmails = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
+  const { data: admin } = await context.supabase.rpc("is_admin");
+  if (admin !== true) throw new Error("Acesso restrito.");
+  const { data: apps } = await context.supabase.from("partner_applications").select("user_id").eq("kind", "affiliate");
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const out: Record<string, string> = {};
+  await Promise.all([...new Set((apps ?? []).map((a) => a.user_id))].map(async (id) => {
+    const { data } = await supabaseAdmin.auth.admin.getUserById(id);
+    if (data.user?.email) out[id] = data.user.email;
+  }));
+  return out;
+});

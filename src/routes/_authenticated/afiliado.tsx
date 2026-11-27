@@ -6,7 +6,7 @@ import { AffiliateHome, MaterialTab, AchievementsTab, PaymentsHistory } from "@/
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { PartnerShell, StatusPill, brl, fieldClass } from "@/components/PartnerShell";
-import { PartnerApplication } from "@/components/PartnerApplication";
+import { AffiliateApplication, AffiliatePending } from "@/components/PartnerApplication";
 import { PayoutAccount } from "@/components/PayoutAccount";
 import { REFERRAL_PLANS, type ReferralPlanSlug } from "@/lib/referrals";
 
@@ -30,7 +30,7 @@ function AffiliatePage() {
   const [tab, setTab] = useState<Tab>("home");
   const app = useQuery({
     queryKey: ["application", "affiliate"],
-    queryFn: async () => (await supabase.from("partner_applications").select("id,status,review_note,display_name").eq("user_id", user.id).eq("kind", "affiliate").maybeSingle()).data,
+    queryFn: async () => (await supabase.from("partner_applications").select("id,status,review_note,display_name,category").eq("user_id", user.id).eq("kind", "affiliate").maybeSingle()).data,
   });
   const approved = app.data?.status === "approved";
   const locked = (what: string) => (
@@ -40,7 +40,7 @@ function AffiliatePage() {
     <PartnerShell eyebrow="Afiliados · Creators · Corretores de imóveis" title={`Olá, ${(app.data?.display_name ?? user.email ?? "").split(/[ @]/)[0]}`}>
       {app.isLoading ? <p className="text-sm text-muted-foreground">Carregando…</p> : (
         <div className="space-y-8">
-          {app.data && !approved && <p className="rounded-md border border-border bg-secondary px-4 py-3 text-center text-sm">{app.data.status === "rejected" ? "Cadastro não aprovado. Fale com a equipe ARQECO." : "Cadastro em análise. Seus links só rastreiam indicações após a aprovação."}</p>}
+          {app.data && !approved && <p className="rounded-md border border-border bg-secondary px-4 py-3 text-center text-sm">{app.data.status === "rejected" ? "Cadastro não aprovado. Fale com a equipe ARQECO." : "Em análise. Links e comissões serão liberados após a aprovação."}</p>}
           <nav className="flex gap-1 overflow-x-auto border-b border-border">
             {TABS.map((t) => (
               <button key={t.id} type="button" onClick={() => setTab(t.id)} className={`flex shrink-0 items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${tab === t.id ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
@@ -48,8 +48,8 @@ function AffiliatePage() {
               </button>
             ))}
           </nav>
-          {tab === "home" && (app.data ? <AffiliateHome userId={user.id} email={user.email ?? ""} name={app.data.display_name} approved={approved} onGo={(t) => setTab(t as Tab)} /> : <PartnerApplication kind="affiliate" userId={user.id} application={null} />)}
-          {tab === "links" && (approved ? <AffiliateDashboard userId={user.id} /> : app.data ? locked("A criação de links") : <PartnerApplication kind="affiliate" userId={user.id} application={null} />)}
+          {tab === "home" && (app.data?.status === "pending" ? <AffiliatePending name={app.data.display_name} category={app.data.category} /> : app.data ? <AffiliateHome userId={user.id} email={user.email ?? ""} name={app.data.display_name} approved={approved} onGo={(t) => setTab(t as Tab)} /> : <AffiliateApplication userId={user.id} email={user.email ?? ""} />)}
+          {tab === "links" && (approved ? <AffiliateDashboard userId={user.id} /> : app.data ? locked("A criação de links") : <AffiliateApplication userId={user.id} email={user.email ?? ""} />)}
           {tab === "material" && <MaterialTab />}
           {tab === "conquistas" && <AchievementsTab userId={user.id} />}
           {tab === "pagamentos" && (approved ? <div className="space-y-8"><PayoutAccount userId={user.id} /><PaymentsHistory userId={user.id} /></div> : locked("A área de pagamentos"))}
