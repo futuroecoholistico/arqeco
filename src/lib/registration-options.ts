@@ -17,7 +17,7 @@ export const REGISTRATION_OPTIONS: RegistrationOption[] = [
     perfil: "profissional",
     category: "professional",
     label: "Profissional de arquitetura ou design",
-    description: "Receber projetos, conversar com a Zoe, entrar na curadoria e oferecer seus serviços.",
+    description: "Seja um profissional ArqecoPro",
   },
   {
     perfil: "afiliado",
